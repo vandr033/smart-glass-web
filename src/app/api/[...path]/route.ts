@@ -7,6 +7,7 @@ const backendBaseUrl = (
 ).replace(/\/$/, "");
 
 const hopByHopHeaders = [
+  "accept-encoding",
   "connection",
   "content-length",
   "host",
@@ -17,6 +18,12 @@ const hopByHopHeaders = [
   "trailer",
   "transfer-encoding",
   "upgrade",
+] as const;
+
+const unsafeResponseHeaders = [
+  ...hopByHopHeaders,
+  "content-encoding",
+  "content-length",
 ] as const;
 
 type RouteContext = {
@@ -51,7 +58,9 @@ const buildResponseHeaders = (sourceHeaders: Headers): Headers => {
       : [];
 
   sourceHeaders.forEach((value, key) => {
-    if (key.toLowerCase() === "set-cookie") {
+    const normalizedKey = key.toLowerCase();
+
+    if (normalizedKey === "set-cookie" || unsafeResponseHeaders.includes(normalizedKey as (typeof unsafeResponseHeaders)[number])) {
       return;
     }
 
