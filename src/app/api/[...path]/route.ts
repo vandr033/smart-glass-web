@@ -79,13 +79,17 @@ const proxyRequest = async (
   { params }: RouteContext,
 ): Promise<Response> => {
   const { path } = await params;
+  const hasRequestBody =
+    request.method !== "GET" && request.method !== "HEAD";
   const upstreamResponse = await fetch(buildTargetUrl(request, path), {
     method: request.method,
     headers: buildRequestHeaders(request),
-    body:
-      request.method === "GET" || request.method === "HEAD"
-        ? undefined
-        : request.body,
+    body: hasRequestBody ? request.body : undefined,
+    ...(hasRequestBody
+      ? {
+          duplex: "half" as const,
+        }
+      : {}),
     cache: "no-store",
     redirect: "manual",
   });
