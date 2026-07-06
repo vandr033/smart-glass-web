@@ -1,16 +1,16 @@
-const backendBase = (process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:4000").replace(/\/$/, "");
-const rawAuthUrl = process.env.NEXT_PUBLIC_AUTH_URL;
+const appBaseUrl = (process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000").replace(/\/$/, "");
+const backendBase = (
+  process.env.BACKEND_URL ??
+  process.env.NEXT_PUBLIC_BACKEND_URL ??
+  "http://localhost:4000"
+).replace(/\/$/, "");
 
-const authBaseUrl = rawAuthUrl
-  ? rawAuthUrl.includes("/api")
-    ? rawAuthUrl.replace(/\/$/, "")
-    : `${rawAuthUrl.replace(/\/$/, "")}/api/auth`
-  : `${backendBase}/api/auth`;
-
-const apiBaseUrl = (process.env.NEXT_PUBLIC_API_URL ?? `${backendBase}/api`).replace(/\/$/, "");
+// Route frontend traffic through Next so auth cookies stay on the app domain in production.
+const authBaseUrl = `${appBaseUrl}/api/auth`;
+const apiBaseUrl = `${appBaseUrl}/api`;
 
 export const APP_CONFIG = {
-  appBaseUrl: (process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000").replace(/\/$/, ""),
+  appBaseUrl,
   authBaseUrl,
   backendBaseUrl: backendBase,
   name: "Smart Glass Bolivia ERP",
