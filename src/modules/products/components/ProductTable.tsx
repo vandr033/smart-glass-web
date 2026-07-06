@@ -1,10 +1,10 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
-import { format } from "date-fns";
 import { Eye, Pencil, Trash2 } from "lucide-react";
 
 import { DataTable, type DataTableConfig } from "@/components/data-table";
+import { formatDateOnlyValue } from "@/lib/formatters";
 
 import {
   PRODUCTS_API_ENDPOINT,
@@ -13,10 +13,6 @@ import {
 } from "../constants";
 import { useProducts } from "../hooks/useProducts";
 import type { ProductRecord } from "../types";
-
-const formatDate = (value: string): string => {
-  return format(new Date(value), "MMM d, yyyy");
-};
 
 const productColumns: ColumnDef<ProductRecord>[] = [
   {
@@ -35,7 +31,7 @@ const productColumns: ColumnDef<ProductRecord>[] = [
     accessorKey: "description",
     cell: ({ row }) => (
       <span className="text-sm text-stone-700">
-        {row.original.description || "Sin descripcion registrada."}
+        {row.original.description || "Sin descripcion."}
       </span>
     ),
     enableSorting: false,
@@ -60,7 +56,7 @@ const productColumns: ColumnDef<ProductRecord>[] = [
     accessorKey: "updatedAt",
     cell: ({ row }) => (
       <span className="whitespace-nowrap text-stone-700">
-        {formatDate(row.original.updatedAt)}
+        {formatDateOnlyValue(row.original.updatedAt)}
       </span>
     ),
     header: "Actualizado",
@@ -69,7 +65,7 @@ const productColumns: ColumnDef<ProductRecord>[] = [
     accessorKey: "createdAt",
     cell: ({ row }) => (
       <span className="whitespace-nowrap text-stone-700">
-        {formatDate(row.original.createdAt)}
+        {formatDateOnlyValue(row.original.createdAt)}
       </span>
     ),
     header: "Creado",
@@ -100,7 +96,7 @@ export function ProductTable() {
           value: (row) => (row.isActive ? "Activo" : "Inactivo"),
         },
         {
-          header: "Actualizado",
+          header: "Actualizado el",
           key: "updatedAt",
           value: (row) => row.updatedAt,
         },
@@ -113,8 +109,8 @@ export function ProductTable() {
     },
     emptyState: {
       description:
-        "Pruebe ampliar la busqueda, limpiar filtros o registrar el primer producto del catalogo.",
-      title: "No hay registros para esta vista",
+        "Amplia la busqueda, limpia los filtros o crea el primer registro de este modulo.",
+      title: "No se encontraron registros",
     },
     filters: [
       {
@@ -155,8 +151,8 @@ export function ProductTable() {
         confirmation: {
           confirmLabel: "Eliminar registro",
           description: (rows) =>
-            `Eliminar ${rows[0]?.name ?? "este registro"} de las vistas activas? La trazabilidad quedara preservada mediante borrado logico.`,
-          title: "Eliminar registro?",
+            `Eliminar ${rows[0]?.name ?? "este registro"} de las vistas activas y conservar su historial de auditoria.`,
+          title: "¿Eliminar registro?",
           tone: "danger",
         },
         icon: Trash2,

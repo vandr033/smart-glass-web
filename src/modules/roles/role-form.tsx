@@ -16,6 +16,7 @@ import {
   roleFormSchema,
   type RoleFormValues,
 } from "@/modules/roles/forms";
+import { getRoleDescription } from "@/modules/roles/localization";
 import { PermissionMatrix } from "@/modules/roles/permission-matrix";
 import { roleService } from "@/services/role-service";
 import type { RoleDetails } from "@/types";
@@ -31,7 +32,7 @@ type RoleFormProps =
     };
 
 const sectionClassName =
-  "nibol-panel p-6";
+  "rounded-lg border border-stone-300/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(239,246,255,0.95))] p-6 shadow-[0_20px_50px_rgba(15,47,91,0.08)]";
 
 export function RoleForm(props: RoleFormProps) {
   const router = useRouter();
@@ -66,7 +67,7 @@ export function RoleForm(props: RoleFormProps) {
     }
 
     form.reset({
-      description: roleQuery.data.description ?? "",
+      description: getRoleDescription(roleQuery.data.name, roleQuery.data.description),
       name: roleQuery.data.name,
       permissionNames: roleQuery.data.permissions,
     });
@@ -90,8 +91,8 @@ export function RoleForm(props: RoleFormProps) {
       setSubmitError(null);
       setSubmitMessage(
         props.mode === "create"
-          ? "Rol creado correctamente."
-          : "Rol actualizado correctamente.",
+          ? "El rol fue creado correctamente."
+          : "El rol fue actualizado correctamente.",
       );
 
       await Promise.all([
@@ -121,7 +122,7 @@ export function RoleForm(props: RoleFormProps) {
       <ErrorState
         action={
           <button
-            className="nibol-btn-secondary px-4 py-2 text-sm"
+            className="inline-flex items-center gap-2 rounded-md border border-stone-300 bg-white px-4 py-2 text-sm font-semibold text-stone-700 transition hover:border-stone-400 hover:text-stone-950"
             onClick={() => {
               void roleQuery.refetch();
             }}
@@ -131,7 +132,7 @@ export function RoleForm(props: RoleFormProps) {
           </button>
         }
         description={roleQuery.error.message}
-        title="No fue posible cargar el rol"
+        title="No se pudieron cargar los detalles del rol"
       />
     );
   }
@@ -150,21 +151,21 @@ export function RoleForm(props: RoleFormProps) {
       <section className={sectionClassName}>
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="space-y-2">
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-amber-700">
-              {props.mode === "create" ? "Nuevo rol" : "Editar rol"}
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
+              {props.mode === "create" ? "Crear rol" : "Editar rol"}
             </p>
             <h2 className="text-2xl font-semibold tracking-tight text-stone-950">
               {props.mode === "create"
-                ? "Registrar perfil de acceso"
+                ? "Crear definicion de rol"
                 : `Actualizar ${currentRole?.name ?? "rol"}`}
             </h2>
             <p className="max-w-3xl text-sm leading-7 text-stone-700">
-              Defina perfiles reutilizables y mantenga la asignacion de permisos clara en todo el espacio administrativo.
+              Define paquetes de acceso reutilizables y manten las asignaciones de permisos explicitas en todo el espacio administrativo.
             </p>
           </div>
 
           <Link
-            className="nibol-btn-secondary px-4 py-2.5 text-sm"
+            className="inline-flex items-center gap-2 rounded-md border border-stone-300 bg-white px-4 py-2.5 text-sm font-semibold text-stone-700 transition hover:border-stone-400 hover:text-stone-950"
             href={props.mode === "create" ? "/roles" : `/roles/${props.roleId}`}
           >
             <ArrowLeft className="h-4 w-4" />
@@ -178,14 +179,14 @@ export function RoleForm(props: RoleFormProps) {
           <label className="block space-y-2">
             <span className="text-sm font-medium text-stone-700">Nombre</span>
             <input
-              className="nibol-field h-auto py-3 disabled:opacity-70"
+              className="w-full rounded-md border border-stone-200 bg-stone-50/80 px-4 py-3 text-sm text-stone-900 outline-none transition focus:border-stone-400 focus:bg-white disabled:cursor-not-allowed disabled:opacity-70"
               disabled={isBusy || isAdminRole}
-              placeholder="Ingrese el nombre del rol"
+              placeholder="Ingresa el nombre del rol"
               {...form.register("name")}
             />
             {isAdminRole ? (
               <span className="text-xs text-stone-500">
-                El nombre del rol Administrador esta protegido para conservar siempre un perfil con acceso total.
+                El nombre del rol administrador esta protegido para que el sistema conserve siempre un rol con acceso total.
               </span>
             ) : null}
             {form.formState.errors.name ? (
@@ -198,9 +199,13 @@ export function RoleForm(props: RoleFormProps) {
           <label className="block space-y-2">
             <span className="text-sm font-medium text-stone-700">Descripcion</span>
             <textarea
-              className="nibol-field min-h-36 h-auto py-3"
+              className="min-h-36 w-full rounded-md border border-stone-200 bg-stone-50/80 px-4 py-3 text-sm text-stone-900 outline-none transition focus:border-stone-400 focus:bg-white"
               disabled={isBusy}
-              placeholder="Describa el alcance o uso esperado de este rol"
+              placeholder={
+                currentRole
+                  ? getRoleDescription(currentRole.name, currentRole.description)
+                  : "Describe para que debe usarse este rol"
+              }
               {...form.register("description")}
             />
             {form.formState.errors.description ? (
@@ -216,7 +221,7 @@ export function RoleForm(props: RoleFormProps) {
           error={form.formState.errors.permissionNames?.message}
           helperText={
             isAdminRole
-              ? "Los permisos criticos del rol Administrador se mantienen bloqueados para no perder el acceso total de la plataforma."
+              ? "Los permisos criticos del administrador permanecen bloqueados para que la plataforma no pierda su rol de acceso total."
               : undefined
           }
           lockedPermissionNames={isAdminRole ? CRITICAL_ADMIN_PERMISSIONS : []}
@@ -231,20 +236,20 @@ export function RoleForm(props: RoleFormProps) {
       </section>
 
       {submitError ? (
-        <div className="rounded-[1.5rem] border border-rose-200/80 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+        <div className="rounded-lg border border-rose-200/80 bg-rose-50 px-4 py-3 text-sm text-rose-700">
           {submitError}
         </div>
       ) : null}
 
       {submitMessage ? (
-        <div className="rounded-[1.5rem] border border-emerald-200/80 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+        <div className="rounded-lg border border-emerald-200/80 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
           {submitMessage}
         </div>
       ) : null}
 
       <div className="flex flex-wrap gap-3">
         <button
-          className="nibol-btn-primary disabled:cursor-not-allowed disabled:opacity-60"
+          className="inline-flex items-center gap-2 rounded-md bg-[var(--color-primary)] px-4 py-3 text-sm font-semibold text-[color:var(--color-primary-contrast)] transition hover:bg-[var(--color-primary-hover)] disabled:cursor-not-allowed disabled:opacity-60"
           disabled={isBusy}
           type="submit"
         >
@@ -262,7 +267,7 @@ export function RoleForm(props: RoleFormProps) {
               : "Guardar cambios"}
         </button>
         <Link
-          className="nibol-btn-secondary px-4 py-3 text-sm"
+          className="inline-flex items-center gap-2 rounded-md border border-stone-300 bg-white px-4 py-3 text-sm font-semibold text-stone-700 transition hover:border-stone-400 hover:text-stone-950"
           href={props.mode === "create" ? "/roles" : `/roles/${props.roleId}`}
         >
           Cancelar

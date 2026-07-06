@@ -1,15 +1,8 @@
-import { hasPermission } from "@/lib/permissions";
-import { requirePermission } from "@/lib/server-auth";
-import { SettingsPageContent } from "@/modules/settings/settings-page";
+import { redirect } from "next/navigation";
 
-export default async function SettingsPage() {
-  const authorization = await requirePermission("settings.view");
-  const canEdit =
-    authorization.isAdmin && hasPermission(authorization.permissions, "settings.edit");
+import { requireAuth } from "@/lib/server-auth";
 
-  return (
-    <main className="space-y-6">
-      <SettingsPageContent canEdit={canEdit} />
-    </main>
-  );
+export default async function LegacySettingsPage() {
+  await requireAuth();
+  redirect("/admin/settings");
 }

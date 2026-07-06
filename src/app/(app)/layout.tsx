@@ -2,8 +2,12 @@ import type { ReactNode } from "react";
 
 import { redirect } from "next/navigation";
 
-import { AppLayout } from "@/layouts/app-layout";
-import { getServerAuthorization, requireAuth } from "@/lib/server-auth";
+import { AdminShell } from "@/components/admin/admin-shell";
+import {
+  buildAdminNavigationItems,
+  buildAuthorizationSummary,
+} from "@/lib/admin-navigation";
+import { getServerCurrentUser, requireAuth } from "@/lib/server-auth";
 
 export default async function ProtectedAppLayout({
   children,
@@ -11,15 +15,19 @@ export default async function ProtectedAppLayout({
   children: ReactNode;
 }) {
   const session = await requireAuth();
-  const authorization = await getServerAuthorization();
+  const currentUser = await getServerCurrentUser();
 
-  if (!authorization) {
+  if (!currentUser) {
     redirect("/login");
   }
 
   return (
-    <AppLayout authorization={authorization} session={session}>
+    <AdminShell
+      authorization={buildAuthorizationSummary(currentUser)}
+      navigationItems={buildAdminNavigationItems(currentUser)}
+      session={session}
+    >
       {children}
-    </AppLayout>
+    </AdminShell>
   );
 }

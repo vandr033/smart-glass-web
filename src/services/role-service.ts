@@ -36,4 +36,18 @@ export const roleService = {
 
     return response.data.data;
   },
+
+  async updateRolePermissions(
+    roleId: string,
+    permissionKeys: string[],
+  ): Promise<RoleDetails> {
+    const response = await apiClient.put<ApiSuccessResponse<RoleDetails>>(
+      `/roles/${roleId}/permissions`,
+      {
+        permissionKeys,
+      },
+    );
+
+    return response.data.data;
+  },
 };

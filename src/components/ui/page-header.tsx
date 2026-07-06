@@ -20,30 +20,30 @@ export function PageHeader({
   return (
     <header
       className={cn(
-        "nibol-panel flex flex-col gap-5 px-6 py-6 sm:px-8",
+        "flex flex-col gap-4 rounded-md border border-[color:var(--color-border)] bg-white px-5 py-5 shadow-sm sm:px-6",
         className,
       )}
     >
-      <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
-        <div className="space-y-3">
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+        <div className="space-y-2.5">
           {eyebrow ? (
-            <p className="nibol-eyebrow">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
               {eyebrow}
             </p>
           ) : null}
-          <div className="space-y-2">
-            <h1 className="font-display text-4xl font-bold uppercase leading-none tracking-[-0.03em] text-[var(--foreground)] sm:text-5xl">
+          <div className="space-y-1.5">
+            <h1 className="font-[family:var(--font-display)] text-[2rem] font-semibold uppercase tracking-[0.05em] text-[color:var(--color-text)] sm:text-[2.2rem]">
               {title}
             </h1>
             {description ? (
-              <p className="max-w-3xl text-sm leading-7 text-[var(--foreground-soft)] sm:text-base">
+              <p className="max-w-4xl text-sm leading-6 text-[color:var(--color-text-muted)]">
                 {description}
               </p>
             ) : null}
           </div>
         </div>
 
-        {actions ? <div className="flex flex-wrap gap-3">{actions}</div> : null}
+        {actions ? <div className="flex flex-wrap gap-2.5">{actions}</div> : null}
       </div>
     </header>
   );

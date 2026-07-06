@@ -13,10 +13,12 @@ import {
   AuthInput,
   AuthLinkRow,
   AuthShell,
-  authPrimaryButtonClass,
 } from "@/modules/auth/components/auth-shell";
 import { type LoginValues, loginSchema } from "@/modules/auth/forms";
 import { authService } from "@/services/auth-service";
+
+const buttonClass =
+  "inline-flex w-full items-center justify-center rounded-md bg-[var(--color-primary)] px-4 py-3 text-sm font-semibold text-[color:var(--color-primary-contrast)] transition hover:bg-[var(--color-primary-hover)] disabled:cursor-not-allowed disabled:opacity-60";
 
 export function LoginForm() {
   const queryClient = useQueryClient();
@@ -48,20 +50,20 @@ export function LoginForm() {
 
   const statusMessage =
     searchParams.get("verified") === "1"
-      ? "Su correo fue verificado correctamente. Ya puede iniciar sesion."
+      ? "Your email is verified. You can sign in now."
       : searchParams.get("registered") === "1"
-        ? "Cuenta creada. Revise su bandeja para verificar el acceso."
+        ? "Account created. Check your inbox to verify your email."
         : searchParams.get("invited") === "1"
-          ? "Invitacion aceptada. Inicie sesion con la contrasena que acaba de crear."
+          ? "Invitation accepted. Sign in with the password you just created."
         : searchParams.get("reset") === "1"
-          ? "Contrasena actualizada. Ingrese con su nueva credencial."
+          ? "Password updated. Sign in with your new password."
           : null;
 
   const verificationError =
     searchParams.get("error") === "TOKEN_EXPIRED"
-      ? "Su enlace de verificacion vencio. Puede solicitar uno nuevo abajo."
+      ? "Your verification link expired. Request a new one below."
       : searchParams.get("error") === "INVALID_TOKEN"
-        ? "El enlace de verificacion no es valido. Puede solicitar uno nuevo abajo."
+        ? "That verification link is invalid. Request a new one below."
         : null;
 
   const loginMutation = useMutation({
@@ -73,7 +75,7 @@ export function LoginForm() {
       await queryClient.invalidateQueries({
         queryKey: QUERY_KEYS.authorization,
       });
-      router.push("/");
+      router.push("/admin");
     },
   });
 
@@ -111,8 +113,8 @@ export function LoginForm() {
   return (
     <AuthShell
       description="Sign in with your email and password. Verification and session cookies are handled for you."
-      footer={<AuthLinkRow href="/register" label="Necesita una cuenta?" linkLabel="Solicitar acceso" />}
-      title="Iniciar sesion"
+      footer={<AuthLinkRow href="/register" label="Need an account?" linkLabel="Register" />}
+      title="Welcome back"
     >
       {statusMessage ? <AuthBanner tone="success">{statusMessage}</AuthBanner> : null}
       {verificationError ? <AuthBanner tone="info">{verificationError}</AuthBanner> : null}
@@ -127,15 +129,15 @@ export function LoginForm() {
           autoComplete="email"
           error={form.formState.errors.email?.message}
           label="Email"
-          placeholder="usuario@nibol.com.bo"
+          placeholder="you@company.com"
           type="email"
           {...form.register("email")}
         />
         <AuthInput
           autoComplete="current-password"
           error={form.formState.errors.password?.message}
-          label="Contrasena"
-          placeholder="Ingrese su contrasena"
+          label="Password"
+          placeholder="Enter your password"
           type="password"
           revealable
           {...form.register("password")}
@@ -143,19 +145,19 @@ export function LoginForm() {
 
         <div className="flex items-center justify-between gap-4 text-sm">
           <button
-            className="font-semibold text-[var(--foreground-soft)] transition hover:text-[var(--foreground)]"
+            className="font-medium text-stone-700 transition hover:text-stone-950"
             onClick={handleResend}
             type="button"
           >
-            Reenviar verificacion
+            Resend verification email
           </button>
-          <Link className="font-semibold text-[var(--foreground-soft)] transition hover:text-[var(--foreground)]" href="/forgot-password">
-            Olvido su contrasena?
+          <Link className="font-medium text-stone-700 transition hover:text-stone-950" href="/forgot-password">
+            Forgot password?
           </Link>
         </div>
 
-        <button className={authPrimaryButtonClass} disabled={loginMutation.isPending} type="submit">
-          {loginMutation.isPending ? "Ingresando..." : "Iniciar sesion"}
+        <button className={buttonClass} disabled={loginMutation.isPending} type="submit">
+          {loginMutation.isPending ? "Signing in..." : "Sign in"}
         </button>
       </form>
     </AuthShell>

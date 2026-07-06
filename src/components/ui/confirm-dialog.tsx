@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useEffectEvent } from "react";
+import { useEffect, useEffectEvent, useRef } from "react";
 
 import { AlertTriangle, X } from "lucide-react";
 
@@ -19,8 +19,8 @@ type ConfirmDialogProps = {
 };
 
 export function ConfirmDialog({
-  cancelLabel = "Cancel",
-  confirmLabel = "Confirm",
+  cancelLabel = "Cancelar",
+  confirmLabel = "Confirmar",
   description,
   isLoading = false,
   onConfirm,
@@ -29,6 +29,9 @@ export function ConfirmDialog({
   title,
   tone = "danger",
 }: ConfirmDialogProps) {
+  const cancelButtonRef = useRef<HTMLButtonElement | null>(null);
+  const lastFocusedElementRef = useRef<HTMLElement | null>(null);
+
   const closeDialog = useEffectEvent(() => {
     onOpenChange(false);
   });
@@ -37,6 +40,9 @@ export function ConfirmDialog({
     if (!open) {
       return;
     }
+
+    lastFocusedElementRef.current =
+      document.activeElement instanceof HTMLElement ? document.activeElement : null;
 
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -48,10 +54,14 @@ export function ConfirmDialog({
     };
 
     document.addEventListener("keydown", handleKeyDown);
+    window.requestAnimationFrame(() => {
+      cancelButtonRef.current?.focus();
+    });
 
     return () => {
       document.body.style.overflow = previousOverflow;
       document.removeEventListener("keydown", handleKeyDown);
+      lastFocusedElementRef.current?.focus();
     };
   }, [isLoading, open]);
 
@@ -62,11 +72,11 @@ export function ConfirmDialog({
   return (
     <div
       aria-modal="true"
-      className="fixed inset-0 z-50 flex items-end bg-[rgba(7,20,45,0.4)] p-3 sm:items-center sm:justify-center sm:p-6"
+      className="fixed inset-0 z-50 flex items-end bg-[rgba(15,23,42,0.56)] p-3 sm:items-center sm:justify-center sm:p-6"
       role="dialog"
     >
       <button
-        aria-label="Close dialog"
+        aria-label="Cerrar diálogo"
         className="absolute inset-0"
         disabled={isLoading}
         onClick={() => {
@@ -77,22 +87,22 @@ export function ConfirmDialog({
         type="button"
       />
 
-      <div className="relative z-10 w-full max-w-lg overflow-hidden border border-[var(--border)] bg-white p-6 shadow-[var(--shadow-panel-strong)] sm:p-7">
+      <div className="relative z-10 w-full max-w-lg overflow-hidden rounded-md border border-[color:var(--color-border)] bg-white p-6 shadow-[0_20px_48px_rgba(15,23,42,0.18)] sm:p-7">
         <div className="flex items-start justify-between gap-4">
           <div
             className={cn(
-              "p-3",
+              "rounded-md p-3",
               tone === "danger"
-                ? "bg-[var(--accent)] text-white"
-                : "bg-[var(--primary)] text-white",
+                ? "bg-[var(--color-error)] text-[color:var(--color-primary-contrast)]"
+                : "bg-[var(--color-primary)] text-[color:var(--color-primary-contrast)]",
             )}
           >
             <AlertTriangle className="h-5 w-5" />
           </div>
 
           <button
-            aria-label="Close dialog"
-            className="p-2 text-[var(--muted)] transition hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)]"
+            aria-label="Cerrar diálogo"
+            className="rounded-md p-2 text-[color:var(--color-text-muted)] transition hover:bg-[var(--color-surface)] hover:text-[color:var(--color-text)]"
             disabled={isLoading}
             onClick={() => {
               onOpenChange(false);
@@ -104,37 +114,38 @@ export function ConfirmDialog({
         </div>
 
         <div className="mt-5 space-y-3">
-          <h2 className="font-display text-3xl font-bold uppercase leading-none tracking-[-0.03em] text-[var(--foreground)]">
+          <h2 className="font-[family:var(--font-display)] text-[1.9rem] font-semibold uppercase tracking-[0.05em] text-[color:var(--color-text)]">
             {title}
           </h2>
-          <p className="text-sm leading-7 text-[var(--foreground-soft)] sm:text-base">
+          <p className="text-sm leading-6 text-[color:var(--color-text-muted)]">
             {description}
           </p>
         </div>
 
         <div className="mt-7 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
           <button
-            className="nibol-btn-secondary justify-center disabled:cursor-not-allowed disabled:opacity-60"
+            className="inline-flex items-center justify-center rounded-md border border-[color:var(--color-border)] bg-[var(--color-surface)] px-4 py-2.5 text-sm font-semibold text-[color:var(--color-text)] transition hover:border-[color:var(--color-border-strong)] hover:text-[color:var(--color-primary)] disabled:cursor-not-allowed disabled:opacity-60"
             disabled={isLoading}
             onClick={() => {
               onOpenChange(false);
             }}
+            ref={cancelButtonRef}
             type="button"
           >
             {cancelLabel}
           </button>
           <button
             className={cn(
-              "inline-flex items-center justify-center px-4 py-3 text-sm font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-60",
+              "inline-flex items-center justify-center rounded-md px-4 py-2.5 text-sm font-semibold text-[color:var(--color-primary-contrast)] transition disabled:cursor-not-allowed disabled:opacity-60",
               tone === "danger"
-                ? "border border-[var(--accent)] bg-[var(--accent)] hover:opacity-90"
-                : "border border-[var(--primary)] bg-[var(--primary)] hover:opacity-90",
+                ? "bg-[var(--color-error)] hover:bg-rose-800"
+                : "bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)]",
             )}
             disabled={isLoading}
             onClick={onConfirm}
             type="button"
           >
-            {isLoading ? "Working..." : confirmLabel}
+            {isLoading ? "Procesando..." : confirmLabel}
           </button>
         </div>
       </div>

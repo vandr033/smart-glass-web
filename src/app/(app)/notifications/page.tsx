@@ -9,9 +9,9 @@ export default async function NotificationsPage() {
   return (
     <main className="space-y-6">
       <PageHeader
-        description="Centralice alertas internas, pendientes de lectura y flujos reutilizables de comunicacion desde una sola bandeja."
-        eyebrow="Centro de alertas"
-        title="Notificaciones"
+        description="The notification center now powers the shared bell, unread counters, and reusable inbox workflows that future delivery channels can extend."
+        eyebrow="Inbox"
+        title="Notifications"
       />
 
       <NotificationCenter canCreate={canCreate} />

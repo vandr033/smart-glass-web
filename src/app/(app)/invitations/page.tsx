@@ -13,16 +13,16 @@ export default async function InvitationsPage() {
         actions={
           authorization.permissions.includes("invitations.create") ? (
             <Link
-              className="nibol-btn-primary"
+              className="inline-flex items-center rounded-md bg-[var(--color-primary)] px-4 py-3 text-sm font-semibold text-[color:var(--color-primary-contrast)] transition hover:bg-[var(--color-primary-hover)]"
               href="/invitations/new"
             >
-              Nueva invitacion
+              Create invitation
             </Link>
           ) : null
         }
-        description="Controle invitaciones pendientes, aceptadas, vencidas o revocadas desde el mismo esquema operativo del panel."
-        eyebrow="Incorporacion"
-        title="Invitaciones"
+        description="Track pending, accepted, expired, and revoked invitations from the same reusable DataTable system used across the admin workspace."
+        eyebrow="Onboarding"
+        title="Invitations"
       />
 
       <InvitationTable />

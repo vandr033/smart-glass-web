@@ -8,8 +8,8 @@ export default async function NewRolePage() {
   return (
     <main className="space-y-6">
       <PageHeader
-        description="Cree un perfil de acceso reutilizable con nombre validado, descripcion opcional y permisos definidos con claridad."
-        eyebrow="Roles"
+        description="Crea un conjunto reutilizable de accesos con nombre validado, descripcion opcional y una matriz de permisos explicita."
+        eyebrow="Crear rol"
         title="Nuevo rol"
       />
 

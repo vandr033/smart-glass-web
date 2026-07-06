@@ -12,7 +12,7 @@ export default function AppError({
     <ErrorState
       action={
         <button
-          className="inline-flex items-center justify-center rounded-2xl bg-stone-950 px-4 py-3 text-sm font-semibold text-white transition hover:bg-stone-800"
+          className="inline-flex items-center justify-center rounded-md bg-[var(--color-primary)] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[var(--color-primary-hover)]"
           onClick={() => {
             reset();
           }}

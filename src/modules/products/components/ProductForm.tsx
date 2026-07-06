@@ -30,7 +30,7 @@ type ProductFormProps =
     };
 
 const sectionClassName =
-  "nibol-panel p-6";
+  "rounded-lg border border-stone-300/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(239,246,255,0.95))] p-6 shadow-[0_20px_50px_rgba(15,47,91,0.08)]";
 
 export function ProductForm(props: ProductFormProps) {
   const router = useRouter();
@@ -68,17 +68,17 @@ export function ProductForm(props: ProductFormProps) {
       <ErrorState
         action={
           <button
-            className="nibol-btn-secondary px-4 py-2 text-sm"
+            className="inline-flex items-center gap-2 rounded-md border border-stone-300 bg-white px-4 py-2 text-sm font-semibold text-stone-700 transition hover:border-stone-400 hover:text-stone-950"
             onClick={() => {
               void productQuery.refetch();
             }}
             type="button"
           >
-            Reintentar
+            Retry
           </button>
         }
         description={productQuery.error.message}
-        title="No fue posible cargar el producto"
+        title="Product details could not be loaded"
       />
     );
   }
@@ -104,8 +104,8 @@ export function ProductForm(props: ProductFormProps) {
           setSubmitError(null);
           setSubmitMessage(
             props.mode === "create"
-              ? "Producto creado correctamente."
-              : "Producto actualizado correctamente.",
+              ? "Product created successfully."
+              : "Product updated successfully.",
           );
 
           router.push(PRODUCTS_ROUTES.view(record.id));
@@ -119,25 +119,26 @@ export function ProductForm(props: ProductFormProps) {
       <section className={sectionClassName}>
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="space-y-2">
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-amber-700">
-              {props.mode === "create" ? "Nuevo producto" : "Editar producto"}
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
+              {props.mode === "create" ? "Create Product" : "Edit Product"}
             </p>
             <h2 className="text-2xl font-semibold tracking-tight text-stone-950">
               {props.mode === "create"
-                ? "Registrar producto"
-                : `Actualizar ${productQuery.data?.name ?? "producto"}`}
+                ? "Add a product"
+                : `Update ${productQuery.data?.name ?? "product"}`}
             </h2>
             <p className="max-w-3xl text-sm leading-7 text-stone-700">
-              Mantenga el catalogo consistente con la misma validacion, trazabilidad y controles de permisos del resto del sistema.
+              Keep future modules consistent by reusing the same validation, logging, and
+              permission-aware form foundation.
             </p>
           </div>
 
           <Link
-            className="nibol-btn-secondary px-4 py-2.5 text-sm"
+            className="inline-flex items-center gap-2 rounded-md border border-stone-300 bg-white px-4 py-2.5 text-sm font-semibold text-stone-700 transition hover:border-stone-400 hover:text-stone-950"
             href={props.mode === "create" ? PRODUCTS_ROUTES.list : PRODUCTS_ROUTES.view(props.productId)}
           >
             <ArrowLeft className="h-4 w-4" />
-            Volver
+            Back
           </Link>
         </div>
       </section>
@@ -145,11 +146,11 @@ export function ProductForm(props: ProductFormProps) {
       <section className={sectionClassName}>
         <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
           <label className="block space-y-2">
-            <span className="text-sm font-medium text-stone-700">Nombre</span>
+            <span className="text-sm font-medium text-stone-700">Name</span>
             <input
-              className="nibol-field h-auto py-3 disabled:opacity-70"
+              className="w-full rounded-md border border-stone-200 bg-stone-50/80 px-4 py-3 text-sm text-stone-900 outline-none transition focus:border-stone-400 focus:bg-white disabled:cursor-not-allowed disabled:opacity-70"
               disabled={isBusy}
-              placeholder="Ingrese el nombre del producto"
+              placeholder="Enter the product name"
               {...form.register("name")}
             />
             {form.formState.errors.name ? (
@@ -159,15 +160,15 @@ export function ProductForm(props: ProductFormProps) {
             ) : null}
           </label>
 
-          <label className="flex items-center justify-between gap-4 border border-stone-200/90 bg-white/85 px-4 py-4">
+          <label className="flex items-center justify-between gap-4 rounded-lg border border-stone-200/90 bg-white/85 px-4 py-4">
             <span className="space-y-1">
-              <span className="block text-sm font-medium text-stone-700">Estado activo</span>
+              <span className="block text-sm font-medium text-stone-700">Active status</span>
               <span className="block text-xs text-stone-500">
-                Mantiene este producto visible en los listados operativos.
+                Keep this product visible in active table results.
               </span>
             </span>
             <input
-              className="h-5 w-5 rounded border-stone-300 text-amber-700 focus:ring-amber-300"
+              className="h-5 w-5 rounded border-stone-300 text-[color:var(--color-primary)] focus:ring-blue-300"
               disabled={isBusy}
               type="checkbox"
               {...form.register("isActive")}
@@ -176,11 +177,11 @@ export function ProductForm(props: ProductFormProps) {
         </div>
 
         <label className="mt-6 block space-y-2">
-          <span className="text-sm font-medium text-stone-700">Descripcion</span>
+          <span className="text-sm font-medium text-stone-700">Description</span>
           <textarea
-            className="nibol-field min-h-40 h-auto py-3 disabled:opacity-70"
+            className="min-h-40 w-full rounded-md border border-stone-200 bg-stone-50/80 px-4 py-3 text-sm text-stone-900 outline-none transition focus:border-stone-400 focus:bg-white disabled:cursor-not-allowed disabled:opacity-70"
             disabled={isBusy}
-            placeholder="Describa el uso o alcance del producto"
+            placeholder="Describe how this product should be used"
             {...form.register("description")}
           />
           {form.formState.errors.description ? (
@@ -192,31 +193,31 @@ export function ProductForm(props: ProductFormProps) {
       </section>
 
       {submitError ? (
-        <div className="rounded-[1.5rem] border border-rose-200/80 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+        <div className="rounded-lg border border-rose-200/80 bg-rose-50 px-4 py-3 text-sm text-rose-700">
           {submitError}
         </div>
       ) : null}
 
       {submitMessage ? (
-        <div className="rounded-[1.5rem] border border-emerald-200/80 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+        <div className="rounded-lg border border-emerald-200/80 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
           {submitMessage}
         </div>
       ) : null}
 
       <div className="flex flex-wrap gap-3">
         <button
-          className="nibol-btn-primary disabled:cursor-not-allowed disabled:opacity-60"
+          className="inline-flex items-center gap-2 rounded-md bg-[var(--color-primary)] px-4 py-3 text-sm font-semibold text-[color:var(--color-primary-contrast)] transition hover:bg-[var(--color-primary-hover)] disabled:cursor-not-allowed disabled:opacity-60"
           disabled={isBusy}
           type="submit"
         >
           {props.mode === "create" ? <PackagePlus className="h-4 w-4" /> : <Save className="h-4 w-4" />}
           {isBusy
             ? props.mode === "create"
-              ? "Creando producto..."
-              : "Guardando cambios..."
+              ? "Creating product..."
+              : "Saving changes..."
             : props.mode === "create"
-              ? "Crear producto"
-              : "Guardar cambios"}
+              ? "Create Product"
+              : "Save changes"}
         </button>
       </div>
     </form>

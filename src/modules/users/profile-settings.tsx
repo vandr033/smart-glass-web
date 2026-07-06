@@ -19,11 +19,20 @@ import {
 import { userService } from "@/services/user-service";
 import { getApiErrorMessage } from "@/utils";
 
-const panelClassName = "nibol-panel p-6";
+const panelClassName =
+  "rounded-lg border border-[color:var(--color-border)] bg-[linear-gradient(180deg,var(--color-surface)_0%,var(--color-surface-muted)_100%)] p-6 shadow-[0_20px_50px_rgba(30,64,175,0.08)]";
+const secondaryButtonClassName =
+  "inline-flex items-center gap-2 rounded-md border border-[color:var(--color-border)] bg-[var(--color-surface)] px-4 py-2.5 text-sm font-semibold text-[color:var(--color-text)] transition hover:border-[color:var(--color-border-strong)] hover:text-[color:var(--color-primary)] disabled:cursor-not-allowed disabled:opacity-60";
+const primaryButtonClassName =
+  "inline-flex items-center gap-2 rounded-md bg-[var(--color-primary)] px-4 py-3 text-sm font-semibold text-[color:var(--color-primary-contrast)] transition hover:bg-[var(--color-primary-hover)] disabled:cursor-not-allowed disabled:opacity-60";
+const fieldClassName =
+  "w-full rounded-md border border-[color:var(--color-border)] bg-[var(--color-surface)] px-4 py-3 text-sm text-[color:var(--color-text)] outline-none transition focus:border-[color:var(--color-primary)] focus:bg-white";
+const detailCardClassName =
+  "rounded-md border border-[color:var(--color-border)] bg-[var(--color-surface)] px-4 py-4";
 
 const formatDate = (value: string | null): string => {
   if (!value) {
-    return "Nunca";
+    return "Never";
   }
 
   return new Intl.DateTimeFormat("en-US", {
@@ -84,7 +93,7 @@ export function ProfileSettings() {
         name: profile.name,
       });
       setProfileError(null);
-      setProfileMessage("Perfil actualizado correctamente.");
+      setProfileMessage("Detalles de perfil actualizados correctamente.");
       await refreshShell();
     },
     onError: (error) => {
@@ -98,7 +107,7 @@ export function ProfileSettings() {
     onSuccess: () => {
       passwordForm.reset();
       setPasswordError(null);
-      setPasswordMessage("Contrasena actualizada correctamente.");
+      setPasswordMessage("Contraseña actualizada correctamente.");
     },
     onError: (error) => {
       setPasswordMessage(null);
@@ -110,7 +119,7 @@ export function ProfileSettings() {
     mutationFn: userService.uploadAvatar,
     onSuccess: async () => {
       setProfileError(null);
-      setProfileMessage("Avatar actualizado correctamente.");
+      setProfileMessage("Avatar actualizado.");
       await refreshShell();
     },
     onError: (error) => {
@@ -134,17 +143,17 @@ export function ProfileSettings() {
       <ErrorState
         action={
           <button
-            className="nibol-btn-secondary px-4 py-2 text-sm"
+            className={secondaryButtonClassName}
             onClick={() => {
               void profileQuery.refetch();
             }}
             type="button"
           >
-            Reintentar
+            Retry
           </button>
         }
         description={profileQuery.error.message}
-        title="No fue posible cargar su perfil"
+        title="Tu perfil no pudo ser cargado"
       />
     );
   }
@@ -154,7 +163,7 @@ export function ProfileSettings() {
   if (!profile) {
     return (
       <section className={panelClassName}>
-        <p className="text-sm text-stone-600">Cargando perfil...</p>
+        <p className="text-sm text-[color:var(--color-text-muted)]">Loading profile...</p>
       </section>
     );
   }
@@ -163,7 +172,7 @@ export function ProfileSettings() {
     <div className="space-y-6">
       <section className={`${panelClassName} grid gap-6 xl:grid-cols-[0.75fr_1.25fr]`}>
         <div className="space-y-4">
-          <div className="flex h-28 w-28 items-center justify-center overflow-hidden rounded-[2rem] bg-stone-950 text-2xl font-semibold text-white">
+          <div className="flex h-28 w-28 items-center justify-center overflow-hidden rounded-lg bg-[linear-gradient(135deg,var(--color-primary),var(--color-primary-hover))] text-2xl font-semibold text-[color:var(--color-primary-contrast)] shadow-[0_18px_36px_rgba(30,64,175,0.2)]">
             {profile.avatar ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -180,9 +189,9 @@ export function ProfileSettings() {
             )}
           </div>
 
-          <label className="nibol-btn-secondary cursor-pointer px-4 py-2.5 text-sm">
+          <label className={`${secondaryButtonClassName} cursor-pointer`}>
             <Camera className="h-4 w-4" />
-            {uploadAvatarMutation.isPending ? "Cargando..." : "Subir avatar"}
+            {uploadAvatarMutation.isPending ? "Subiendo..." : "Cambiar avatar"}
             <input
               accept="image/png,image/jpeg,image/webp"
               className="hidden"
@@ -201,50 +210,50 @@ export function ProfileSettings() {
             />
           </label>
 
-          <div className="rounded-[1.4rem] border border-stone-200/90 bg-white/80 px-4 py-4 text-sm text-stone-600">
-            Use un avatar `PNG`, `JPEG` o `WebP` de hasta 5 MB.
+          <div className={`${detailCardClassName} text-sm text-[color:var(--color-text-muted)]`}>
+              Subir un avatar en WEBP, PNG o JPEG. Tamaño máximo de archivo: 2 MB. Se recomienda un tamaño de 256x256 píxeles.
           </div>
         </div>
 
         <div className="space-y-4">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-amber-700">
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
               Perfil
             </p>
-            <h2 className="mt-2 text-2xl font-semibold tracking-tight text-stone-950">
+            <h2 className="mt-2 text-2xl font-semibold tracking-tight text-[color:var(--color-text)]">
               {profile.name}
             </h2>
-            <p className="mt-2 text-sm leading-7 text-stone-700">
-              Administre la informacion visible en el shell compartido, la sesion activa y futuros modulos.
+            <p className="mt-2 text-sm leading-7 text-[color:var(--color-text-muted)]">
+              Maneja la informacion mostrada en el shell compartido, superficies de sesion y modulos futuros.
             </p>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2">
-            <div className="rounded-[1.4rem] border border-stone-200/90 bg-white/80 px-4 py-4">
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+            <div className={detailCardClassName}>
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--color-text-muted)]">
                 Email
               </p>
-              <p className="mt-2 text-sm font-medium text-stone-900">{profile.email}</p>
+              <p className="mt-2 text-sm font-medium text-[color:var(--color-text)]">{profile.email}</p>
             </div>
-            <div className="rounded-[1.4rem] border border-stone-200/90 bg-white/80 px-4 py-4">
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-                Ultimo acceso
+            <div className={detailCardClassName}>
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--color-text-muted)]">
+                Ultimo inicio de sesion
               </p>
-              <p className="mt-2 text-sm font-medium text-stone-900">
+              <p className="mt-2 text-sm font-medium text-[color:var(--color-text)]">
                 {formatDate(profile.lastLoginAt)}
               </p>
             </div>
           </div>
 
-          <div className="rounded-[1.4rem] border border-stone-200/90 bg-white/80 px-4 py-4">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+          <div className={detailCardClassName}>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--color-text-muted)]">
               Roles
             </p>
             <div className="mt-3 flex flex-wrap gap-2">
               {profile.roles.map((role) => (
                 <span
                   key={role}
-                  className="rounded-full bg-stone-100 px-3 py-1 text-xs font-semibold text-stone-700"
+                  className="rounded-full bg-[var(--color-primary-soft)] px-3 py-1 text-xs font-semibold text-[color:var(--color-primary-soft-text)]"
                 >
                   {role}
                 </span>
@@ -262,18 +271,18 @@ export function ProfileSettings() {
           })}
         >
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-amber-700">
-              Actualizar perfil
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
+              Actualizar Perfil
             </p>
-            <h3 className="mt-2 text-xl font-semibold tracking-tight text-stone-950">
-              Datos personales
+            <h3 className="mt-2 text-xl font-semibold tracking-tight text-[color:var(--color-text)]">
+              Detalles de la cuenta 
             </h3>
           </div>
 
           <label className="block space-y-2">
-            <span className="text-sm font-medium text-stone-700">Nombre</span>
+            <span className="text-sm font-medium text-[color:var(--color-text)]">Name</span>
             <input
-              className="nibol-field h-auto py-3"
+              className={fieldClassName}
               disabled={updateProfileMutation.isPending}
               {...profileForm.register("name")}
             />
@@ -285,24 +294,24 @@ export function ProfileSettings() {
           </label>
 
           {profileError ? (
-            <div className="rounded-[1.5rem] border border-rose-200/80 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+            <div className="rounded-lg border border-rose-200/80 bg-rose-50 px-4 py-3 text-sm text-rose-700">
               {profileError}
             </div>
           ) : null}
 
           {profileMessage ? (
-            <div className="rounded-[1.5rem] border border-emerald-200/80 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+            <div className="rounded-lg border border-emerald-200/80 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
               {profileMessage}
             </div>
           ) : null}
 
           <button
-            className="nibol-btn-primary disabled:cursor-not-allowed disabled:opacity-60"
+            className={primaryButtonClassName}
             disabled={updateProfileMutation.isPending}
             type="submit"
           >
             <Save className="h-4 w-4" />
-            {updateProfileMutation.isPending ? "Guardando perfil..." : "Guardar perfil"}
+            {updateProfileMutation.isPending ? "Actualizando perfil..." : "Actualizar perfil"}
           </button>
         </form>
 
@@ -316,10 +325,10 @@ export function ProfileSettings() {
           })}
         >
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-amber-700">
-              Cambiar contrasena
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
+              Cambiar Contraseña
             </p>
-            <h3 className="mt-2 text-xl font-semibold tracking-tight text-stone-950">
+            <h3 className="mt-2 text-xl font-semibold tracking-tight text-[color:var(--color-text)]">
               Credenciales
             </h3>
           </div>
@@ -327,21 +336,21 @@ export function ProfileSettings() {
           {[
             {
               field: "currentPassword",
-              label: "Contrasena actual",
+              label: "Contraseña actual",
             },
             {
               field: "newPassword",
-              label: "Nueva contrasena",
+              label: "Contraseña nueva",
             },
             {
               field: "confirmPassword",
-              label: "Confirmar contrasena",
+              label: "Confirmar Contraseña",
             },
           ].map((field) => (
             <label key={field.field} className="block space-y-2">
-              <span className="text-sm font-medium text-stone-700">{field.label}</span>
+              <span className="text-sm font-medium text-[color:var(--color-text)]">{field.label}</span>
               <input
-                className="nibol-field h-auto py-3"
+                className={fieldClassName}
                 disabled={changePasswordMutation.isPending}
                 type="password"
                 {...passwordForm.register(
@@ -363,24 +372,24 @@ export function ProfileSettings() {
           ))}
 
           {passwordError ? (
-            <div className="rounded-[1.5rem] border border-rose-200/80 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+            <div className="rounded-lg border border-rose-200/80 bg-rose-50 px-4 py-3 text-sm text-rose-700">
               {passwordError}
             </div>
           ) : null}
 
           {passwordMessage ? (
-            <div className="rounded-[1.5rem] border border-emerald-200/80 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+            <div className="rounded-lg border border-emerald-200/80 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
               {passwordMessage}
             </div>
           ) : null}
 
           <button
-            className="nibol-btn-primary disabled:cursor-not-allowed disabled:opacity-60"
+            className={primaryButtonClassName}
             disabled={changePasswordMutation.isPending}
             type="submit"
           >
             <KeyRound className="h-4 w-4" />
-            {changePasswordMutation.isPending ? "Actualizando contrasena..." : "Cambiar contrasena"}
+            {changePasswordMutation.isPending ? "Actualizando contraseña..." : "Cambiar contraseña"}
           </button>
         </form>
       </section>

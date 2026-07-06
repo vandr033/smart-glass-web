@@ -28,12 +28,18 @@ export interface ActivityLogTableRow {
 export type AuditAction = "Created" | "Deleted" | "Updated";
 
 export interface AuditLogTableRow {
-  action: AuditAction;
+  action: string;
+  actorUser: LogUserReference | null;
+  afterJson: LogJsonValue | null;
+  beforeJson: LogJsonValue | null;
   changedBy: LogUserReference | null;
   createdAt: string;
   entityId: string | null;
   entityType: string;
   id: string;
+  ipAddress: string | null;
+  metadataJson: LogJsonValue | null;
   newValues: LogJsonValue | null;
   oldValues: LogJsonValue | null;
+  userAgent: string | null;
 }

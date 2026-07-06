@@ -20,9 +20,10 @@ import {
 import { invitationService } from "@/services/invitation-service";
 
 const buttonClass =
-  "nibol-btn-primary w-full justify-center disabled:cursor-not-allowed disabled:opacity-60";
+  "inline-flex w-full items-center justify-center rounded-md bg-[var(--color-primary)] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[var(--color-primary-hover)] disabled:cursor-not-allowed disabled:opacity-60";
 
-const summaryCardClassName = "nibol-panel-muted px-4 py-3";
+const summaryCardClassName =
+  "rounded-md border border-stone-200 bg-stone-50/85 px-4 py-3";
 
 export function AcceptInvitationForm() {
   const router = useRouter();
@@ -50,7 +51,7 @@ export function AcceptInvitationForm() {
   const acceptMutation = useMutation({
     mutationFn: async (values: InvitationAcceptValues) => {
       if (!token) {
-        throw new Error("Se requiere una invitacion valida para continuar.");
+        throw new Error("A valid invitation token is required.");
       }
 
       return invitationService.acceptInvitation({
@@ -71,7 +72,7 @@ export function AcceptInvitationForm() {
 
   const invalidMessage = token
     ? null
-    : "Necesita una invitacion valida para terminar de activar su cuenta.";
+    : "A valid invitation token is required to finish setting up your account.";
 
   const handleSubmit = form.handleSubmit(async (values) => {
     await acceptMutation.mutateAsync(values);
@@ -79,9 +80,9 @@ export function AcceptInvitationForm() {
 
   return (
     <AuthShell
-      description="Confirme sus datos, defina su contrasena y active la cuenta corporativa asociada a este correo."
-      footer={<AuthLinkRow href="/login" label="Ya tiene acceso?" linkLabel="Iniciar sesion" />}
-      title="Activar invitacion"
+      description="Confirm your identity, set your password, and activate the invited account tied to this email address."
+      footer={<AuthLinkRow href="/login" label="Already set up?" linkLabel="Sign in" />}
+      title="Accept invitation"
     >
       {invalidMessage ? <AuthBanner tone="info">{invalidMessage}</AuthBanner> : null}
       {previewQuery.error ? (
@@ -103,7 +104,7 @@ export function AcceptInvitationForm() {
           </div>
           <div className={summaryCardClassName}>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-              Rol
+              Role
             </p>
             <p className="mt-2 text-sm font-semibold text-stone-950">
               {previewQuery.data.roleName}
@@ -111,7 +112,7 @@ export function AcceptInvitationForm() {
           </div>
           <div className={summaryCardClassName}>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-              Invitado por
+              Invited by
             </p>
             <p className="mt-2 text-sm font-semibold text-stone-950">
               {previewQuery.data.invitedByName}
@@ -119,7 +120,7 @@ export function AcceptInvitationForm() {
           </div>
           <div className={summaryCardClassName}>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-              Vence
+              Expires
             </p>
             <p className="mt-2 text-sm font-semibold text-stone-950">
               {new Date(previewQuery.data.expiresAt).toLocaleDateString()}
@@ -132,24 +133,24 @@ export function AcceptInvitationForm() {
         <AuthInput
           autoComplete="name"
           error={form.formState.errors.name?.message}
-          label="Nombre completo"
-          placeholder="Su nombre"
+          label="Full name"
+          placeholder="Your name"
           type="text"
           {...form.register("name")}
         />
         <AuthInput
           autoComplete="new-password"
           error={form.formState.errors.password?.message}
-          label="Contrasena"
-          placeholder="Cree una contrasena"
+          label="Password"
+          placeholder="Create a password"
           type="password"
           {...form.register("password")}
         />
         <AuthInput
           autoComplete="new-password"
           error={form.formState.errors.confirmPassword?.message}
-          label="Confirmar contrasena"
-          placeholder="Repita la contrasena"
+          label="Confirm password"
+          placeholder="Repeat the password"
           type="password"
           {...form.register("confirmPassword")}
         />
@@ -159,21 +160,21 @@ export function AcceptInvitationForm() {
           disabled={!previewQuery.data || acceptMutation.isPending || previewQuery.isLoading}
           type="submit"
         >
-          {acceptMutation.isPending ? "Activando cuenta..." : "Activar cuenta"}
+          {acceptMutation.isPending ? "Creating account..." : "Create account"}
         </button>
       </form>
 
       {previewQuery.isLoading ? (
-        <div className="nibol-panel-muted px-4 py-3 text-sm text-[var(--foreground-soft)]">
-          Validando su invitacion...
+        <div className="rounded-md border border-stone-200 bg-stone-50/80 px-4 py-3 text-sm text-stone-600">
+          Validating your invitation...
         </div>
       ) : null}
 
       {(invalidMessage || previewQuery.error) ? (
-        <div className="nibol-panel-muted px-4 py-3 text-sm text-[var(--foreground-soft)]">
-          Necesita ayuda? Vuelva a{" "}
-          <Link className="font-semibold text-[var(--primary)]" href="/login">
-            la pantalla de acceso
+        <div className="rounded-md border border-stone-200 bg-stone-50/80 px-4 py-3 text-sm text-stone-600">
+          Need help? Return to{" "}
+          <Link className="font-semibold text-stone-950 hover:text-[color:var(--color-primary)]" href="/login">
+            the sign-in page
           </Link>
           .
         </div>

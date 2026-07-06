@@ -9,7 +9,9 @@ import type {
   ApiErrorResponse,
   ApiSuccessResponse,
   AuthorizationSummary,
+  CurrentUserPayload,
   AuthSession,
+  EnabledModule,
 } from "@/types";
 
 const buildCookieHeader = async (): Promise<string> => {
@@ -88,6 +90,42 @@ export const getServerAuthorization = cache(
     }
   },
 );
+
+export const getServerCurrentUser = cache(
+  async (): Promise<CurrentUserPayload | null> => {
+    try {
+      const response =
+        await fetchJson<ApiSuccessResponse<CurrentUserPayload>>(
+          `${APP_CONFIG.apiBaseUrl}/me`,
+        );
+
+      return response.data;
+    } catch (error) {
+      if (error instanceof Error && error.message === "UNAUTHORIZED") {
+        return null;
+      }
+
+      throw error;
+    }
+  },
+);
+
+export const getServerModules = cache(async (): Promise<EnabledModule[]> => {
+  try {
+    const response =
+      await fetchJson<ApiSuccessResponse<EnabledModule[]>>(
+        `${APP_CONFIG.apiBaseUrl}/modules`,
+      );
+
+    return response.data;
+  } catch (error) {
+    if (error instanceof Error && error.message === "UNAUTHORIZED") {
+      return [];
+    }
+
+    throw error;
+  }
+});
 
 export const requireAuth = async (): Promise<AuthSession> => {
   const session = await getServerSession();

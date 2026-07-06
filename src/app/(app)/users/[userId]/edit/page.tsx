@@ -9,16 +9,16 @@ type EditUserPageProps = {
 };
 
 export default async function EditUserPage({ params }: EditUserPageProps) {
-  await requirePermission("users.edit");
+  await requirePermission("system.users.update");
 
   const { userId } = await params;
 
   return (
     <main className="space-y-6">
       <PageHeader
-        description="Actualice datos de la cuenta, roles asignados y estado activo con el mismo contrato de validacion del flujo de alta."
-        eyebrow="Usuarios"
-        title="Editar usuario"
+        description="Update account details, assigned roles, and active status using the same validation contract as the create flow."
+        eyebrow="Edit User"
+        title="Edit User"
       />
 
       <UserForm mode="edit" userId={userId} />

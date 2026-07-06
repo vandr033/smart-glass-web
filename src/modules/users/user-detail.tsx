@@ -18,7 +18,7 @@ type UserDetailProps = {
 
 const formatDate = (value: string | null): string => {
   if (!value) {
-    return "Nunca";
+    return "Never";
   }
 
   return new Intl.DateTimeFormat("en-US", {
@@ -84,17 +84,17 @@ export function UserDetail({ userId }: UserDetailProps) {
       <ErrorState
         action={
           <button
-            className="nibol-btn-secondary px-4 py-2 text-sm"
+            className="inline-flex items-center gap-2 rounded-md border border-stone-300 bg-white px-4 py-2 text-sm font-semibold text-stone-700 transition hover:border-stone-400 hover:text-stone-950"
             onClick={() => {
               void userQuery.refetch();
             }}
             type="button"
           >
-            Reintentar
+            Retry
           </button>
         }
         description={userQuery.error.message}
-        title="No fue posible cargar este usuario"
+        title="This user record could not be loaded"
       />
     );
   }
@@ -103,18 +103,18 @@ export function UserDetail({ userId }: UserDetailProps) {
 
   if (!user) {
     return (
-      <section className="nibol-panel p-6 text-sm text-stone-600">
-        Cargando detalle del usuario...
+      <section className="rounded-lg border border-stone-300/70 bg-white/90 p-6 text-sm text-stone-600 shadow-[0_18px_44px_rgba(15,47,91,0.06)]">
+        Loading user details...
       </section>
     );
   }
 
   return (
     <div className="space-y-6">
-      <section className="nibol-panel p-6">
+      <section className="rounded-lg border border-stone-300/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(239,246,255,0.95))] p-6 shadow-[0_20px_50px_rgba(15,47,91,0.08)]">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
           <div className="flex items-start gap-4">
-            <div className="flex h-18 w-18 items-center justify-center overflow-hidden rounded-[1.5rem] bg-stone-950 text-lg font-semibold text-white">
+            <div className="flex h-18 w-18 items-center justify-center overflow-hidden rounded-lg bg-[var(--color-primary)] text-lg font-semibold text-blue-100">
               {user.avatar ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
@@ -133,8 +133,8 @@ export function UserDetail({ userId }: UserDetailProps) {
 
             <div className="space-y-3">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-amber-700">
-                  Ficha de usuario
+                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
+                  User Record
                 </p>
                 <h2 className="mt-2 text-3xl font-semibold tracking-tight text-stone-950">
                   {user.name}
@@ -152,16 +152,16 @@ export function UserDetail({ userId }: UserDetailProps) {
                       : "bg-stone-200 text-stone-700"
                   }`}
                 >
-                  {user.isActive ? "Activo" : "Inactivo"}
+                  {user.isActive ? "Active" : "Inactive"}
                 </span>
                 <span
                   className={`rounded-full px-3 py-1.5 text-xs font-semibold ${
                     user.emailVerified
-                      ? "bg-amber-100 text-amber-800"
+                      ? "bg-blue-100 text-blue-900"
                       : "bg-stone-200 text-stone-700"
                   }`}
                 >
-                  {user.emailVerified ? "Correo verificado" : "Correo sin verificar"}
+                  {user.emailVerified ? "Email verified" : "Email unverified"}
                 </span>
               </div>
             </div>
@@ -169,42 +169,42 @@ export function UserDetail({ userId }: UserDetailProps) {
 
           <div className="flex flex-wrap gap-3">
             <Link
-              className="nibol-btn-secondary px-4 py-2.5 text-sm"
+              className="inline-flex items-center gap-2 rounded-md border border-stone-300 bg-white px-4 py-2.5 text-sm font-semibold text-stone-700 transition hover:border-stone-400 hover:text-stone-950"
               href="/users"
             >
               <ArrowLeft className="h-4 w-4" />
-              Volver a usuarios
+              Back to users
             </Link>
             <Link
-              className="nibol-btn-primary px-4 py-2.5 text-sm"
+              className="inline-flex items-center gap-2 rounded-md border border-[color:var(--color-primary-hover)] bg-[var(--color-primary)] px-4 py-2.5 text-sm font-semibold text-[color:var(--color-primary-contrast)] transition hover:bg-[var(--color-primary-hover)]"
               href={`/users/${user.id}/edit`}
             >
               <Pencil className="h-4 w-4" />
-              Editar usuario
+              Edit user
             </Link>
           </div>
         </div>
       </section>
 
       <section className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
-        <section className="nibol-panel p-6">
-          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-amber-700">
-            Accesos asignados
+        <section className="rounded-lg border border-stone-300/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(239,246,255,0.95))] p-6 shadow-[0_20px_50px_rgba(15,47,91,0.08)]">
+          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
+            Access Overview
           </p>
           <div className="mt-5 grid gap-4 sm:grid-cols-2">
             {user.roles.map((role) => (
               <div
                 key={role.id}
-                className="rounded-[1.4rem] border border-stone-200/90 bg-white/80 px-4 py-4"
+                className="rounded-md border border-stone-200/90 bg-white/80 px-4 py-4"
               >
                 <div className="flex items-start gap-3">
-                  <div className="rounded-[1rem] bg-stone-950 p-2 text-amber-200">
+                  <div className="rounded-[1rem] bg-[var(--color-primary)] p-2 text-blue-100">
                     <ShieldCheck className="h-4 w-4" />
                   </div>
                   <div className="space-y-1">
                     <p className="text-sm font-semibold text-stone-950">{role.name}</p>
                     <p className="text-xs leading-5 text-stone-500">
-                      {role.description || "Sin descripcion registrada."}
+                      {role.description || "No description available."}
                     </p>
                   </div>
                 </div>
@@ -213,30 +213,30 @@ export function UserDetail({ userId }: UserDetailProps) {
           </div>
         </section>
 
-        <section className="nibol-panel p-6">
-          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-amber-700">
-            Metadatos del registro
+        <section className="rounded-lg border border-stone-300/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(239,246,255,0.95))] p-6 shadow-[0_20px_50px_rgba(15,47,91,0.08)]">
+          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
+            Record Metadata
           </p>
           <dl className="mt-5 space-y-4 text-sm">
-            <div className="rounded-[1.3rem] border border-stone-200/90 bg-white/80 px-4 py-4">
+            <div className="rounded-md border border-stone-200/90 bg-white/80 px-4 py-4">
               <dt className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-                Ultimo acceso
+                Last login
               </dt>
               <dd className="mt-2 font-medium text-stone-900">
                 {formatDate(user.lastLoginAt)}
               </dd>
             </div>
-            <div className="rounded-[1.3rem] border border-stone-200/90 bg-white/80 px-4 py-4">
+            <div className="rounded-md border border-stone-200/90 bg-white/80 px-4 py-4">
               <dt className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-                Creado
+                Created at
               </dt>
               <dd className="mt-2 font-medium text-stone-900">
                 {formatDate(user.createdAt)}
               </dd>
             </div>
-            <div className="rounded-[1.3rem] border border-stone-200/90 bg-white/80 px-4 py-4">
+            <div className="rounded-md border border-stone-200/90 bg-white/80 px-4 py-4">
               <dt className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-                Actualizado
+                Updated at
               </dt>
               <dd className="mt-2 font-medium text-stone-900">
                 {formatDate(user.updatedAt)}
@@ -246,29 +246,29 @@ export function UserDetail({ userId }: UserDetailProps) {
 
           <div className="mt-5 flex flex-wrap gap-3">
             <button
-              className="nibol-btn-secondary px-4 py-2.5 text-sm"
+              className="inline-flex items-center gap-2 rounded-md border border-stone-300 bg-white px-4 py-2.5 text-sm font-semibold text-stone-700 transition hover:border-stone-400 hover:text-stone-950"
               onClick={() => {
                 setPendingAction(user.isActive ? "disable" : "enable");
               }}
               type="button"
             >
               <Power className="h-4 w-4" />
-              {user.isActive ? "Deshabilitar usuario" : "Habilitar usuario"}
+              {user.isActive ? "Disable user" : "Enable user"}
             </button>
             <button
-              className="nibol-btn-primary px-4 py-2.5 text-sm text-white"
+              className="inline-flex items-center gap-2 rounded-md bg-[var(--color-error)] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-rose-800"
               onClick={() => {
                 setPendingAction("delete");
               }}
               type="button"
             >
               <Trash2 className="h-4 w-4" />
-              Eliminar usuario
+              Delete user
             </button>
           </div>
 
           {actionError ? (
-            <div className="mt-4 rounded-[1.5rem] border border-rose-200/80 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+            <div className="mt-4 rounded-lg border border-rose-200/80 bg-rose-50 px-4 py-3 text-sm text-rose-700">
               {actionError}
             </div>
           ) : null}
@@ -278,17 +278,17 @@ export function UserDetail({ userId }: UserDetailProps) {
       <ConfirmDialog
         confirmLabel={
           pendingAction === "delete"
-            ? "Eliminar usuario"
+            ? "Delete user"
             : pendingAction === "disable"
-              ? "Deshabilitar usuario"
-              : "Habilitar usuario"
+              ? "Disable user"
+              : "Enable user"
         }
         description={
           pendingAction === "delete"
-            ? `Se retirara ${user.name} de los registros activos. La trazabilidad permanecera intacta.`
+            ? `Soft-delete ${user.name} from active records. Their audit trail remains intact.`
             : pendingAction === "disable"
-              ? `${user.name} perdera el acceso operativo hasta ser rehabilitado.`
-              : `${user.name} recuperara el acceso operativo de inmediato.`
+              ? `${user.name} will lose active access until re-enabled.`
+              : `${user.name} will regain active access immediately.`
         }
         isLoading={deleteMutation.isPending || deactivateMutation.isPending}
         onConfirm={() => {
@@ -307,10 +307,10 @@ export function UserDetail({ userId }: UserDetailProps) {
         open={Boolean(pendingAction)}
         title={
           pendingAction === "delete"
-            ? "Eliminar este usuario?"
+            ? "Delete this user?"
             : pendingAction === "disable"
-              ? "Deshabilitar este usuario?"
-              : "Habilitar este usuario?"
+              ? "Disable this user?"
+              : "Enable this user?"
         }
         tone={pendingAction === "delete" ? "danger" : "default"}
       />

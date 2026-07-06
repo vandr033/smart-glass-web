@@ -1,39 +1,35 @@
 export const generatedPermissionResources = [
   {
-    key: "areas",
-    label: "Areas y gerencias",
-  },
-  {
-    key: "risk_levels",
-    label: "Niveles de riesgo",
-  },
-  {
-    key: "observation_statuses",
-    label: "Estados de observacion",
-  },
-  {
-    key: "system_parameters",
-    label: "Parametros generales",
-  },
-  {
-    key: "catalogs",
-    label: "Catalogos basicos",
+    key: "installations",
+    label: "Instalaciones",
   },
   {
     key: "products",
     label: "Productos",
   },
   {
-    key: "observations",
-    label: "Observaciones",
+    key: "production",
+    label: "Produccion",
   },
 ] as const;
 
 export const generatedSidebarItems = [
   {
+    icon: "Wrench",
+    label: "Instalaciones",
+    permission: "installations.view",
+    route: "/admin/installation",
+  },
+  {
     icon: "Package",
     label: "Productos",
     permission: "products.view",
     route: "/products",
+  },
+  {
+    icon: "Hammer",
+    label: "Produccion",
+    permission: "production.read",
+    route: "/production",
   },
 ];

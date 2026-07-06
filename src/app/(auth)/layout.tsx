@@ -13,7 +13,7 @@ export default async function AuthRouteLayout({
   const session = await getServerSession();
 
   if (session?.session) {
-    redirect("/");
+    redirect("/admin");
   }
 
   return <AuthLayout>{children}</AuthLayout>;

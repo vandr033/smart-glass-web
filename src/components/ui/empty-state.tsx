@@ -18,16 +18,16 @@ export function EmptyState({
   title,
 }: EmptyStateProps) {
   return (
-    <section className="border border-dashed border-[var(--border)] bg-[var(--surface)] px-6 py-10 text-center shadow-[var(--shadow-panel)] sm:px-10">
+    <section className="rounded-md border border-dashed border-[color:var(--color-border)] bg-[var(--color-surface)] px-6 py-8 text-center shadow-sm sm:px-8">
       <div className="mx-auto flex max-w-2xl flex-col items-center gap-5">
-        <div className="bg-[var(--primary)] p-4 text-white shadow-[var(--shadow-panel)]">
+        <div className="rounded-md border border-[color:var(--color-border)] bg-[var(--color-surface-muted)] p-3 text-[color:var(--color-primary)]">
           <Icon className="h-6 w-6" />
         </div>
         <div className="space-y-3">
-          <h2 className="font-display text-3xl font-bold uppercase leading-none tracking-[-0.03em] text-[var(--foreground)]">
+          <h2 className="font-[family:var(--font-display)] text-[1.6rem] font-semibold uppercase tracking-[0.04em] text-[color:var(--color-text)]">
             {title}
           </h2>
-          <p className="text-sm leading-7 text-[var(--foreground-soft)] sm:text-base">
+          <p className="text-sm leading-6 text-[color:var(--color-text-muted)]">
             {description}
           </p>
         </div>

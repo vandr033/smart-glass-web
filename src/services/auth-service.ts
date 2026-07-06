@@ -22,8 +22,8 @@ const authApi = axios.create({
   withCredentials: true,
 });
 
-const loginCallbackUrl = `/login?verified=1`;
-const resetCallbackUrl = `/reset-password`;
+const loginCallbackUrl = `${APP_CONFIG.appBaseUrl}/login?verified=1`;
+const resetCallbackUrl = `${APP_CONFIG.appBaseUrl}/reset-password`;
 
 const request = async <T>(promise: Promise<{ data: T }>): Promise<T> => {
   try {

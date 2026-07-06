@@ -9,16 +9,16 @@ type UserDetailPageProps = {
 };
 
 export default async function UserDetailPage({ params }: UserDetailPageProps) {
-  await requirePermission("users.view");
+  await requirePermission("system.users.read");
 
   const { userId } = await params;
 
   return (
     <main className="space-y-6">
       <PageHeader
-        description="Revise metadatos de la cuenta, roles asignados, estado y acciones de ciclo de vida desde el mismo modulo administrativo."
-        eyebrow="Ficha de usuario"
-        title="Detalle del usuario"
+        description="Review account metadata, role assignments, status, and lifecycle actions from the shared user management module."
+        eyebrow="User Record"
+        title="User Details"
       />
 
       <UserDetail userId={userId} />

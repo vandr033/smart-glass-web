@@ -2,15 +2,15 @@ import { z } from "zod";
 
 export const notificationTypeOptions = [
   {
-    label: "Informacion",
+    label: "Info",
     value: "info",
   },
   {
-    label: "Exito",
+    label: "Success",
     value: "success",
   },
   {
-    label: "Alerta",
+    label: "Warning",
     value: "warning",
   },
   {
@@ -23,11 +23,11 @@ export const notificationComposerSchema = z.object({
   message: z
     .string()
     .trim()
-    .min(1, "El mensaje es obligatorio.")
-    .max(10_000, "El mensaje es demasiado largo."),
-  title: z.string().trim().min(1, "El titulo es obligatorio.").max(191, "El titulo es demasiado largo."),
+    .min(1, "Message is required.")
+    .max(10_000, "Message is too long."),
+  title: z.string().trim().min(1, "Title is required.").max(191, "Title is too long."),
   type: z.enum(["info", "success", "warning", "error"]),
-  userId: z.string().uuid("Seleccione un destinatario."),
+  userId: z.string().uuid("Select a recipient."),
 });
 
 export type NotificationComposerValues = z.infer<typeof notificationComposerSchema>;

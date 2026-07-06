@@ -96,6 +96,7 @@ export interface DataTableConfig<TRow> {
   queryKey?: readonly unknown[];
   rowActions?: DataTableRowAction<TRow>[];
   searchPlaceholder?: string;
+  tableClassName?: string;
 }
 
 export interface DataTableQueryState {

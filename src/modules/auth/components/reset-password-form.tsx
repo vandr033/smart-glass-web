@@ -11,10 +11,12 @@ import {
   AuthInput,
   AuthLinkRow,
   AuthShell,
-  authPrimaryButtonClass,
 } from "@/modules/auth/components/auth-shell";
 import { type ResetPasswordValues, resetPasswordSchema } from "@/modules/auth/forms";
 import { authService } from "@/services/auth-service";
+
+const buttonClass =
+  "inline-flex w-full items-center justify-center rounded-md bg-[var(--color-primary)] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[var(--color-primary-hover)] disabled:cursor-not-allowed disabled:opacity-60";
 
 export function ResetPasswordForm() {
   const router = useRouter();
@@ -23,10 +25,10 @@ export function ResetPasswordForm() {
 
   const invalidMessage =
     searchParams.get("error") === "INVALID_TOKEN"
-      ? "El enlace de recuperacion es invalido o ya vencio. Solicite uno nuevo."
+      ? "This reset link is invalid or expired. Request a new one."
       : token
         ? null
-        : "Se requiere un token valido para definir una nueva contrasena.";
+        : "A valid reset token is required to set a new password.";
 
   const form = useForm<ResetPasswordValues>({
     defaultValues: {
@@ -56,9 +58,9 @@ export function ResetPasswordForm() {
 
   return (
     <AuthShell
-      description="Defina una nueva contrasena una vez que el token de recuperacion sea validado."
-      footer={<AuthLinkRow href="/login" label="Volver a su cuenta?" linkLabel="Iniciar sesion" />}
-      title="Nueva contrasena"
+      description="Choose a new password for your account once your reset token is validated."
+      footer={<AuthLinkRow href="/login" label="Back to your account?" linkLabel="Sign in" />}
+      title="Reset password"
     >
       {invalidMessage ? <AuthBanner tone="info">{invalidMessage}</AuthBanner> : null}
       {resetMutation.error ? (
@@ -69,30 +71,30 @@ export function ResetPasswordForm() {
         <AuthInput
           autoComplete="new-password"
           error={form.formState.errors.newPassword?.message}
-          label="Nueva contrasena"
-          placeholder="Defina una nueva contrasena"
+          label="New password"
+          placeholder="Create a new password"
           type="password"
           {...form.register("newPassword")}
         />
         <AuthInput
           autoComplete="new-password"
           error={form.formState.errors.confirmPassword?.message}
-          label="Confirmar contrasena"
-          placeholder="Repita la nueva contrasena"
+          label="Confirm password"
+          placeholder="Repeat the new password"
           type="password"
           {...form.register("confirmPassword")}
         />
 
-        <button className={authPrimaryButtonClass} disabled={!token || resetMutation.isPending} type="submit">
-          {resetMutation.isPending ? "Actualizando..." : "Guardar contrasena"}
+        <button className={buttonClass} disabled={!token || resetMutation.isPending} type="submit">
+          {resetMutation.isPending ? "Updating password..." : "Set new password"}
         </button>
       </form>
 
       {invalidMessage ? (
-        <div className="border border-[var(--border)] bg-[var(--surface-soft)] px-4 py-3 text-sm text-[var(--foreground-soft)]">
-          Necesita un nuevo enlace?{" "}
-          <Link className="font-semibold text-[var(--foreground)] hover:text-[var(--accent)]" href="/forgot-password">
-            Solicitar otro correo
+        <div className="rounded-md border border-stone-200 bg-stone-50/80 px-4 py-3 text-sm text-stone-600">
+          Need a new link?{" "}
+          <Link className="font-semibold text-stone-950 hover:text-[color:var(--color-primary)]" href="/forgot-password">
+            Request another reset email
           </Link>
           .
         </div>

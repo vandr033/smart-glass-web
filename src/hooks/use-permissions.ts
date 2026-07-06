@@ -15,6 +15,7 @@ export const usePermissions = () => {
   return {
     ...query,
     isAdmin: query.data?.isAdmin ?? false,
+    isSuperAdmin: query.data?.isSuperAdmin ?? false,
     permissions: query.data?.permissions ?? [],
     roles: query.data?.roles ?? [],
   };

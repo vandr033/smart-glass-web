@@ -6,6 +6,7 @@ import { Eye, Pencil, Trash2 } from "lucide-react";
 
 import { DataTable, type DataTableConfig } from "@/components/data-table";
 import { usePermissions } from "@/hooks/use-permissions";
+import { getRoleDescription } from "@/modules/roles/localization";
 import { roleService } from "@/services/role-service";
 import type { RoleTableRow } from "@/types";
 
@@ -21,13 +22,13 @@ const roleColumns: ColumnDef<RoleTableRow>[] = [
         <div className="flex flex-wrap items-center gap-2">
           <p className="font-semibold text-stone-950">{row.original.name}</p>
           {row.original.isAdmin ? (
-            <span className="nibol-badge nibol-badge-primary">
+            <span className="rounded-full bg-blue-100 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-blue-900">
               Protegido
             </span>
           ) : null}
         </div>
         <p className="text-sm leading-6 text-stone-600">
-          {row.original.description || "Sin descripcion registrada."}
+          {getRoleDescription(row.original.name, row.original.description)}
         </p>
       </div>
     ),
@@ -37,7 +38,7 @@ const roleColumns: ColumnDef<RoleTableRow>[] = [
     accessorKey: "description",
     cell: ({ row }) => (
       <span className="text-stone-700">
-        {row.original.description || "Sin descripcion registrada."}
+        {getRoleDescription(row.original.name, row.original.description)}
       </span>
     ),
     enableSorting: false,
@@ -63,8 +64,8 @@ const roleColumns: ColumnDef<RoleTableRow>[] = [
 
 export function RoleTable() {
   const { permissions } = usePermissions();
-  const canEdit = permissions.includes("roles.edit");
-  const canDelete = permissions.includes("roles.delete");
+  const canEdit = permissions.includes("system.roles.update");
+  const canDelete = permissions.includes("system.roles.update");
 
   const roleTableConfig: DataTableConfig<RoleTableRow> = {
     columns: roleColumns,
@@ -74,8 +75,8 @@ export function RoleTable() {
     },
     emptyState: {
       description:
-        "Pruebe ampliar la busqueda o crear un rol para asignar permisos desde esta vista.",
-      title: "No hay roles para esta vista",
+        "Prueba ampliando la busqueda o crea un rol para asignar su matriz de permisos aqui.",
+      title: "No hay roles para la vista actual",
     },
     enableSelection: false,
     getRowId: (row) => row.id,
@@ -100,8 +101,8 @@ export function RoleTable() {
         confirmation: {
           confirmLabel: "Eliminar rol",
           description: (rows) =>
-            `Eliminar ${rows[0]?.name ?? "este rol"} y retirar sus asignaciones de acceso activas?`,
-          title: "Eliminar rol?",
+            `Eliminar ${rows[0]?.name ?? "este rol"} y retirar sus asignaciones actuales de acceso?`,
+          title: "¿Eliminar este rol?",
           tone: "danger",
         },
         disabled: (row) => row.isAdmin,

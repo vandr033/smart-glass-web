@@ -18,7 +18,8 @@ import { notificationService } from "@/services/notification-service";
 import { userService } from "@/services/user-service";
 import { getApiErrorMessage } from "@/utils";
 
-const panelClassName = "nibol-panel p-6";
+const panelClassName =
+  "rounded-lg border border-stone-300/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(239,246,255,0.95))] p-6 shadow-[0_20px_50px_rgba(15,47,91,0.08)]";
 
 export function NotificationComposer() {
   const queryClient = useQueryClient();
@@ -51,7 +52,7 @@ export function NotificationComposer() {
         userId: "",
       });
       setSubmitError(null);
-      setSubmitMessage("Notificacion enviada.");
+      setSubmitMessage("Notification created.");
       await queryClient.invalidateQueries({
         queryKey: QUERY_KEYS.notifications,
       });
@@ -65,8 +66,8 @@ export function NotificationComposer() {
   if (recipientsQuery.isError) {
     return (
       <ErrorState
-        description="El formulario necesita la lista de destinatarios antes de poder enviar una notificacion."
-        title="No fue posible cargar los destinatarios"
+        description="The notification composer needs recipient options before it can send a message."
+        title="Unable to load notification recipients"
       />
     );
   }
@@ -76,16 +77,17 @@ export function NotificationComposer() {
   return (
     <section className={panelClassName}>
       <div className="flex items-start gap-4">
-        <div className="flex h-11 w-11 items-center justify-center rounded-[1.3rem] border border-stone-200/80 bg-white/85 text-stone-700 shadow-[0_12px_30px_rgba(80,58,29,0.08)]">
+        <div className="flex h-11 w-11 items-center justify-center rounded-md border border-stone-200/80 bg-white/85 text-stone-700 shadow-[0_12px_30px_rgba(15,47,91,0.08)]">
           <BellRing className="h-5 w-5" />
         </div>
 
         <div className="space-y-2">
           <h2 className="text-xl font-semibold tracking-tight text-stone-950">
-            Enviar notificacion
+            Create notification
           </h2>
           <p className="text-sm leading-7 text-stone-700">
-            Envie una alerta interna reutilizable desde el mismo flujo que luego podra extenderse a correo, SMS o WhatsApp.
+            Send a reusable in-app notification now. This API is the same foundation
+            future email, SMS, and WhatsApp channels can build on.
           </p>
         </div>
       </div>
@@ -98,13 +100,13 @@ export function NotificationComposer() {
       >
         <div className="grid gap-5">
           <label className="space-y-2">
-            <span className="text-sm font-semibold text-stone-800">Destinatario</span>
+            <span className="text-sm font-semibold text-stone-800">Recipient</span>
             <select
-              className="nibol-field"
+              className="h-12 w-full rounded-md border border-stone-300/80 bg-white px-4 text-sm text-stone-900 outline-none transition focus:border-[color:var(--color-primary)] focus:ring-2 focus:ring-blue-200"
               {...form.register("userId")}
               disabled={createMutation.isPending || recipientsQuery.isLoading}
             >
-              <option value="">Seleccione un usuario</option>
+              <option value="">Select a user</option>
               {recipients.map((user) => (
                 <option key={user.id} value={user.id}>
                   {user.name} ({user.email})
@@ -118,10 +120,10 @@ export function NotificationComposer() {
 
           <div className="grid gap-5 md:grid-cols-[1fr_12rem]">
             <label className="space-y-2">
-              <span className="text-sm font-semibold text-stone-800">Titulo</span>
+              <span className="text-sm font-semibold text-stone-800">Title</span>
               <input
-                className="nibol-field"
-                placeholder="Cambio de rol"
+                className="h-12 w-full rounded-md border border-stone-300/80 bg-white px-4 text-sm text-stone-900 outline-none transition focus:border-[color:var(--color-primary)] focus:ring-2 focus:ring-blue-200"
+                placeholder="Role changed"
                 {...form.register("title")}
                 disabled={createMutation.isPending}
                 type="text"
@@ -132,9 +134,9 @@ export function NotificationComposer() {
             </label>
 
             <label className="space-y-2">
-              <span className="text-sm font-semibold text-stone-800">Tipo</span>
+              <span className="text-sm font-semibold text-stone-800">Type</span>
               <select
-                className="nibol-field"
+                className="h-12 w-full rounded-md border border-stone-300/80 bg-white px-4 text-sm text-stone-900 outline-none transition focus:border-[color:var(--color-primary)] focus:ring-2 focus:ring-blue-200"
                 {...form.register("type")}
                 disabled={createMutation.isPending}
               >
@@ -151,10 +153,10 @@ export function NotificationComposer() {
           </div>
 
           <label className="space-y-2">
-            <span className="text-sm font-semibold text-stone-800">Mensaje</span>
+            <span className="text-sm font-semibold text-stone-800">Message</span>
             <textarea
-              className="nibol-field min-h-36 h-auto py-3"
-              placeholder="Describa lo ocurrido y el siguiente paso esperado para el usuario."
+              className="min-h-36 w-full rounded-lg border border-stone-300/80 bg-white px-4 py-3 text-sm text-stone-900 outline-none transition focus:border-[color:var(--color-primary)] focus:ring-2 focus:ring-blue-200"
+              placeholder="Describe what happened and what the user should know next."
               {...form.register("message")}
               disabled={createMutation.isPending}
             />
@@ -167,24 +169,24 @@ export function NotificationComposer() {
         </div>
 
         {submitMessage ? (
-          <p className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-700">
+          <p className="rounded-md border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-700">
             {submitMessage}
           </p>
         ) : null}
 
         {submitError ? (
-          <p className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-medium text-rose-700">
+          <p className="rounded-md border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-medium text-rose-700">
             {submitError}
           </p>
         ) : null}
 
         <button
-          className="nibol-btn-primary disabled:cursor-not-allowed disabled:opacity-60"
+          className="inline-flex items-center gap-2 rounded-md bg-[var(--color-primary)] px-4 py-3 text-sm font-semibold text-[color:var(--color-primary-contrast)] transition hover:bg-[var(--color-primary-hover)] disabled:cursor-not-allowed disabled:opacity-60"
           disabled={createMutation.isPending || recipients.length === 0}
           type="submit"
         >
           <Send className="h-4 w-4" />
-          {createMutation.isPending ? "Enviando..." : "Enviar notificacion"}
+          {createMutation.isPending ? "Sending..." : "Create notification"}
         </button>
       </form>
     </section>

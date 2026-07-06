@@ -20,7 +20,7 @@ type LogoutButtonProps = {
 };
 
 export function LogoutButton({
-  children = "Sign out",
+  children = "Cerrar sesión",
   className,
   onLoggedOut,
   variant = "button",
@@ -53,7 +53,7 @@ export function LogoutButton({
         className={cn(
           variant === "menu"
             ? "text-left"
-            : "nibol-btn-secondary",
+            : "inline-flex items-center gap-2 rounded-md border border-stone-200 bg-white px-4 py-2 text-sm font-semibold text-stone-700 transition hover:border-stone-300 hover:text-stone-950",
           "disabled:cursor-not-allowed disabled:opacity-60",
           className,
         )}
@@ -68,15 +68,15 @@ export function LogoutButton({
       </button>
 
       <ConfirmDialog
-        confirmLabel="Cerrar sesion"
-        description="Tendra que volver a ingresar para acceder a las areas protegidas de la aplicacion."
+        confirmLabel="Cerrar sesión"
+        description="Deberás iniciar sesión nuevamente para acceder a las áreas protegidas del sistema."
         isLoading={logoutMutation.isPending}
         onConfirm={() => {
           logoutMutation.mutate();
         }}
         onOpenChange={setConfirmOpen}
         open={confirmOpen}
-        title="Desea cerrar esta sesion?"
+        title="¿Cerrar esta sesión?"
       />
     </>
   );

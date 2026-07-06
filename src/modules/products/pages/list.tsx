@@ -20,16 +20,16 @@ export default function ProductsListPage({
         actions={
           canCreate ? (
             <Link
-              className="nibol-btn-primary"
+              className="inline-flex items-center rounded-md bg-[var(--color-primary)] px-4 py-3 text-sm font-semibold text-[color:var(--color-primary-contrast)] transition hover:bg-[var(--color-primary-hover)]"
               href={PRODUCTS_ROUTES.create}
             >
-              Nuevo producto
+              Create product
             </Link>
           ) : null
         }
-        description="Administre el catalogo de productos con busqueda, filtros, paginacion y acciones reutilizables."
-        eyebrow="Catalogo"
-        title="Productos"
+        description="Manage products with the shared DataTable foundation, including search, filters, pagination, and row actions."
+        eyebrow="Directory"
+        title="Products"
       />
 
       <ProductTable />

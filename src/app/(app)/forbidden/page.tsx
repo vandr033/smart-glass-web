@@ -13,18 +13,18 @@ export default function ForbiddenPage() {
     <ErrorState
       action={
         <Link
-          className="inline-flex items-center justify-center rounded-2xl bg-stone-950 px-4 py-3 text-sm font-semibold text-white transition hover:bg-stone-800"
-          href="/"
+          className="inline-flex items-center justify-center rounded-md bg-[var(--color-primary)] px-4 py-3 text-sm font-semibold text-[color:var(--color-primary-contrast)] transition hover:bg-[var(--color-primary-hover)]"
+          href="/admin"
         >
-          Return to dashboard
+          Volver al panel principal
         </Link>
       }
       description={
         missingPermission
-          ? `Missing permission: ${missingPermission}.`
-          : "Your account is authenticated, but this route is outside your assigned access."
+          ? `No tienes permiso para ver esta página. Permiso faltante: ${missingPermission}.`
+          : "No tienes permiso para ver esta página. Tu cuenta está autenticada, pero esta ruta está fuera de los accesos asignados."
       }
-      title="You do not have permission to view this page"
+      title="SIN ACCESO"
     />
   );
 }

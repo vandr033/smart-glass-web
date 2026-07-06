@@ -9,15 +9,15 @@ type EditRolePageProps = {
 };
 
 export default async function EditRolePage({ params }: EditRolePageProps) {
-  await requirePermission("roles.edit");
+  await requirePermission("system.roles.update");
 
   const { roleId } = await params;
 
   return (
     <main className="space-y-6">
       <PageHeader
-        description="Actualice el perfil del rol y su matriz de permisos respetando las reglas de proteccion para accesos criticos."
-        eyebrow="Roles"
+        description="Actualiza el perfil del rol y su matriz de permisos manteniendo las reglas de seguridad administrativas."
+        eyebrow="Editar rol"
         title="Editar rol"
       />
 

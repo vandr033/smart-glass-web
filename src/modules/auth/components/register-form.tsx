@@ -10,10 +10,12 @@ import {
   AuthInput,
   AuthLinkRow,
   AuthShell,
-  authPrimaryButtonClass,
 } from "@/modules/auth/components/auth-shell";
 import { type RegisterValues, registerSchema } from "@/modules/auth/forms";
 import { authService } from "@/services/auth-service";
+
+const buttonClass =
+  "inline-flex w-full items-center justify-center rounded-md bg-[var(--color-primary)] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[var(--color-primary-hover)] disabled:cursor-not-allowed disabled:opacity-60";
 
 export function RegisterForm() {
   const [submittedEmail, setSubmittedEmail] = useState<string | null>(null);
@@ -45,13 +47,13 @@ export function RegisterForm() {
 
   return (
     <AuthShell
-      description="Cree una cuenta de acceso con correo y contrasena. Se enviara una verificacion antes de habilitar el ingreso."
-      footer={<AuthLinkRow href="/login" label="Ya tiene una cuenta?" linkLabel="Iniciar sesion" />}
-      title="Registrar acceso"
+      description="Create an email and password account. We’ll send a verification link before sign-in is allowed."
+      footer={<AuthLinkRow href="/login" label="Already have an account?" linkLabel="Sign in" />}
+      title="Create your account"
     >
       {submittedEmail ? (
         <AuthBanner tone="success">
-          Verificacion enviada a {submittedEmail}. Abra el correo para activar su cuenta.
+          Verification sent to {submittedEmail}. Open the email to activate your account.
         </AuthBanner>
       ) : null}
       {registerMutation.error ? (
@@ -62,8 +64,8 @@ export function RegisterForm() {
         <AuthInput
           autoComplete="name"
           error={form.formState.errors.name?.message}
-          label="Nombre completo"
-          placeholder="Administrador del sistema"
+          label="Full name"
+          placeholder="System Administrator"
           type="text"
           {...form.register("name")}
         />
@@ -71,21 +73,21 @@ export function RegisterForm() {
           autoComplete="email"
           error={form.formState.errors.email?.message}
           label="Email"
-          placeholder="usuario@nibol.com.bo"
+          placeholder="you@company.com"
           type="email"
           {...form.register("email")}
         />
         <AuthInput
           autoComplete="new-password"
           error={form.formState.errors.password?.message}
-          label="Contrasena"
-          placeholder="Defina una contrasena segura"
+          label="Password"
+          placeholder="Create a strong password"
           type="password"
           {...form.register("password")}
         />
 
-        <button className={authPrimaryButtonClass} disabled={registerMutation.isPending} type="submit">
-          {registerMutation.isPending ? "Creando cuenta..." : "Registrar"}
+        <button className={buttonClass} disabled={registerMutation.isPending} type="submit">
+          {registerMutation.isPending ? "Creating account..." : "Register"}
         </button>
       </form>
     </AuthShell>

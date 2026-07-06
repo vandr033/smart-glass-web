@@ -15,7 +15,7 @@ type ProductViewPageProps = {
 };
 
 const sectionClassName =
-  "nibol-panel p-6";
+  "rounded-lg border border-stone-300/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(239,246,255,0.95))] p-6 shadow-[0_20px_50px_rgba(15,47,91,0.08)]";
 
 export default function ProductViewPage({
   productId,
@@ -28,17 +28,17 @@ export default function ProductViewPage({
       <ErrorState
         action={
           <button
-            className="nibol-btn-secondary px-4 py-2 text-sm"
+            className="inline-flex items-center gap-2 rounded-md border border-stone-300 bg-white px-4 py-2 text-sm font-semibold text-stone-700 transition hover:border-stone-400 hover:text-stone-950"
             onClick={() => {
               void productQuery.refetch();
             }}
             type="button"
           >
-            Reintentar
+            Retry
           </button>
         }
         description={productQuery.error.message}
-        title="No fue posible cargar el producto"
+        title="Product details could not be loaded"
       />
     );
   }
@@ -46,7 +46,7 @@ export default function ProductViewPage({
   if (productQuery.isLoading || !productQuery.data) {
     return (
       <section className={sectionClassName}>
-        <p className="text-sm text-stone-500">Cargando detalle del producto...</p>
+        <p className="text-sm text-stone-500">Loading product details...</p>
       </section>
     );
   }
@@ -58,50 +58,50 @@ export default function ProductViewPage({
       <PageHeader
         actions={
           <Link
-            className="nibol-btn-primary"
+            className="inline-flex items-center rounded-md bg-[var(--color-primary)] px-4 py-3 text-sm font-semibold text-[color:var(--color-primary-contrast)] transition hover:bg-[var(--color-primary-hover)]"
             href={PRODUCTS_ROUTES.edit(record.id)}
           >
-            Editar producto
+            Edit product
           </Link>
         }
-        description="Revise la informacion maestra del producto dentro del mismo entorno administrativo con control de permisos."
-        eyebrow="Ficha de producto"
-        title="Detalle del producto"
+        description="Review product metadata from the shared module scaffold without leaving the permission-aware admin workspace."
+        eyebrow="Product Record"
+        title="Product Details"
       />
 
       <section className={sectionClassName}>
         <dl className="grid gap-6 sm:grid-cols-2">
           <div className="space-y-2">
             <dt className="text-xs font-semibold uppercase tracking-[0.24em] text-stone-500">
-              Nombre
+              Name
             </dt>
             <dd className="text-lg font-semibold text-stone-950">{record.name}</dd>
           </div>
           <div className="space-y-2">
             <dt className="text-xs font-semibold uppercase tracking-[0.24em] text-stone-500">
-              Estado
+              Status
             </dt>
             <dd className="text-sm text-stone-700">
-              {record.isActive ? "Activo" : "Inactivo"}
+              {record.isActive ? "Active" : "Inactive"}
             </dd>
           </div>
           <div className="space-y-2 sm:col-span-2">
             <dt className="text-xs font-semibold uppercase tracking-[0.24em] text-stone-500">
-              Descripcion
+              Description
             </dt>
             <dd className="text-sm leading-7 text-stone-700">
-              {record.description || "Sin descripcion registrada."}
+              {record.description || "No description provided."}
             </dd>
           </div>
           <div className="space-y-2">
             <dt className="text-xs font-semibold uppercase tracking-[0.24em] text-stone-500">
-              Creado
+              Created
             </dt>
             <dd className="text-sm text-stone-700">{record.createdAt}</dd>
           </div>
           <div className="space-y-2">
             <dt className="text-xs font-semibold uppercase tracking-[0.24em] text-stone-500">
-              Actualizado
+              Updated
             </dt>
             <dd className="text-sm text-stone-700">{record.updatedAt}</dd>
           </div>

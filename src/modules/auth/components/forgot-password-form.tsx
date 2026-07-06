@@ -10,13 +10,15 @@ import {
   AuthInput,
   AuthLinkRow,
   AuthShell,
-  authPrimaryButtonClass,
 } from "@/modules/auth/components/auth-shell";
 import {
   type ForgotPasswordValues,
   forgotPasswordSchema,
 } from "@/modules/auth/forms";
 import { authService } from "@/services/auth-service";
+
+const buttonClass =
+  "inline-flex w-full items-center justify-center rounded-md bg-[var(--color-primary)] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[var(--color-primary-hover)] disabled:cursor-not-allowed disabled:opacity-60";
 
 export function ForgotPasswordForm() {
   const [submittedEmail, setSubmittedEmail] = useState<string | null>(null);
@@ -41,13 +43,13 @@ export function ForgotPasswordForm() {
 
   return (
     <AuthShell
-      description="Enviaremos un enlace seguro si la direccion existe dentro del sistema."
-      footer={<AuthLinkRow href="/login" label="Recordo su contrasena?" linkLabel="Volver al acceso" />}
-      title="Recuperar acceso"
+      description="We’ll send a secure reset link if the address exists in the system."
+      footer={<AuthLinkRow href="/login" label="Remembered your password?" linkLabel="Back to sign in" />}
+      title="Forgot your password?"
     >
       {submittedEmail ? (
         <AuthBanner tone="success">
-          Si {submittedEmail} existe en el sistema, enviamos un enlace de recuperacion.
+          If {submittedEmail} exists in the system, a reset link has been sent.
         </AuthBanner>
       ) : null}
       {forgotPasswordMutation.error ? (
@@ -59,17 +61,17 @@ export function ForgotPasswordForm() {
           autoComplete="email"
           error={form.formState.errors.email?.message}
           label="Email"
-          placeholder="usuario@nibol.com.bo"
+          placeholder="you@company.com"
           type="email"
           {...form.register("email")}
         />
 
         <button
-          className={authPrimaryButtonClass}
+          className={buttonClass}
           disabled={forgotPasswordMutation.isPending}
           type="submit"
         >
-          {forgotPasswordMutation.isPending ? "Enviando..." : "Enviar enlace"}
+          {forgotPasswordMutation.isPending ? "Sending link..." : "Send reset link"}
         </button>
       </form>
     </AuthShell>

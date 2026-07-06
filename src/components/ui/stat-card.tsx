@@ -27,41 +27,36 @@ export function StatCard({
   const content = (
     <article
       className={cn(
-        "group relative overflow-hidden border px-5 py-5 transition duration-200",
+        "group rounded-md border px-4 py-4 shadow-sm transition duration-200",
         tone === "accent"
-          ? "border-[var(--primary)] bg-[var(--primary)] text-white shadow-[var(--shadow-panel-strong)]"
-          : "border-[var(--border)] bg-[var(--surface)] text-[var(--foreground)] shadow-[var(--shadow-panel)]",
+          ? "border-[rgba(15,91,215,0.24)] bg-[linear-gradient(180deg,var(--color-surface)_0%,#f4f8ff_100%)] text-[color:var(--color-text)]"
+          : "border-[color:var(--color-border)] bg-[var(--color-surface)] text-[color:var(--color-text)]",
       )}
     >
-      <div className="flex items-start justify-between gap-4">
-        <div className="space-y-4">
-          <p
-            className={cn(
-              "font-display text-xs font-bold uppercase tracking-[0.24em]",
-              tone === "accent" ? "text-slate-200" : "text-[var(--primary)]",
-            )}
-          >
-            {label}
-          </p>
-          <div className="space-y-2">
-            <p className="text-3xl font-semibold tracking-tight">{value}</p>
-            <p
-              className={cn(
-                "max-w-[28ch] text-sm leading-6",
-                tone === "accent" ? "text-slate-300" : "text-[var(--foreground-soft)]",
-              )}
-            >
-              {description}
+      <div className="flex items-start justify-between gap-3">
+        <div className="space-y-3">
+          <div className="flex items-center gap-2">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[color:var(--color-text-muted)]">
+              {label}
             </p>
+            {tone === "accent" ? (
+              <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-accent)]" />
+            ) : null}
           </div>
+          <p className="font-[family:var(--font-display)] text-[2.2rem] font-semibold uppercase tracking-[0.04em] text-[color:var(--color-text)]">
+            {value}
+          </p>
+          <p className="max-w-[28ch] text-sm leading-6 text-[color:var(--color-text-muted)]">
+            {description}
+          </p>
         </div>
 
         <div
           className={cn(
-            "p-3",
+            "rounded-md border p-2.5",
             tone === "accent"
-              ? "bg-white/10 text-white"
-              : "bg-[var(--primary-soft)] text-[var(--primary)]",
+              ? "border-[rgba(15,91,215,0.16)] bg-[var(--color-primary-soft)] text-[color:var(--color-primary-soft-text)]"
+              : "border-[color:var(--color-border)] bg-[var(--color-surface-muted)] text-[color:var(--color-primary)]",
           )}
         >
           <Icon className="h-5 w-5" />
@@ -71,13 +66,10 @@ export function StatCard({
       {href ? (
         <div
           className={cn(
-            "mt-6 inline-flex items-center gap-2 text-sm font-semibold",
-            tone === "accent"
-              ? "text-white"
-              : "text-[var(--foreground)]",
+            "mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[color:var(--color-primary-soft-text)]",
           )}
         >
-          Ver modulo
+          Abrir modulo
           <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
         </div>
       ) : null}
@@ -97,13 +89,13 @@ export function StatCard({
 
 export function StatCardSkeleton() {
   return (
-    <div className="overflow-hidden border border-[var(--border)] bg-[var(--surface)] p-5 shadow-[var(--shadow-panel)]">
-      <div className="animate-pulse space-y-4">
-        <div className="h-3 w-20 bg-[var(--border)]" />
-        <div className="h-8 w-24 bg-[var(--border)]" />
+    <div className="overflow-hidden rounded-md border border-[color:var(--color-border)] bg-[var(--color-surface)] p-4 shadow-sm">
+      <div className="animate-pulse space-y-3">
+        <div className="h-2.5 w-24 rounded-md bg-[var(--color-surface-strong)]" />
+        <div className="h-10 w-28 rounded-md bg-[var(--color-surface-strong)]" />
         <div className="space-y-2">
-          <div className="h-3 w-full bg-[var(--border)]" />
-          <div className="h-3 w-3/4 bg-[var(--border)]" />
+          <div className="h-3 w-full rounded-md bg-[var(--color-surface-strong)]" />
+          <div className="h-3 w-3/4 rounded-md bg-[var(--color-surface-strong)]" />
         </div>
       </div>
     </div>

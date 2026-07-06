@@ -8,7 +8,7 @@ export default async function ProfilePage() {
   return (
     <main className="space-y-6">
       <PageHeader
-        description="Administre su perfil personal, credenciales y avatar dentro del shell administrativo compartido."
+        description="Maneja la informacion de tu cuenta, incluyendo tu nombre, correo electronico y contraseña."
         eyebrow="Cuenta"
         title="Perfil"
       />

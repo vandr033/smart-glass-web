@@ -13,8 +13,9 @@ export const APP_CONFIG = {
   appBaseUrl: (process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000").replace(/\/$/, ""),
   authBaseUrl,
   backendBaseUrl: backendBase,
-  name: "NIBOL | Sistema de Seguimiento de Riesgos",
-  description: "Plataforma corporativa para seguimiento, control y gobierno operativo.",
+  name: "Smart Glass Bolivia ERP",
+  description:
+    "ERP industrial para operaciones comerciales, compras, produccion e inventario.",
   apiBaseUrl,
   apiTimeoutMs: 10000,
 } as const;
@@ -27,32 +28,18 @@ export const DEFAULT_PAGINATION = {
 export const QUERY_KEYS = {
   authSession: ["auth", "session"] as const,
   authorization: ["authorization", "me"] as const,
+  currentUser: ["me"] as const,
   health: ["health"] as const,
+  modules: ["modules"] as const,
+  permissionCatalog: ["permissions", "catalog"] as const,
   profile: ["profile"] as const,
   settings: ["settings"] as const,
+  systemSettings: ["system-settings"] as const,
   notifications: ["notifications"] as const,
   invitationPreview: (token: string) => ["invitations", "preview", token] as const,
   invitations: ["invitations"] as const,
   activityLogUsers: ["activity-logs", "users"] as const,
   auditLogUsers: ["audit-logs", "users"] as const,
-  configurationBootstrap: ["configuration", "bootstrap"] as const,
-  observationOptions: ["observations", "options"] as const,
-  observationDetails: (observationId: string) =>
-    ["observations", "detail", observationId] as const,
-  observations: ["observations"] as const,
-  observationComments: (observationId: string) =>
-    ["observations", "comments", observationId] as const,
-  observationEvidences: (observationId: string) =>
-    ["observations", "evidences", observationId] as const,
-  observationProgressWorkspace: (observationId: string) =>
-    ["observations", "progress-workspace", observationId] as const,
-  remediationWorkspace: (observationId: string, areaId?: string) =>
-    ["remediation", "workspace", observationId, areaId ?? "default"] as const,
-  remediationPlanCommitments: (planId: string) =>
-    ["remediation", "plan-commitments", planId] as const,
-  remediationPlans: ["remediation-plans"] as const,
-  progressUpdates: ["progress-updates"] as const,
-  commitmentSchedule: ["commitment-schedule"] as const,
   roleDetails: (roleId: string) => ["roles", "detail", roleId] as const,
   roleOptions: ["roles", "options"] as const,
   userOptions: ["users", "options"] as const,

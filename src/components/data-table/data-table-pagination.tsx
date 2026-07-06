@@ -53,18 +53,18 @@ export function DataTablePagination({
   const visiblePages = getVisiblePages(currentPage, pageCount);
 
   return (
-    <div className="nibol-panel flex flex-col gap-4 px-4 py-4 lg:flex-row lg:items-center lg:justify-between">
+    <div className="flex flex-col gap-4 rounded-md border border-[color:var(--color-border)] bg-white px-4 py-4 shadow-sm lg:flex-row lg:items-center lg:justify-between">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
-        <p className="text-sm text-[var(--foreground-soft)]">
-          Mostrando <span className="font-semibold text-[var(--foreground)]">{start}</span> a{" "}
-          <span className="font-semibold text-[var(--foreground)]">{end}</span> de{" "}
-          <span className="font-semibold text-[var(--foreground)]">{total}</span> registros
+        <p className="text-sm text-stone-700">
+          Mostrando <span className="font-semibold text-stone-950">{start}</span> a{" "}
+          <span className="font-semibold text-stone-950">{end}</span> de{" "}
+          <span className="font-semibold text-stone-950">{total}</span> registros
         </p>
 
-        <label className="inline-flex items-center gap-3 text-sm text-[var(--foreground-soft)]">
+        <label className="inline-flex items-center gap-3 text-sm text-stone-700">
           Filas por pagina
           <select
-            className="nibol-field h-10 px-3 text-sm"
+            className="h-9 rounded-md border border-[color:var(--color-border)] bg-white px-3 text-sm text-stone-900 outline-none transition focus:border-[color:var(--color-primary)] focus:ring-2 focus:ring-[color:var(--color-primary-soft)]"
             disabled={isLoading}
             onChange={(event) => {
               onPageSizeChange(Number(event.target.value));
@@ -82,7 +82,7 @@ export function DataTablePagination({
 
       <div className="flex flex-wrap items-center gap-2">
         <button
-          className="nibol-btn-secondary h-10 px-4 text-sm disabled:cursor-not-allowed disabled:opacity-50"
+          className="inline-flex h-9 items-center gap-2 rounded-md border border-[color:var(--color-border)] bg-white px-3.5 text-sm font-semibold text-stone-700 transition hover:border-[color:var(--color-border-strong)] hover:text-stone-950 disabled:cursor-not-allowed disabled:opacity-50"
           disabled={currentPage <= 1 || isLoading}
           onClick={() => {
             onPageChange(currentPage - 1);
@@ -102,14 +102,14 @@ export function DataTablePagination({
             return (
               <div key={visiblePage} className="flex items-center gap-2">
                 {shouldRenderGap ? (
-                  <span className="px-1 text-sm text-[var(--muted)]">…</span>
+                  <span className="px-1 text-sm text-stone-500">…</span>
                 ) : null}
                 <button
                   className={cn(
-                    "inline-flex h-10 w-10 items-center justify-center border text-sm font-semibold transition",
+                    "inline-flex h-9 w-9 items-center justify-center rounded-md border text-sm font-semibold transition",
                     visiblePage === currentPage
-                      ? "border-[var(--primary)] bg-[var(--primary)] text-white"
-                      : "border-[var(--border)] bg-white text-[var(--foreground)] hover:border-[var(--primary)]",
+                      ? "border-[color:var(--color-primary)] bg-[var(--color-primary)] text-[color:var(--color-primary-contrast)]"
+                      : "border-[color:var(--color-border)] bg-white text-stone-700 hover:border-[color:var(--color-border-strong)] hover:text-stone-950",
                   )}
                   disabled={isLoading}
                   onClick={() => {
@@ -125,7 +125,7 @@ export function DataTablePagination({
         </div>
 
         <button
-          className="nibol-btn-secondary h-10 px-4 text-sm disabled:cursor-not-allowed disabled:opacity-50"
+          className="inline-flex h-9 items-center gap-2 rounded-md border border-[color:var(--color-border)] bg-white px-3.5 text-sm font-semibold text-stone-700 transition hover:border-[color:var(--color-border-strong)] hover:text-stone-950 disabled:cursor-not-allowed disabled:opacity-50"
           disabled={currentPage >= pageCount || isLoading}
           onClick={() => {
             onPageChange(currentPage + 1);

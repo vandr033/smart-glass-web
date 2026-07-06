@@ -1,9 +1,5 @@
 import type { Metadata } from "next";
-import {
-  Barlow_Semi_Condensed,
-  Geist_Mono,
-  Manrope,
-} from "next/font/google";
+import { Barlow_Semi_Condensed, Geist_Mono, Manrope, Rajdhani } from "next/font/google";
 
 import { APP_CONFIG } from "@/lib/constants";
 import { QueryProvider } from "@/providers/query-provider";
@@ -11,13 +7,19 @@ import { QueryProvider } from "@/providers/query-provider";
 import "./globals.css";
 
 const manrope = Manrope({
-  variable: "--font-manrope",
   subsets: ["latin"],
+  variable: "--font-manrope",
+});
+
+const rajdhani = Rajdhani({
+  subsets: ["latin"],
+  variable: "--font-rajdhani",
+  weight: ["500", "600", "700"],
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
   subsets: ["latin"],
+  variable: "--font-geist-mono",
 });
 
 const barlowSemiCondensed = Barlow_Semi_Condensed({
@@ -38,8 +40,8 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
-      className={`${manrope.variable} ${geistMono.variable} ${barlowSemiCondensed.variable} h-full antialiased`}
+      lang="es"
+      className={`${manrope.variable} ${rajdhani.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full">
         <QueryProvider>{children}</QueryProvider>

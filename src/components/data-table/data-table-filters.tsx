@@ -2,6 +2,7 @@
 
 import { ListFilter, RotateCcw } from "lucide-react";
 
+import { PortalDropdown } from "@/components/ui/portal-dropdown";
 import { cn } from "@/utils";
 
 import { hasActiveFilterValue } from "./query";
@@ -34,12 +35,12 @@ const renderFilterControl = ({
   if (filter.type === "text") {
     return (
       <input
-        className="nibol-field h-11 text-sm"
+        className="h-11 w-full rounded-md border border-[color:var(--color-border)] bg-white px-3.5 text-sm text-stone-900 outline-none transition placeholder:text-stone-500 focus:border-[color:var(--color-primary)] focus:ring-2 focus:ring-[color:var(--color-primary-soft)]"
         onChange={(event) => {
           const nextValue = event.target.value.trim();
           onChange(nextValue.length > 0 ? event.target.value : undefined);
         }}
-        placeholder={filter.placeholder ?? `Filter by ${filter.label.toLowerCase()}`}
+        placeholder={filter.placeholder ?? `Filtrar por ${filter.label.toLowerCase()}`}
         type="text"
         value={Array.isArray(value) ? value.join(", ") : value ?? ""}
       />
@@ -49,7 +50,7 @@ const renderFilterControl = ({
   if (filter.type === "date") {
     return (
       <input
-        className="nibol-field h-11 text-sm"
+        className="h-11 w-full rounded-md border border-[color:var(--color-border)] bg-white px-3.5 text-sm text-stone-900 outline-none transition focus:border-[color:var(--color-primary)] focus:ring-2 focus:ring-[color:var(--color-primary-soft)]"
         onChange={(event) => {
           const nextValue = event.target.value.trim();
           onChange(nextValue.length > 0 ? nextValue : undefined);
@@ -64,28 +65,39 @@ const renderFilterControl = ({
     const selectedValues = Array.isArray(value) ? value : [];
 
     return (
-      <details className="group relative min-w-[13rem]">
-        <summary className="flex h-11 cursor-pointer list-none items-center justify-between border border-[var(--border)] bg-white px-4 text-sm font-medium text-[var(--foreground-soft)] transition hover:border-[var(--primary)] [&::-webkit-details-marker]:hidden">
-          <span className="truncate">
-            {selectedValues.length > 0
-              ? `${filter.label}: ${selectedValues.length} selected`
-              : filter.label}
-          </span>
-          <ListFilter className="h-4 w-4 text-[var(--muted)]" />
-        </summary>
-        <div className="absolute left-0 top-[calc(100%+0.5rem)] z-20 w-full min-w-[15rem] border border-[var(--border)] bg-white p-3 shadow-[var(--shadow-panel)]">
-          <div className="grid gap-2">
+      <PortalDropdown
+        align="start"
+        contentClassName="w-[16rem]"
+        sideOffset={8}
+        trigger={({ ref, ...triggerProps }) => (
+          <button
+            {...triggerProps}
+            className="flex h-11 w-full items-center justify-between rounded-md border border-[color:var(--color-border)] bg-white px-3.5 text-sm font-medium text-stone-700 transition hover:border-[color:var(--color-border-strong)]"
+            ref={ref}
+            type="button"
+          >
+            <span className="truncate">
+              {selectedValues.length > 0
+                ? `${filter.label}: ${selectedValues.length} seleccionados`
+                : filter.label}
+            </span>
+            <ListFilter className="h-4 w-4 text-stone-500" />
+          </button>
+        )}
+      >
+        {() => (
+          <div className="grid gap-1">
             {filter.options?.map((option) => {
               const checked = selectedValues.includes(option.value);
 
               return (
                 <label
                   key={option.value}
-                  className="flex items-center gap-3 px-2 py-2 text-sm text-[var(--foreground-soft)] transition hover:bg-[var(--surface-soft)]"
+                  className="flex items-center gap-3 rounded-md px-2.5 py-2 text-sm text-stone-700 transition hover:bg-[var(--color-surface-muted)]"
                 >
                   <input
                     checked={checked}
-                    className="h-4 w-4 border-[var(--border-strong)] text-[var(--primary)] focus:ring-[var(--primary)]"
+                    className="h-4 w-4 rounded border-stone-300 text-[color:var(--color-primary)] focus:ring-blue-300"
                     onChange={(event) => {
                       const nextValues = event.target.checked
                         ? [...selectedValues, option.value]
@@ -100,20 +112,20 @@ const renderFilterControl = ({
               );
             })}
           </div>
-        </div>
-      </details>
+        )}
+      </PortalDropdown>
     );
   }
 
   return (
     <select
-      className="nibol-field h-11 text-sm"
+      className="h-11 w-full rounded-md border border-[color:var(--color-border)] bg-white px-3.5 text-sm text-stone-900 outline-none transition focus:border-[color:var(--color-primary)] focus:ring-2 focus:ring-[color:var(--color-primary-soft)]"
       onChange={(event) => {
         onChange(event.target.value.length > 0 ? event.target.value : undefined);
       }}
       value={getSelectValue(value)}
     >
-      <option value="">{filter.placeholder ?? `All ${filter.label.toLowerCase()}`}</option>
+      <option value="">{filter.placeholder ?? `Todos ${filter.label.toLowerCase()}`}</option>
       {filter.options?.map((option) => (
         <option key={option.value} value={option.value}>
           {option.label}
@@ -141,30 +153,19 @@ export function DataTableFilters({
   }).length;
 
   return (
-    <div className="nibol-panel flex flex-col gap-3 p-4">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <div className="bg-[var(--primary-soft)] p-2 text-[var(--primary)]">
-            <ListFilter className="h-4 w-4" />
-          </div>
-          <div>
-            <p className="font-display text-base font-bold uppercase text-[var(--foreground)]">
-              Filtros de tabla
-            </p>
-            <p className="text-xs text-[var(--muted)]">
-              {activeFilterCount > 0
-                ? `${activeFilterCount} filtro${activeFilterCount === 1 ? "" : "s"} aplicado${activeFilterCount === 1 ? "" : "s"}`
-                : "Ajuste el conjunto de resultados actual"}
-            </p>
-          </div>
-        </div>
-
+    <div className="rounded-md border border-[color:var(--color-border)] bg-white px-4 py-4 shadow-sm">
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[color:var(--color-text-muted)]">
+          {activeFilterCount > 0
+            ? `${activeFilterCount} filtro${activeFilterCount === 1 ? "" : "s"} activo${activeFilterCount === 1 ? "" : "s"}`
+            : "Filtros de vista"}
+        </p>
         <button
           className={cn(
-            "inline-flex items-center gap-2 border px-3 py-2 text-sm font-semibold transition",
+            "inline-flex items-center gap-2 rounded-md border px-3 py-2 text-sm font-semibold transition",
             activeFilterCount > 0
-              ? "border-[var(--border-strong)] bg-white text-[var(--foreground)] hover:border-[var(--primary)]"
-              : "border-[var(--border)] bg-[var(--surface-soft)] text-[var(--muted)]",
+              ? "border-[color:var(--color-border)] bg-white text-stone-700 hover:border-[color:var(--color-border-strong)] hover:text-stone-950"
+              : "border-stone-200 bg-stone-100/70 text-stone-400",
           )}
           disabled={activeFilterCount === 0}
           onClick={onReset}
@@ -178,7 +179,7 @@ export function DataTableFilters({
       <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
         {filters.map((filter) => (
           <div key={filter.id} className="space-y-2">
-            <label className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--muted)]">
+            <label className="text-[10px] font-semibold uppercase tracking-[0.18em] text-stone-500">
               {filter.label}
             </label>
             {renderFilterControl({

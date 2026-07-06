@@ -10,25 +10,24 @@ import type { AuditLogTableRow } from "@/types";
 
 import { formatLogDateTime, summarizeLogValue } from "./log-formatters";
 
-const AUDIT_ACTION_OPTIONS = [
-  { label: "Actualizado", value: "Updated" },
-  { label: "Creado", value: "Created" },
-  { label: "Eliminado", value: "Deleted" },
-] as const;
-const AUDIT_ENTITY_OPTIONS = [
-  { label: "Configuracion", value: "setting" },
-  { label: "Invitacion", value: "invitation" },
-  { label: "Rol", value: "role" },
-  { label: "Usuario", value: "user" },
-] as const;
+const AUDIT_ACTION_LABELS: Record<string, string> = {
+  Created: "Creado",
+  Deleted: "Eliminado",
+  Updated: "Actualizado",
+};
 
-const auditActionLabels = new Map<string, string>(
-  AUDIT_ACTION_OPTIONS.map((option) => [option.value, option.label]),
-);
+const AUDIT_ENTITY_LABELS: Record<string, string> = {
+  Invitation: "Invitacion",
+  Role: "Rol",
+  Setting: "Configuracion",
+  User: "Usuario",
+};
 
-const auditEntityLabels = new Map<string, string>(
-  AUDIT_ENTITY_OPTIONS.map((option) => [option.value, option.label]),
-);
+const AUDIT_ACTION_OPTIONS = ["Created", "Deleted", "Updated"] as const;
+const AUDIT_ENTITY_OPTIONS = ["Invitation", "Role", "Setting", "User"] as const;
+
+const formatAuditAction = (value: string) => AUDIT_ACTION_LABELS[value] ?? value;
+const formatAuditEntity = (value: string) => AUDIT_ENTITY_LABELS[value] ?? value;
 
 const auditLogColumns: ColumnDef<AuditLogTableRow>[] = [
   {
@@ -38,13 +37,13 @@ const auditLogColumns: ColumnDef<AuditLogTableRow>[] = [
         {formatLogDateTime(row.original.createdAt)}
       </span>
     ),
-    header: "Fecha",
+    header: "Creado",
   },
   {
     accessorKey: "action",
     cell: ({ row }) => (
-      <span className="inline-flex rounded-full bg-stone-950 px-3 py-1 text-xs font-semibold text-amber-100">
-        {auditActionLabels.get(row.original.action) ?? row.original.action}
+      <span className="inline-flex rounded-full bg-[var(--color-primary)] px-3 py-1 text-xs font-semibold text-[color:var(--color-primary-contrast)]">
+        {formatAuditAction(row.original.action)}
       </span>
     ),
     header: "Accion",
@@ -60,18 +59,15 @@ const auditLogColumns: ColumnDef<AuditLogTableRow>[] = [
       </div>
     ),
     enableSorting: false,
-    header: "Responsable",
+    header: "Modificado por",
   },
   {
     accessorKey: "entityId",
     cell: ({ row }) => (
       <div className="space-y-1">
-        <p className="text-stone-900">
-          {auditEntityLabels.get(row.original.entityType.toLowerCase()) ??
-            row.original.entityType}
-        </p>
+        <p className="text-stone-900">{formatAuditEntity(row.original.entityType)}</p>
         <p className="font-mono text-xs text-stone-500">
-          {row.original.entityId ?? "Sin identificador"}
+          {row.original.entityId ?? "Sin id de entidad"}
         </p>
       </div>
     ),
@@ -108,14 +104,25 @@ export function AuditLogTable() {
 
   const auditLogTableConfig: DataTableConfig<AuditLogTableRow> = {
     columns: auditLogColumns,
+    csv: {
+      columns: [
+        { header: "Fecha", key: "createdAt", value: (row) => formatLogDateTime(row.createdAt) },
+        { header: "Accion", key: "action", value: (row) => formatAuditAction(row.action) },
+        { header: "Entidad", key: "entityType", value: (row) => formatAuditEntity(row.entityType) },
+        { header: "Modificado por", key: "changedBy", value: (row) => row.changedBy?.name ?? "Sistema" },
+        { header: "Antes", key: "oldValues", value: (row) => summarizeLogValue(row.oldValues) },
+        { header: "Despues", key: "newValues", value: (row) => summarizeLogValue(row.newValues) },
+      ],
+      fileName: "bitacora-auditoria.csv",
+    },
     defaultSort: {
       desc: true,
       id: "createdAt",
     },
     emptyState: {
       description:
-        "No se encontraron cambios auditados para los filtros actuales. Pruebe limpiar el rango de fechas o la accion.",
-      title: "No hay auditorias para esta vista",
+        "No hay cambios auditados para la busqueda y filtros actuales. Prueba limpiando algun filtro de fecha o accion.",
+      title: "No hay registros de auditoria para esta vista",
     },
     enableSelection: false,
     filters: [
@@ -141,10 +148,10 @@ export function AuditLogTable() {
       },
       {
         id: "entityType",
-        label: "Entidad",
+        label: "Tipo de entidad",
         options: AUDIT_ENTITY_OPTIONS.map((entityType) => ({
-          label: entityType.label,
-          value: entityType.value,
+          label: formatAuditEntity(entityType),
+          value: entityType.toLowerCase(),
         })),
         placeholder: "Todas las entidades",
         type: "select",
@@ -153,8 +160,8 @@ export function AuditLogTable() {
         id: "action",
         label: "Accion",
         options: AUDIT_ACTION_OPTIONS.map((action) => ({
-          label: action.label,
-          value: action.value,
+          label: formatAuditAction(action),
+          value: action,
         })),
         placeholder: "Todas las acciones",
         type: "select",
@@ -162,7 +169,7 @@ export function AuditLogTable() {
     ],
     getRowId: (row) => row.id,
     queryKey: ["audit-logs", "table"],
-    searchPlaceholder: "Buscar por entidad, registro o usuario responsable",
+    searchPlaceholder: "Buscar por entidad, ID de registro o usuario que lo modifico",
   };
 
   return <DataTable config={auditLogTableConfig} endpoint="/audit-logs" />;

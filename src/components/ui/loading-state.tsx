@@ -7,18 +7,18 @@ type LoadingStateProps = {
 
 export function LoadingState({
   cards = 4,
-  title = "Loading workspace",
+  title = "Cargando area de trabajo",
 }: LoadingStateProps) {
   return (
     <div className="space-y-6">
-      <section className="border border-[var(--border)] bg-[var(--surface)] px-6 py-6 shadow-[var(--shadow-panel)] sm:px-8">
+      <section className="rounded-lg border border-[color:var(--color-border)] bg-[var(--color-surface)] px-6 py-6 shadow-sm sm:px-8">
         <div className="animate-pulse space-y-4">
-          <div className="h-3 w-28 bg-[var(--border)]" />
-          <div className="h-10 w-56 bg-[var(--border)]" />
-          <div className="h-4 w-full max-w-2xl bg-[var(--border)]" />
-          <div className="h-4 w-3/4 max-w-xl bg-[var(--border)]" />
+          <div className="h-3 w-28 rounded-md bg-[var(--color-surface-strong)]" />
+          <div className="h-10 w-56 rounded-md bg-[var(--color-surface-strong)]" />
+          <div className="h-4 w-full max-w-2xl rounded-md bg-[var(--color-surface-strong)]" />
+          <div className="h-4 w-3/4 max-w-xl rounded-md bg-[var(--color-surface-strong)]" />
         </div>
-        <p className="mt-5 text-sm font-medium text-[var(--muted)]">{title}</p>
+        <p className="mt-5 text-sm font-medium text-[color:var(--color-text-muted)]">{title}</p>
       </section>
 
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
@@ -27,12 +27,12 @@ export function LoadingState({
         ))}
       </section>
 
-      <section className="border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[var(--shadow-panel)]">
+      <section className="rounded-lg border border-[color:var(--color-border)] bg-[var(--color-surface)] p-6 shadow-sm">
         <div className="animate-pulse space-y-3">
-          <div className="h-5 w-40 bg-[var(--border)]" />
-          <div className="h-4 w-full bg-[var(--border)]" />
-          <div className="h-4 w-5/6 bg-[var(--border)]" />
-          <div className="h-32 bg-[var(--border)]" />
+          <div className="h-5 w-40 rounded-md bg-[var(--color-surface-strong)]" />
+          <div className="h-4 w-full rounded-md bg-[var(--color-surface-strong)]" />
+          <div className="h-4 w-5/6 rounded-md bg-[var(--color-surface-strong)]" />
+          <div className="h-32 rounded-md bg-[var(--color-surface-strong)]" />
         </div>
       </section>
     </div>

@@ -9,16 +9,16 @@ type RoleDetailPageProps = {
 };
 
 export default async function RoleDetailPage({ params }: RoleDetailPageProps) {
-  await requirePermission("roles.view");
+  await requirePermission("system.roles.read");
 
   const { roleId } = await params;
 
   return (
     <main className="space-y-6">
       <PageHeader
-        description="Revise permisos asignados, metadatos y resguardos especiales del perfil dentro del modulo de roles."
-        eyebrow="Ficha de rol"
-        title="Detalle del rol"
+        description="Review assigned permissions, metadata, and protected-role safeguards from the shared role management module."
+        eyebrow="Role Record"
+        title="Role Details"
       />
 
       <RoleDetail roleId={roleId} />

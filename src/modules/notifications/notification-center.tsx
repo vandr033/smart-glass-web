@@ -3,12 +3,11 @@
 import { useDeferredValue, useState } from "react";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Bell, Filter, Inbox, LoaderCircle } from "lucide-react";
+import { Bell, Filter, Inbox, LoaderCircle, Search } from "lucide-react";
 
 import { DataTablePagination } from "@/components/data-table/data-table-pagination";
 import { EmptyState } from "@/components/ui/empty-state";
 import { ErrorState } from "@/components/ui/error-state";
-import { SearchField } from "@/components/ui/search-field";
 import { StatCard } from "@/components/ui/stat-card";
 import { QUERY_KEYS } from "@/lib/constants";
 import { NotificationComposer } from "@/modules/notifications/notification-composer";
@@ -20,7 +19,8 @@ import {
 import { notificationService } from "@/services/notification-service";
 import { getApiErrorMessage } from "@/utils";
 
-const panelClassName = "nibol-panel p-6";
+const panelClassName =
+  "rounded-lg border border-stone-300/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(239,246,255,0.95))] p-6 shadow-[0_20px_50px_rgba(15,47,91,0.08)]";
 
 export function NotificationCenter({
   canCreate,
@@ -107,15 +107,6 @@ export function NotificationCenter({
     },
   });
 
-  if (notificationListQuery.isError) {
-    return (
-      <ErrorState
-        description={getApiErrorMessage(notificationListQuery.error)}
-        title="No fue posible cargar las notificaciones"
-      />
-    );
-  }
-
   const notifications = notificationListQuery.data?.data ?? [];
   const pagination = notificationListQuery.data?.pagination;
   const totalNotifications = totalQuery.data?.pagination.total ?? 0;
@@ -127,27 +118,36 @@ export function NotificationCenter({
       getApiErrorMessage(deleteNotificationMutation.error)) ||
     null;
 
+  if (notificationListQuery.isError) {
+    return (
+      <ErrorState
+        description={getApiErrorMessage(notificationListQuery.error)}
+        title="Unable to load notifications"
+      />
+    );
+  }
+
   return (
     <div className="space-y-6">
       <section className="grid gap-4 md:grid-cols-3">
         <StatCard
-          description="Las alertas pendientes permanecen visibles en la campana, el desplegable y la bandeja principal."
+          description="New notifications stay highlighted across the bell, dropdown, and inbox page."
           icon={Bell}
-          label="Pendientes"
+          label="Unread"
           tone="accent"
           value={String(unreadNotifications)}
         />
         <StatCard
-          description="Esta bandeja concentra el historial interno para futuras extensiones por correo, SMS o WhatsApp."
+          description="This inbox keeps the full in-app trail that future channels can share."
           icon={Inbox}
           label="Total"
           value={String(totalNotifications)}
         />
         <StatCard
-          description="Use la accion masiva para mantener la bandeja limpia despues de revisar la actividad reciente."
+          description="Use the shared API to clear noise quickly once you have reviewed recent activity."
           icon={Filter}
-          label="Accion masiva"
-          value="Marcar todo"
+          label="Bulk Action"
+          value="Mark all read"
         />
       </section>
 
@@ -156,37 +156,41 @@ export function NotificationCenter({
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div className="space-y-2">
               <h2 className="text-xl font-semibold tracking-tight text-stone-950">
-                Bandeja de notificaciones
+                Notification inbox
               </h2>
               <p className="text-sm leading-7 text-stone-700">
-                Revise eventos recientes del sistema, atienda pendientes y mantenga la bandeja ordenada.
+                Review recent system events, open unread items, and keep your inbox tidy.
               </p>
             </div>
 
             <button
-              className="nibol-btn-secondary justify-center disabled:cursor-not-allowed disabled:opacity-50"
+              className="inline-flex items-center justify-center rounded-md border border-stone-300/80 bg-white px-4 py-3 text-sm font-semibold text-stone-700 transition hover:border-stone-400 hover:text-stone-950 disabled:cursor-not-allowed disabled:opacity-50"
               disabled={markAllReadMutation.isPending || unreadNotifications === 0}
               onClick={() => {
                 void markAllReadMutation.mutateAsync();
               }}
               type="button"
             >
-              {markAllReadMutation.isPending ? "Actualizando..." : "Marcar todo como leido"}
+              {markAllReadMutation.isPending ? "Updating..." : "Mark all read"}
             </button>
           </div>
 
           <div className="mt-6 grid gap-4 lg:grid-cols-[minmax(0,1fr)_14rem_11rem]">
-            <SearchField
-              onChange={(value) => {
-                setPage(1);
-                setSearch(value);
-              }}
-              placeholder="Buscar notificaciones"
-              value={search}
-            />
+            <label className="relative">
+              <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-stone-400" />
+              <input
+                className="h-12 w-full rounded-md border border-stone-300/80 bg-white pl-11 pr-4 text-sm text-stone-900 outline-none transition focus:border-[color:var(--color-primary)] focus:ring-2 focus:ring-blue-200"
+                onChange={(event) => {
+                  setPage(1);
+                  setSearch(event.target.value);
+                }}
+                placeholder="Buscar notificaciones"
+                value={search}
+              />
+            </label>
 
             <select
-              className="nibol-field"
+              className="h-12 rounded-md border border-stone-300/80 bg-white px-4 text-sm text-stone-900 outline-none transition focus:border-[color:var(--color-primary)] focus:ring-2 focus:ring-blue-200"
               onChange={(event) => {
                 setPage(1);
                 setTypeFilter(
@@ -195,7 +199,7 @@ export function NotificationCenter({
               }}
               value={typeFilter}
             >
-              <option value="all">Todos los tipos</option>
+              <option value="all">All types</option>
               {notificationTypeOptions.map((option) => (
                 <option key={option.value} value={option.value}>
                   {option.label}
@@ -204,10 +208,10 @@ export function NotificationCenter({
             </select>
 
             <button
-              className={`inline-flex h-12 items-center justify-center border px-4 text-sm font-semibold transition ${
+              className={`inline-flex h-12 items-center justify-center rounded-md border px-4 text-sm font-semibold transition ${
                 unreadOnly
-                  ? "border-[var(--primary)] bg-[var(--primary)] text-white"
-                  : "border-[var(--border-strong)] bg-white text-[var(--foreground)] hover:border-[var(--primary)] hover:bg-[var(--surface-soft)]"
+                  ? "border-[color:var(--color-primary-hover)] bg-[var(--color-primary)] text-[color:var(--color-primary-contrast)]"
+                  : "border-stone-300/80 bg-white text-stone-700 hover:border-stone-400 hover:text-stone-950"
               }`}
               onClick={() => {
                 setPage(1);
@@ -215,29 +219,29 @@ export function NotificationCenter({
               }}
               type="button"
             >
-              {unreadOnly ? "Solo no leidas" : "Todas las notificaciones"}
+              {unreadOnly ? "Unread only" : "All notifications"}
             </button>
           </div>
 
           {actionError ? (
-            <p className="mt-4 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-medium text-rose-700">
+            <p className="mt-4 rounded-md border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-medium text-rose-700">
               {actionError}
             </p>
           ) : null}
 
           {notificationListQuery.isLoading ? (
-            <div className="mt-8 flex min-h-48 items-center justify-center rounded-[1.75rem] border border-dashed border-stone-300 bg-white/70">
+            <div className="mt-8 flex min-h-48 items-center justify-center rounded-lg border border-dashed border-stone-300 bg-white/70">
               <div className="flex items-center gap-3 text-sm font-medium text-stone-600">
                 <LoaderCircle className="h-4 w-4 animate-spin" />
-                Cargando notificaciones...
+                Loading notifications...
               </div>
             </div>
           ) : notifications.length === 0 ? (
             <div className="mt-6">
               <EmptyState
-                description="Los nuevos eventos apareceran aqui automaticamente. Tambien puede limpiar filtros o enviar una notificacion manual."
+                description="New notification events will appear here automatically. You can also clear filters or create a notification manually."
                 icon={Inbox}
-                title="No hay notificaciones para esta vista"
+                title="No notifications match this view"
               />
             </div>
           ) : (
@@ -249,14 +253,14 @@ export function NotificationCenter({
                     <>
                       {!notification.isRead ? (
                         <button
-                          className="nibol-btn-secondary px-3.5 py-2 text-sm disabled:cursor-not-allowed disabled:opacity-50"
+                          className="inline-flex items-center gap-2 rounded-md border border-stone-300/80 bg-white px-3.5 py-2 text-sm font-semibold text-stone-700 transition hover:border-stone-400 hover:text-stone-950 disabled:cursor-not-allowed disabled:opacity-50"
                           disabled={markReadMutation.isPending}
                           onClick={() => {
                             void markReadMutation.mutateAsync(notification.id);
                           }}
                           type="button"
                         >
-                          Marcar como leida
+                          Mark as read
                         </button>
                       ) : null}
                       <NotificationDeleteButton

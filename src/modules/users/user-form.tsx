@@ -31,7 +31,7 @@ type UserFormProps =
     };
 
 const sectionClassName =
-  "nibol-panel p-6";
+  "rounded-lg border border-stone-300/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(239,246,255,0.95))] p-6 shadow-[0_20px_50px_rgba(15,47,91,0.08)]";
 
 function RoleSelector({
   disabled = false,
@@ -53,9 +53,9 @@ function RoleSelector({
   return (
     <div className="space-y-3">
       <div>
-        <p className="text-sm font-medium text-stone-700">Asignacion de roles</p>
+        <p className="text-sm font-medium text-stone-700">Role assignments</p>
         <p className="text-xs text-stone-500">
-          Seleccione los roles que este usuario debe heredar dentro del entorno administrativo.
+          Select the roles this user should inherit across the admin workspace.
         </p>
       </div>
 
@@ -66,11 +66,11 @@ function RoleSelector({
           return (
             <label
               key={role.id}
-              className="flex items-start gap-3 rounded-[1.4rem] border border-stone-200/90 bg-white/80 px-4 py-4 transition hover:border-stone-300"
+              className="flex items-start gap-3 rounded-md border border-stone-200/90 bg-white/80 px-4 py-4 transition hover:border-stone-300"
             >
               <input
                 checked={checked}
-                className="mt-1 h-4 w-4 rounded border-stone-300 text-amber-700 focus:ring-amber-300"
+                className="mt-1 h-4 w-4 rounded border-stone-300 text-[color:var(--color-primary)] focus:ring-blue-300"
                 disabled={disabled}
                 onChange={(event) => {
                   const nextValues = event.target.checked
@@ -86,7 +86,7 @@ function RoleSelector({
                   {role.name}
                 </span>
                 <span className="block text-xs leading-5 text-stone-500">
-                  {role.description || "Sin descripcion adicional."}
+                  {role.description || "No additional description available."}
                 </span>
               </span>
             </label>
@@ -172,8 +172,8 @@ export function UserForm(props: UserFormProps) {
       setSubmitError(null);
       setSubmitMessage(
         props.mode === "create"
-          ? "Usuario creado correctamente."
-          : "Usuario actualizado correctamente.",
+          ? "User account created successfully."
+          : "User account updated successfully.",
       );
 
       await Promise.all([
@@ -199,17 +199,17 @@ export function UserForm(props: UserFormProps) {
       <ErrorState
         action={
           <button
-            className="nibol-btn-secondary px-4 py-2 text-sm"
+            className="inline-flex items-center gap-2 rounded-md border border-stone-300 bg-white px-4 py-2 text-sm font-semibold text-stone-700 transition hover:border-stone-400 hover:text-stone-950"
             onClick={() => {
               void rolesQuery.refetch();
             }}
             type="button"
           >
-            Reintentar
+            Retry
           </button>
         }
         description={rolesQuery.error.message}
-        title="No fue posible cargar los roles"
+        title="Role options could not be loaded"
       />
     );
   }
@@ -219,17 +219,17 @@ export function UserForm(props: UserFormProps) {
       <ErrorState
         action={
           <button
-            className="nibol-btn-secondary px-4 py-2 text-sm"
+            className="inline-flex items-center gap-2 rounded-md border border-stone-300 bg-white px-4 py-2 text-sm font-semibold text-stone-700 transition hover:border-stone-400 hover:text-stone-950"
             onClick={() => {
               void userQuery.refetch();
             }}
             type="button"
           >
-            Reintentar
+            Retry
           </button>
         }
         description={userQuery.error.message}
-        title="No fue posible cargar el usuario"
+        title="User details could not be loaded"
       />
     );
   }
@@ -246,25 +246,26 @@ export function UserForm(props: UserFormProps) {
       <section className={sectionClassName}>
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="space-y-2">
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-amber-700">
-              {props.mode === "create" ? "Nuevo usuario" : "Editar usuario"}
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
+              {props.mode === "create" ? "Create User" : "Edit User"}
             </p>
             <h2 className="text-2xl font-semibold tracking-tight text-stone-950">
               {props.mode === "create"
-                ? "Registrar cuenta de usuario"
-                : `Actualizar ${userQuery.data?.name ?? "usuario"}`}
+                ? "Add a user account"
+                : `Update ${userQuery.data?.name ?? "user account"}`}
             </h2>
             <p className="max-w-3xl text-sm leading-7 text-stone-700">
-              Mantenga un flujo consistente con la misma estructura de campos, validaciones y acciones controladas por permisos.
+              Keep the workflow consistent across modules with the same field structure,
+              validation rules, and permission-aware actions.
             </p>
           </div>
 
           <Link
-            className="nibol-btn-secondary px-4 py-2.5 text-sm"
+            className="inline-flex items-center gap-2 rounded-md border border-stone-300 bg-white px-4 py-2.5 text-sm font-semibold text-stone-700 transition hover:border-stone-400 hover:text-stone-950"
             href={props.mode === "create" ? "/users" : `/users/${props.userId}`}
           >
             <ArrowLeft className="h-4 w-4" />
-            Volver
+            Back
           </Link>
         </div>
       </section>
@@ -272,11 +273,11 @@ export function UserForm(props: UserFormProps) {
       <section className={`${sectionClassName} grid gap-6 xl:grid-cols-[1.1fr_0.9fr]`}>
         <div className="space-y-5">
           <label className="block space-y-2">
-            <span className="text-sm font-medium text-stone-700">Nombre</span>
+            <span className="text-sm font-medium text-stone-700">Name</span>
             <input
-              className="nibol-field h-auto py-3"
+              className="w-full rounded-md border border-stone-200 bg-stone-50/80 px-4 py-3 text-sm text-stone-900 outline-none transition focus:border-stone-400 focus:bg-white"
               disabled={isBusy}
-              placeholder="Ingrese el nombre completo del usuario"
+              placeholder="Enter the user's full name"
               {...form.register("name")}
             />
             {form.formState.errors.name ? (
@@ -289,7 +290,7 @@ export function UserForm(props: UserFormProps) {
           <label className="block space-y-2">
             <span className="text-sm font-medium text-stone-700">Email</span>
             <input
-              className="nibol-field h-auto py-3"
+              className="w-full rounded-md border border-stone-200 bg-stone-50/80 px-4 py-3 text-sm text-stone-900 outline-none transition focus:border-stone-400 focus:bg-white"
               disabled={isBusy}
               placeholder="name@example.com"
               type="email"
@@ -304,11 +305,11 @@ export function UserForm(props: UserFormProps) {
 
           {props.mode === "create" ? (
             <label className="block space-y-2">
-              <span className="text-sm font-medium text-stone-700">Contrasena</span>
+              <span className="text-sm font-medium text-stone-700">Password</span>
               <input
-                className="nibol-field h-auto py-3"
+                className="w-full rounded-md border border-stone-200 bg-stone-50/80 px-4 py-3 text-sm text-stone-900 outline-none transition focus:border-stone-400 focus:bg-white"
                 disabled={isBusy}
-                placeholder="Cree una contrasena segura"
+                placeholder="Create a secure password"
                 type="password"
                 {...form.register("password")}
               />
@@ -320,17 +321,19 @@ export function UserForm(props: UserFormProps) {
             </label>
           ) : null}
 
-          <label className="flex items-start gap-3 rounded-[1.4rem] border border-stone-200/90 bg-white/80 px-4 py-4">
+          <label className="flex items-start gap-3 rounded-md border border-stone-200/90 bg-white/80 px-4 py-4">
             <input
-              className="mt-1 h-4 w-4 rounded border-stone-300 text-amber-700 focus:ring-amber-300"
+              className="mt-1 h-4 w-4 rounded border-stone-300 text-[color:var(--color-primary)] focus:ring-blue-300"
               disabled={isBusy}
               type="checkbox"
               {...form.register("isActive")}
             />
             <span className="space-y-1">
-              <span className="block text-sm font-semibold text-stone-900">Cuenta activa</span>
+              <span className="block text-sm font-semibold text-stone-900">
+                Active account
+              </span>
               <span className="block text-xs leading-5 text-stone-500">
-                Los usuarios inactivos se mantienen registrados, pero sin acceso operativo hasta ser rehabilitados.
+                Inactive users stay in the system but lose active access until re-enabled.
               </span>
             </span>
           </label>
@@ -351,20 +354,20 @@ export function UserForm(props: UserFormProps) {
       </section>
 
       {submitError ? (
-        <div className="rounded-[1.5rem] border border-rose-200/80 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+        <div className="rounded-lg border border-rose-200/80 bg-rose-50 px-4 py-3 text-sm text-rose-700">
           {submitError}
         </div>
       ) : null}
 
       {submitMessage ? (
-        <div className="rounded-[1.5rem] border border-emerald-200/80 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+        <div className="rounded-lg border border-emerald-200/80 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
           {submitMessage}
         </div>
       ) : null}
 
       <div className="flex flex-wrap gap-3">
         <button
-          className="nibol-btn-primary disabled:cursor-not-allowed disabled:opacity-60"
+          className="inline-flex items-center gap-2 rounded-md bg-[var(--color-primary)] px-4 py-3 text-sm font-semibold text-[color:var(--color-primary-contrast)] transition hover:bg-[var(--color-primary-hover)] disabled:cursor-not-allowed disabled:opacity-60"
           disabled={isBusy}
           type="submit"
         >
@@ -375,17 +378,17 @@ export function UserForm(props: UserFormProps) {
           )}
           {isBusy
             ? props.mode === "create"
-              ? "Creando usuario..."
-              : "Guardando cambios..."
+              ? "Creating user..."
+              : "Saving changes..."
             : props.mode === "create"
-              ? "Crear usuario"
-              : "Guardar cambios"}
+              ? "Create user"
+              : "Save changes"}
         </button>
         <Link
-          className="nibol-btn-secondary px-4 py-3 text-sm"
+          className="inline-flex items-center gap-2 rounded-md border border-stone-300 bg-white px-4 py-3 text-sm font-semibold text-stone-700 transition hover:border-stone-400 hover:text-stone-950"
           href={props.mode === "create" ? "/users" : `/users/${props.userId}`}
         >
-          Cancelar
+          Cancel
         </Link>
       </div>
     </form>
