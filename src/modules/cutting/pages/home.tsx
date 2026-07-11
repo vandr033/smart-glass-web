@@ -83,28 +83,28 @@ export default function CuttingHomePage() {
             </Link>
           </>
         }
-        description="Review quotation-driven glass optimization runs, waste estimates, virtual sheet demand, and cutting plans ready for approval."
+        description="Revisa las optimizaciones de vidrio basadas en cotizaciones, las estimaciones de desperdicio, la demanda de láminas virtuales y los planes listos para aprobación."
         eyebrow="Operaciones"
         title="Corte de vidrio"
       />
 
       <section className="grid gap-4 md:grid-cols-3">
         <StatCard
-          description="Recent optimization jobs in the system."
+          description="Optimizaciones recientes registradas en el sistema."
           icon={LayoutGrid}
-          label="Optimization Runs"
+          label="Corridas de optimización"
           value={String(optimizationsQuery.data.pagination.total)}
         />
         <StatCard
-          description="Cutting plans generated from completed runs."
+          description="Planes de corte generados desde corridas completadas."
           icon={FileCog}
           label="Planes de corte"
           value={String(plansQuery.data.pagination.total)}
         />
         <StatCard
-          description="Latest estimated waste area from the newest run."
+          description="Última superficie de desperdicio estimada."
           icon={Scissors}
-          label="Latest Waste"
+          label="Último desperdicio"
           value={latestRun ? formatCuttingArea(latestRun.estimatedWasteAreaM2) : "0.00 m2"}
         />
       </section>
@@ -114,14 +114,14 @@ export default function CuttingHomePage() {
           <div className="flex items-center justify-between gap-3">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-                Recent Runs
+                Corridas recientes
               </p>
               <h2 className="mt-2 text-xl font-semibold text-stone-950">
-                Optimization history
+                Historial de optimización
               </h2>
             </div>
             <Link className="text-sm font-semibold text-[color:var(--color-primary)]" href={CUTTING_ROUTES.optimizations}>
-              Open all
+              Ver todas
             </Link>
           </div>
 
@@ -139,7 +139,7 @@ export default function CuttingHomePage() {
                     <div>
                       <p className="text-sm font-semibold text-stone-950">{run.code}</p>
                       <p className="mt-1 text-xs text-stone-600">
-                        {run.quotation?.code ?? "No quotation"} · {run.material?.name ?? "Mixed materials"}
+                        {run.quotation?.code ?? "Sin cotización"} · {run.material?.name ?? "Materiales mixtos"}
                       </p>
                     </div>
                     <span
@@ -153,8 +153,8 @@ export default function CuttingHomePage() {
             })}
             {recentRuns.length === 0 ? (
               <EmptyState
-                description="Run a quotation-based or manual optimization to start generating cutting layouts."
-                title="No optimization runs yet"
+                description="Ejecuta una optimización basada en cotización o manual para comenzar a generar diseños de corte."
+                title="Aún no hay corridas de optimización"
               />
             ) : null}
           </div>
@@ -164,14 +164,14 @@ export default function CuttingHomePage() {
           <div className="flex items-center justify-between gap-3">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-                Recent Plans
+                Planes recientes
               </p>
               <h2 className="mt-2 text-xl font-semibold text-stone-950">
-                Approval queue
+                Cola de aprobación
               </h2>
             </div>
             <Link className="text-sm font-semibold text-[color:var(--color-primary)]" href={CUTTING_ROUTES.plans}>
-              Open all
+              Ver todos
             </Link>
           </div>
 
@@ -189,7 +189,7 @@ export default function CuttingHomePage() {
                     <div>
                       <p className="text-sm font-semibold text-stone-950">{plan.code}</p>
                       <p className="mt-1 text-xs text-stone-600">
-                        {plan.material.name} · {plan.sheetCount} sheets
+                        {plan.material.name} · {plan.sheetCount} láminas
                       </p>
                     </div>
                     <span
@@ -203,8 +203,8 @@ export default function CuttingHomePage() {
             })}
             {latestPlan === null ? (
               <EmptyState
-                description="Generate a cutting plan from a completed optimization run to review layouts here."
-                title="No cutting plans yet"
+                description="Genera un plan de corte desde una corrida completada para revisar aquí sus diseños."
+                title="Aún no hay planes de corte"
               />
             ) : null}
           </div>

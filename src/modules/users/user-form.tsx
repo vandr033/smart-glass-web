@@ -86,7 +86,7 @@ function RoleSelector({
                   {role.name}
                 </span>
                 <span className="block text-xs leading-5 text-stone-500">
-                  {role.description || "No additional description available."}
+                  {role.description || "No hay una descripción adicional disponible."}
                 </span>
               </span>
             </label>
@@ -172,8 +172,8 @@ export function UserForm(props: UserFormProps) {
       setSubmitError(null);
       setSubmitMessage(
         props.mode === "create"
-          ? "User account created successfully."
-          : "User account updated successfully.",
+          ? "Cuenta de usuario creada correctamente."
+          : "Cuenta de usuario actualizada correctamente.",
       );
 
       await Promise.all([
@@ -205,7 +205,7 @@ export function UserForm(props: UserFormProps) {
             }}
             type="button"
           >
-            Retry
+            Intentar nuevamente
           </button>
         }
         description={rolesQuery.error.message}
@@ -225,7 +225,7 @@ export function UserForm(props: UserFormProps) {
             }}
             type="button"
           >
-            Retry
+            Intentar nuevamente
           </button>
         }
         description={userQuery.error.message}
@@ -251,12 +251,11 @@ export function UserForm(props: UserFormProps) {
             </p>
             <h2 className="text-2xl font-semibold tracking-tight text-stone-950">
               {props.mode === "create"
-                ? "Add a user account"
-                : `Update ${userQuery.data?.name ?? "user account"}`}
+                ? "Agregar una cuenta de usuario"
+                : `Actualizar ${userQuery.data?.name ?? "cuenta de usuario"}`}
             </h2>
             <p className="max-w-3xl text-sm leading-7 text-stone-700">
-              Keep the workflow consistent across modules with the same field structure,
-              validation rules, and permission-aware actions.
+              Mantén el mismo flujo entre módulos con una estructura de campos, validaciones y acciones protegidas por permisos.
             </p>
           </div>
 
@@ -265,7 +264,7 @@ export function UserForm(props: UserFormProps) {
             href={props.mode === "create" ? "/users" : `/users/${props.userId}`}
           >
             <ArrowLeft className="h-4 w-4" />
-            Back
+            Volver
           </Link>
         </div>
       </section>
@@ -273,7 +272,7 @@ export function UserForm(props: UserFormProps) {
       <section className={`${sectionClassName} grid gap-6 xl:grid-cols-[1.1fr_0.9fr]`}>
         <div className="space-y-5">
           <label className="block space-y-2">
-            <span className="text-sm font-medium text-stone-700">Name</span>
+            <span className="text-sm font-medium text-stone-700">Nombre</span>
             <input
               className="w-full rounded-md border border-stone-200 bg-stone-50/80 px-4 py-3 text-sm text-stone-900 outline-none transition focus:border-stone-400 focus:bg-white"
               disabled={isBusy}
@@ -292,7 +291,7 @@ export function UserForm(props: UserFormProps) {
             <input
               className="w-full rounded-md border border-stone-200 bg-stone-50/80 px-4 py-3 text-sm text-stone-900 outline-none transition focus:border-stone-400 focus:bg-white"
               disabled={isBusy}
-              placeholder="name@example.com"
+              placeholder="nombre@ejemplo.com"
               type="email"
               {...form.register("email")}
             />

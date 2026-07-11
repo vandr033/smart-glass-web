@@ -142,7 +142,7 @@ export default function ProductionJobWastePage({
 
       {!job.cuttingPlan ? (
         <EmptyState
-          description="This job is not linked to a cutting plan, so theoretical waste cannot be compared against an optimization source."
+          description="Esta orden no está vinculada a un plan de corte, por lo que el desperdicio teórico no puede compararse con una fuente de optimización."
           title="No hay un plan de corte vinculado"
         />
       ) : null}
@@ -211,7 +211,7 @@ export default function ProductionJobWastePage({
                   Plan de corte origen
                 </p>
                 <p className="mt-2 text-lg font-semibold text-stone-950">
-                  {report.cuttingPlan?.code ?? "Unavailable"}
+                  {report.cuttingPlan?.code ?? "No disponible"}
                 </p>
                 <p className="mt-1 text-sm text-stone-600">
                   {report.cuttingPlan?.sheetCount ?? 0} sheet(s) ·{" "}
@@ -276,7 +276,7 @@ export default function ProductionJobWastePage({
                 <div>
                   <p className="text-sm font-semibold text-stone-950">
                     {entry.consumptionType} ·{" "}
-                    {entry.material?.name ?? "Manual material"}
+                  {entry.material?.name ?? "Material manual"}
                   </p>
                   <p className="mt-1 text-xs text-stone-600">
                     {entry.quantity} {entry.unit} · {entry.sourceType} ·{" "}
@@ -284,7 +284,7 @@ export default function ProductionJobWastePage({
                   </p>
                 </div>
                 <p className="text-xs font-medium text-stone-500">
-                  {entry.consumedByUser?.name ?? "System"}
+                  {entry.consumedByUser?.name ?? "Sistema"}
                 </p>
               </div>
 

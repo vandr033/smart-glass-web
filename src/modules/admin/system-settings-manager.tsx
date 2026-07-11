@@ -16,7 +16,7 @@ const formatJson = (value: unknown): string => {
 };
 
 const formatUpdatedAt = (value: string): string => {
-  return new Intl.DateTimeFormat("en-US", {
+  return new Intl.DateTimeFormat("es-BO", {
     dateStyle: "medium",
     timeStyle: "short",
   }).format(new Date(value));
@@ -96,14 +96,14 @@ export function SystemSettingsManager() {
         <div className="mb-5 flex flex-wrap items-center justify-between gap-4">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-              Configuration Registry
+              Registro de configuración
             </p>
             <h2 className="mt-2 text-2xl font-semibold tracking-tight text-stone-950">
-              System Settings
+              Configuración del sistema
             </h2>
           </div>
           <div className="rounded-full bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-stone-600">
-            {sortedSettings.length} keys
+            {sortedSettings.length} claves
           </div>
         </div>
 
@@ -111,11 +111,11 @@ export function SystemSettingsManager() {
           <table className="min-w-full divide-y divide-stone-200/80">
             <thead className="bg-white/90">
               <tr className="text-left text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-                <th className="px-4 py-3">Key</th>
-                <th className="px-4 py-3">Description</th>
-                <th className="px-4 py-3">Value</th>
-                <th className="px-4 py-3">Updated</th>
-                <th className="px-4 py-3 text-right">Action</th>
+                <th className="px-4 py-3">Clave</th>
+                <th className="px-4 py-3">Descripción</th>
+                <th className="px-4 py-3">Valor</th>
+                <th className="px-4 py-3">Actualizado</th>
+                <th className="px-4 py-3 text-right">Acción</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-stone-200/80 bg-white/75 text-sm text-stone-700">
@@ -127,7 +127,7 @@ export function SystemSettingsManager() {
                     </p>
                   </td>
                   <td className="px-4 py-4 align-top">
-                    {setting.description || "No description provided."}
+                    {setting.description || "No se proporcionó una descripción."}
                   </td>
                   <td className="px-4 py-4 align-top">
                     <code className="block max-w-[30rem] overflow-hidden text-ellipsis whitespace-nowrap rounded-lg bg-blue-950/95 px-3 py-2 text-xs text-[color:var(--color-primary-contrast)]">
@@ -153,7 +153,7 @@ export function SystemSettingsManager() {
                       type="button"
                     >
                       <Pencil className="h-4 w-4" />
-                      Edit
+                      Editar
                     </button>
                   </td>
                 </tr>
@@ -164,8 +164,7 @@ export function SystemSettingsManager() {
 
         {!canEdit ? (
           <div className="mt-5 rounded-lg border border-blue-200/80 bg-blue-50 px-4 py-3 text-sm text-blue-900">
-            Your access is read-only. You can review settings here, but only users with
-            `system.settings.update` can change them.
+            Tu acceso es de solo lectura. Puedes revisar la configuración, pero únicamente los usuarios con `system.settings.update` pueden modificarla.
           </div>
         ) : null}
 
@@ -190,7 +189,7 @@ export function SystemSettingsManager() {
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-                  Edit Setting
+                  Editar configuración
                 </p>
                 <h2 className="mt-2 font-mono text-xl font-semibold text-stone-950">
                   {editingState.key}
@@ -209,7 +208,7 @@ export function SystemSettingsManager() {
 
             <div className="mt-6 grid gap-5">
               <label className="grid gap-2">
-                <span className="text-sm font-medium text-stone-700">Description</span>
+                <span className="text-sm font-medium text-stone-700">Descripción</span>
                 <input
                   className="rounded-md border border-stone-200 bg-white px-4 py-3 text-sm text-stone-900 outline-none transition focus:border-stone-400"
                   onChange={(event) => {
@@ -227,7 +226,7 @@ export function SystemSettingsManager() {
               </label>
 
               <label className="grid gap-2">
-                <span className="text-sm font-medium text-stone-700">JSON Value</span>
+                <span className="text-sm font-medium text-stone-700">Valor JSON</span>
                 <textarea
                   className="min-h-[20rem] rounded-md border border-stone-200 bg-[var(--color-primary)] px-4 py-4 font-mono text-sm text-[color:var(--color-primary-contrast)] outline-none transition focus:border-[color:var(--color-primary)]"
                   onChange={(event) => {
@@ -260,13 +259,13 @@ export function SystemSettingsManager() {
                       JSON.parse(editingState.valueText);
                       updateMutation.mutate(editingState);
                     } catch {
-                      setValidationError("valueJson must be valid JSON.");
+                      setValidationError("valueJson debe contener datos JSON válidos.");
                     }
                   }}
                   type="button"
                 >
                   <Save className="h-4 w-4" />
-                  {updateMutation.isPending ? "Saving..." : "Save setting"}
+                  {updateMutation.isPending ? "Guardando…" : "Guardar configuración"}
                 </button>
                 <button
                   className="inline-flex items-center rounded-md border border-stone-300 bg-white px-4 py-3 text-sm font-semibold text-stone-700 transition hover:border-stone-400 hover:text-stone-950"
@@ -275,7 +274,7 @@ export function SystemSettingsManager() {
                   }}
                   type="button"
                 >
-                  Cancel
+                  Cancelar
                 </button>
               </div>
             </div>

@@ -6,11 +6,11 @@ export const notificationTypeOptions = [
     value: "info",
   },
   {
-    label: "Success",
+    label: "Éxito",
     value: "success",
   },
   {
-    label: "Warning",
+    label: "Advertencia",
     value: "warning",
   },
   {
@@ -23,9 +23,9 @@ export const notificationComposerSchema = z.object({
   message: z
     .string()
     .trim()
-    .min(1, "Message is required.")
-    .max(10_000, "Message is too long."),
-  title: z.string().trim().min(1, "Title is required.").max(191, "Title is too long."),
+    .min(1, "El mensaje es obligatorio.")
+    .max(10_000, "El mensaje es demasiado largo."),
+  title: z.string().trim().min(1, "El título es obligatorio.").max(191, "El título es demasiado largo."),
   type: z.enum(["info", "success", "warning", "error"]),
   userId: z.string().uuid("Seleccione un destinatario."),
 });

@@ -38,7 +38,7 @@ export function SearchField({
       />
       {value ? (
         <button
-          aria-label="Clear search"
+          aria-label="Limpiar búsqueda"
           className="absolute right-2.5 top-1/2 inline-flex h-8 w-8 -translate-y-1/2 items-center justify-center text-[var(--muted)] transition hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)]"
           onClick={() => {
             onChange("");

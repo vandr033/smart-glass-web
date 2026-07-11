@@ -18,7 +18,7 @@ import type { UserTableRow } from "@/types";
 
 const formatDate = (value: string | null): string => {
   if (!value) {
-    return "Never";
+    return "Nunca";
   }
 
   return format(new Date(value), "MMM d, yyyy");
@@ -31,7 +31,7 @@ const userColumns: ColumnDef<UserTableRow>[] = [
       <div className="min-w-[14rem] space-y-1">
         <p className="font-semibold text-stone-950">{row.original.name}</p>
         <p className="text-xs uppercase tracking-[0.18em] text-stone-500">
-          {row.original.roles.join(" • ") || "No roles assigned"}
+          {row.original.roles.join(" • ") || "Sin roles asignados"}
         </p>
       </div>
     ),
@@ -45,7 +45,7 @@ const userColumns: ColumnDef<UserTableRow>[] = [
   {
     accessorKey: "roles",
     cell: ({ row }) => (
-      <span className="text-stone-700">{row.original.roles.join(", ") || "None"}</span>
+      <span className="text-stone-700">{row.original.roles.join(", ") || "Ninguno"}</span>
     ),
     enableSorting: false,
     header: "Rol",
@@ -96,12 +96,10 @@ export function UserTable() {
     bulkActions: [
       {
         confirmation: {
-          confirmLabel: "Delete selected",
+          confirmLabel: "Eliminar seleccionados",
           description: (rows) =>
-            `This will soft-delete ${rows.length} selected user${
-              rows.length === 1 ? "" : "s"
-            }. These records will leave active views immediately.`,
-          title: "Delete selected users?",
+            `Se eliminarán ${rows.length} usuario${rows.length === 1 ? "" : "s"} seleccionado${rows.length === 1 ? "" : "s"} de las vistas activas.`,
+          title: "¿Eliminar los usuarios seleccionados?",
           tone: "danger",
         },
         icon: Trash2,
@@ -230,10 +228,10 @@ export function UserTable() {
       },
       {
         confirmation: {
-          confirmLabel: "Delete user",
+          confirmLabel: "Eliminar usuario",
           description: (rows) =>
-            `Delete ${rows[0]?.name ?? "this user"} from active records? This performs a soft delete so the audit trail can stay intact.`,
-          title: "Delete user?",
+            `¿Eliminar a ${rows[0]?.name ?? "este usuario"} de los registros activos? El historial de auditoría se conservará.`,
+          title: "¿Eliminar usuario?",
           tone: "danger",
         },
         icon: Trash2,
@@ -249,7 +247,7 @@ export function UserTable() {
       {
         icon: Copy,
         id: "copy-email",
-        label: "Copy email",
+        label: "Copiar correo",
         onClick: async (row) => {
           await navigator.clipboard.writeText(row.email);
         },

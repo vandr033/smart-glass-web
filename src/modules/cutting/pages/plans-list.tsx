@@ -52,7 +52,7 @@ export default function CuttingPlansListPage() {
   return (
     <main className="space-y-6">
       <PageHeader
-        description="Approve plan-ready layouts, inspect remnant outputs, and open print-friendly views once the plan is commercially acceptable."
+        description="Aprueba diseños listos, revisa los remanentes y abre vistas imprimibles cuando el plan sea comercialmente aceptable."
         eyebrow="Corte"
         title="Planes de corte"
       />
@@ -94,7 +94,7 @@ export default function CuttingPlansListPage() {
                     </span>
                   </div>
                   <p className="mt-2 text-sm text-stone-600">
-                    {plan.material.name} · {plan.optimizationRun.code} · {plan.sheetCount} sheets
+                    {plan.material.name} · {plan.optimizationRun.code} · {plan.sheetCount} láminas
                   </p>
                 </div>
 

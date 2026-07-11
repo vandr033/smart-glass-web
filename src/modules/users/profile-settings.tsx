@@ -32,10 +32,10 @@ const detailCardClassName =
 
 const formatDate = (value: string | null): string => {
   if (!value) {
-    return "Never";
+    return "Nunca";
   }
 
-  return new Intl.DateTimeFormat("en-US", {
+  return new Intl.DateTimeFormat("es-BO", {
     dateStyle: "medium",
     timeStyle: "short",
   }).format(new Date(value));
@@ -280,7 +280,7 @@ export function ProfileSettings() {
           </div>
 
           <label className="block space-y-2">
-            <span className="text-sm font-medium text-[color:var(--color-text)]">Name</span>
+            <span className="text-sm font-medium text-[color:var(--color-text)]">Nombre</span>
             <input
               className={fieldClassName}
               disabled={updateProfileMutation.isPending}

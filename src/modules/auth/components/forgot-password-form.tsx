@@ -43,13 +43,13 @@ export function ForgotPasswordForm() {
 
   return (
     <AuthShell
-      description="We’ll send a secure reset link if the address exists in the system."
-      footer={<AuthLinkRow href="/login" label="Remembered your password?" linkLabel="Back to sign in" />}
-      title="Forgot your password?"
+      description="Enviaremos un enlace seguro de restablecimiento si la dirección existe en el sistema."
+      footer={<AuthLinkRow href="/login" label="¿Recordaste tu contraseña?" linkLabel="Volver a iniciar sesión" />}
+      title="¿Olvidaste tu contraseña?"
     >
       {submittedEmail ? (
         <AuthBanner tone="success">
-          If {submittedEmail} exists in the system, a reset link has been sent.
+          Si {submittedEmail} existe en el sistema, se envió un enlace de restablecimiento.
         </AuthBanner>
       ) : null}
       {forgotPasswordMutation.error ? (
@@ -60,8 +60,8 @@ export function ForgotPasswordForm() {
         <AuthInput
           autoComplete="email"
           error={form.formState.errors.email?.message}
-          label="Email"
-          placeholder="you@company.com"
+          label="Correo electrónico"
+          placeholder="tu@empresa.com"
           type="email"
           {...form.register("email")}
         />
@@ -71,7 +71,7 @@ export function ForgotPasswordForm() {
           disabled={forgotPasswordMutation.isPending}
           type="submit"
         >
-          {forgotPasswordMutation.isPending ? "Sending link..." : "Send reset link"}
+          {forgotPasswordMutation.isPending ? "Enviando enlace…" : "Enviar enlace de restablecimiento"}
         </button>
       </form>
     </AuthShell>

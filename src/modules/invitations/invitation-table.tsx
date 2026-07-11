@@ -11,7 +11,7 @@ import type { InvitationStatus, InvitationTableRow } from "@/types";
 
 const formatDate = (value: string | null): string => {
   if (!value) {
-    return "Not accepted";
+    return "No aceptada";
   }
 
   return format(new Date(value), "MMM d, yyyy");
@@ -43,7 +43,7 @@ const invitationColumns: ColumnDef<InvitationTableRow>[] = [
       <div className="space-y-1">
         <p className="text-stone-900">{row.original.role.name}</p>
         <p className="text-sm text-stone-500">
-          {row.original.role.description || "No role description provided."}
+          {row.original.role.description || "No se proporcionó una descripción del rol."}
         </p>
       </div>
     ),
@@ -82,7 +82,7 @@ const invitationColumns: ColumnDef<InvitationTableRow>[] = [
         {formatDate(row.original.expiresAt)}
       </span>
     ),
-    header: "Expires At",
+    header: "Fecha de vencimiento",
   },
   {
     accessorKey: "acceptedAt",
@@ -91,7 +91,7 @@ const invitationColumns: ColumnDef<InvitationTableRow>[] = [
         {formatDate(row.original.acceptedAt)}
       </span>
     ),
-    header: "Accepted At",
+    header: "Fecha de aceptación",
   },
 ];
 
@@ -125,12 +125,12 @@ export function InvitationTable() {
           value: (row) => row.status,
         },
         {
-          header: "Expires At",
+          header: "Fecha de vencimiento",
           key: "expiresAt",
           value: (row) => row.expiresAt,
         },
         {
-          header: "Accepted At",
+          header: "Fecha de aceptación",
           key: "acceptedAt",
           value: (row) => row.acceptedAt ?? "",
         },
@@ -143,7 +143,7 @@ export function InvitationTable() {
     },
     emptyState: {
       description:
-        "Try broadening the search, clearing the status filter, or creating a new invitation.",
+        "Prueba ampliando la búsqueda, quitando el filtro de estado o creando una nueva invitación.",
       title: "No hay invitaciones para la vista actual",
     },
     enableSelection: false,
@@ -153,19 +153,19 @@ export function InvitationTable() {
         label: "Estado",
         options: [
           {
-            label: "Pending",
+            label: "Pendiente",
             value: "pending",
           },
           {
-            label: "Accepted",
+            label: "Aceptada",
             value: "accepted",
           },
           {
-            label: "Expired",
+            label: "Vencida",
             value: "expired",
           },
           {
-            label: "Revoked",
+            label: "Revocada",
             value: "revoked",
           },
         ],
@@ -180,7 +180,7 @@ export function InvitationTable() {
         confirmation: {
           confirmLabel: "Resend invitation",
           description: (rows) =>
-            `Send a fresh invitation link to ${rows[0]?.email ?? "this invitee"} and rotate the existing token immediately.`,
+            `Envía un enlace de invitación nuevo a ${rows[0]?.email ?? "esta persona invitada"} y rota inmediatamente el token existente.`,
           title: "Resend invitation?",
         },
         disabled: (row) => row.status === "Accepted" || row.status === "Revoked",
@@ -198,7 +198,7 @@ export function InvitationTable() {
         confirmation: {
           confirmLabel: "Revoke invitation",
           description: (rows) =>
-            `Revoke the invitation for ${rows[0]?.email ?? "this invitee"} so the current link can no longer be used.`,
+            `Revoca la invitación para ${rows[0]?.email ?? "esta persona invitada"} para que el enlace actual ya no pueda utilizarse.`,
           title: "Revoke invitation?",
           tone: "danger",
         },

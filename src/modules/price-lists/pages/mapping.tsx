@@ -114,7 +114,7 @@ export default function PriceListMappingPage({
       const materialId = selectedMaterials[rowId];
 
       if (!materialId) {
-        throw new Error("Choose an internal material before mapping the row.");
+        throw new Error("Selecciona un material interno antes de mapear la fila.");
       }
 
       setBusyRowId(rowId);
@@ -159,7 +159,7 @@ export default function PriceListMappingPage({
   });
 
   if (detailQuery.isLoading || rowsQuery.isLoading) {
-    return <LoadingState cards={4} title="Loading the mapping workspace" />;
+    return <LoadingState cards={4} title="Cargando el espacio de mapeo" />;
   }
 
   if (detailQuery.isError || rowsQuery.isError || !detailQuery.data) {
@@ -174,15 +174,15 @@ export default function PriceListMappingPage({
             }}
             type="button"
           >
-            Retry
+            Intentar nuevamente
           </button>
         }
         description={
           detailQuery.error?.message ??
           rowsQuery.error?.message ??
-          "The mapping workspace could not be loaded."
+          "No se pudo cargar el espacio de mapeo."
         }
-        title="Mapping workspace unavailable"
+        title="El espacio de mapeo no está disponible"
       />
     );
   }
@@ -197,16 +197,16 @@ export default function PriceListMappingPage({
         actions={
           <>
             <Link className={secondaryButtonClassName} href={PRICE_LISTS_ROUTES.detail(importId)}>
-              Back to import
+              Volver a importación
             </Link>
             <Link className={secondaryButtonClassName} href={PRICE_LISTS_ROUTES.history}>
-              Price history
+              Historial de precios
             </Link>
           </>
         }
-        description="Resolve unmapped rows first, save supplier equivalences whenever the match is trustworthy, and validate only after the unresolved queue is empty."
-        eyebrow="Mapping"
-        title={`Mapping for ${importRecord.fileName}`}
+        description="Resuelve primero las filas sin mapear, guarda equivalencias de proveedor cuando la coincidencia sea confiable y valida solo cuando la cola pendiente esté vacía."
+        eyebrow="Mapeo"
+        title={`Mapeo de ${importRecord.fileName}`}
       />
 
       <section className={sectionClassName}>
@@ -215,12 +215,11 @@ export default function PriceListMappingPage({
             <div className="flex flex-wrap items-center gap-3">
               <PriceListStatusBadge status={importRecord.status} />
               <p className="text-sm text-stone-600">
-                {importRecord.supplier.legalName} · {importRecord.rowCount} imported rows
+                {importRecord.supplier.legalName} · {importRecord.rowCount} filas importadas
               </p>
             </div>
             <p className="mt-3 max-w-3xl text-sm leading-7 text-stone-700">
-              Every mapped row can create or update a supplier equivalence so future imports
-              resolve automatically.
+              Cada fila mapeada puede crear o actualizar una equivalencia de proveedor para resolver automáticamente futuras importaciones.
             </p>
           </div>
 
@@ -228,7 +227,7 @@ export default function PriceListMappingPage({
             <p className="font-semibold text-stone-950">
               {importRecord.unmappedCount} unresolved · {importRecord.invalidCount} invalid
             </p>
-            <p className="mt-1">Approve stays disabled until the parent import is validated.</p>
+            <p className="mt-1">La aprobación permanecerá deshabilitada hasta validar la importación principal.</p>
           </div>
         </div>
 
@@ -256,7 +255,7 @@ export default function PriceListMappingPage({
             onChange={(event) => {
               setMaterialSearch(event.target.value);
             }}
-            placeholder="Narrow internal material options"
+            placeholder="Filtrar opciones de materiales internos"
             value={materialSearch}
           />
 
@@ -270,10 +269,10 @@ export default function PriceListMappingPage({
               }}
               value={validationFilter}
             >
-            <option value="">All validation states</option>
-            <option value="PENDING">Pending</option>
-            <option value="VALID">Valid</option>
-            <option value="INVALID">Invalid</option>
+            <option value="">Todos los estados de validación</option>
+            <option value="PENDING">Pendiente</option>
+            <option value="VALID">Válido</option>
+            <option value="INVALID">Inválido</option>
           </select>
 
           <label className="flex items-center gap-3 rounded-md border border-stone-200 bg-white px-4 py-3 text-sm font-medium text-stone-700">
@@ -285,16 +284,16 @@ export default function PriceListMappingPage({
               }}
               type="checkbox"
             />
-            Show unmapped and invalid rows first
+            Mostrar primero las filas sin mapear e inválidas
           </label>
         </div>
       </section>
 
       {rows.length === 0 ? (
         <EmptyState
-          description="There are no rows matching the current filters. Switch off the unresolved-only filter to inspect already mapped rows."
+          description="No hay filas que coincidan con los filtros actuales. Desactiva el filtro de pendientes para revisar las filas ya mapeadas."
           icon={Search}
-          title="Nothing to map in this view"
+          title="No hay nada que mapear en esta vista"
         />
       ) : (
         <section className={tableWrapperClassName}>
@@ -302,10 +301,10 @@ export default function PriceListMappingPage({
             <table className="min-w-full text-left text-sm">
               <thead className="bg-stone-50 text-xs uppercase tracking-[0.22em] text-stone-500">
                 <tr>
-                  <th className="px-5 py-4 font-semibold">Supplier row</th>
-                  <th className="px-5 py-4 font-semibold">Detected material</th>
-                  <th className="px-5 py-4 font-semibold">Statuses</th>
-                  <th className="px-5 py-4 font-semibold">Map action</th>
+                  <th className="px-5 py-4 font-semibold">Fila del proveedor</th>
+                  <th className="px-5 py-4 font-semibold">Material detectado</th>
+                  <th className="px-5 py-4 font-semibold">Estados</th>
+                  <th className="px-5 py-4 font-semibold">Acción de mapeo</th>
                 </tr>
               </thead>
               <tbody>
@@ -321,9 +320,9 @@ export default function PriceListMappingPage({
                           Row {row.rowNumber}: {row.supplierName}
                         </p>
                         <p className="mt-1 text-xs text-stone-500">
-                          SKU: {row.supplierSku ?? "Unavailable"} · Unit:{" "}
-                          {row.supplierUnit ?? "Unavailable"} · Price:{" "}
-                          {row.rawPrice ?? "Unavailable"}
+                          SKU: {row.supplierSku ?? "No disponible"} · Unidad:{" "}
+                          {row.supplierUnit ?? "No disponible"} · Precio:{" "}
+                          {row.rawPrice ?? "No disponible"}
                         </p>
                         {row.supplierDescription ? (
                           <p className="mt-2 max-w-xl text-sm leading-6 text-stone-700">

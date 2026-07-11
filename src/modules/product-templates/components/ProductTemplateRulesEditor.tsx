@@ -223,7 +223,7 @@ export function ProductTemplateRulesEditor({
   }, [form, versionQuery.data]);
 
   if (versionQuery.isLoading || materialsQuery.isLoading) {
-    return <LoadingState cards={4} title="Loading rule editor" />;
+    return <LoadingState cards={4} title="Cargando editor de reglas" />;
   }
 
   if (versionQuery.isError || materialsQuery.isError || !versionQuery.data) {
@@ -246,9 +246,9 @@ export function ProductTemplateRulesEditor({
         description={
           versionQuery.error?.message ??
           materialsQuery.error?.message ??
-          "Reference data could not be loaded."
+          "No se pudieron cargar los datos de referencia."
         }
-        title="Rule editor could not be prepared"
+        title="No se pudo preparar el editor de reglas"
       />
     );
   }
@@ -319,7 +319,7 @@ export function ProductTemplateRulesEditor({
           <div className="mb-5 flex items-center justify-between gap-4">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-                Inputs
+                Entradas
               </p>
               <h2 className="mt-2 text-2xl font-semibold tracking-tight text-stone-950">
                 Dynamic form fields
@@ -369,11 +369,11 @@ export function ProductTemplateRulesEditor({
                   <input className={fieldClassName} placeholder="Unit" {...form.register(`inputs.${index}.unit`)} />
                   <label className="flex items-center gap-2 text-sm text-stone-700">
                     <input type="checkbox" {...form.register(`inputs.${index}.isRequired`)} />
-                    Required
+                    Obligatorio
                   </label>
                   <input
                     className={fieldClassName}
-                    placeholder="Sort order"
+                    placeholder="Orden de clasificación"
                     type="number"
                     {...form.register(`inputs.${index}.sortOrder`)}
                   />
@@ -479,7 +479,7 @@ export function ProductTemplateRulesEditor({
                   </label>
                   <input
                     className={fieldClassName}
-                    placeholder="Sort order"
+                    placeholder="Orden de clasificación"
                     type="number"
                     {...form.register(`materialRules.${index}.sortOrder`)}
                   />
@@ -502,7 +502,7 @@ export function ProductTemplateRulesEditor({
                 Accessory Rules
               </p>
               <h2 className="mt-2 text-2xl font-semibold tracking-tight text-stone-950">
-                Optional and consumable items
+                Artículos opcionales y consumibles
               </h2>
             </div>
             <button
@@ -548,7 +548,7 @@ export function ProductTemplateRulesEditor({
                   </select>
                   <label className="flex items-center gap-2 text-sm text-stone-700">
                     <input type="checkbox" {...form.register(`accessoryRules.${index}.isOptional`)} />
-                    Optional
+                    Opcional
                   </label>
                   <label className="flex items-center gap-2 text-sm text-stone-700">
                     <input type="checkbox" {...form.register(`accessoryRules.${index}.isActive`)} />
@@ -556,13 +556,13 @@ export function ProductTemplateRulesEditor({
                   </label>
                   <input
                     className={fieldClassName}
-                    placeholder="Sort order"
+                    placeholder="Orden de clasificación"
                     type="number"
                     {...form.register(`accessoryRules.${index}.sortOrder`)}
                   />
                   <textarea
                     className="md:col-span-2 xl:col-span-3 rounded-md border border-stone-200 bg-stone-50/80 px-4 py-3 font-mono text-xs text-stone-900 outline-none transition focus:border-stone-400 focus:bg-white"
-                    placeholder="Quantity formula JSON"
+                    placeholder="JSON de fórmula de cantidad"
                     rows={8}
                     {...form.register(`accessoryRules.${index}.quantityFormulaJsonText`)}
                   />
@@ -576,7 +576,7 @@ export function ProductTemplateRulesEditor({
           <div className="mb-5 flex items-center justify-between gap-4">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-                Labor Rules
+                Reglas de mano de obra
               </p>
               <h2 className="mt-2 text-2xl font-semibold tracking-tight text-stone-950">
                 Fabrication and installation
@@ -601,7 +601,7 @@ export function ProductTemplateRulesEditor({
             {laborRulesFieldArray.fields.map((field, index) => (
               <div key={field.id} className="rounded-lg border border-stone-200 bg-white p-5">
                 <div className="mb-4 flex items-center justify-between">
-                  <p className="text-sm font-semibold text-stone-900">Labor rule {index + 1}</p>
+                  <p className="text-sm font-semibold text-stone-900">Regla de mano de obra {index + 1}</p>
                   <button
                     className={secondaryButtonClassName}
                     onClick={() => {
@@ -624,7 +624,7 @@ export function ProductTemplateRulesEditor({
                   </select>
                   <input
                     className={fieldClassName}
-                    placeholder="Unit cost"
+                    placeholder="Costo unitario"
                     type="number"
                     {...form.register(`laborRules.${index}.unitCost`)}
                   />
@@ -634,7 +634,7 @@ export function ProductTemplateRulesEditor({
                   </label>
                   <input
                     className={fieldClassName}
-                    placeholder="Sort order"
+                    placeholder="Orden de clasificación"
                     type="number"
                     {...form.register(`laborRules.${index}.sortOrder`)}
                   />

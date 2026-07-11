@@ -162,7 +162,7 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
   const updateNoteMutation = useMutation({
     mutationFn: async () => {
       if (!editingNoteId) {
-        throw new Error("Choose a note to update.");
+        throw new Error("Selecciona una nota para actualizar.");
       }
 
       return projectService.updateProjectNote(projectId, editingNoteId, {
@@ -192,7 +192,7 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
   const updateMeasurementMutation = useMutation({
     mutationFn: async () => {
       if (!editingMeasurementId) {
-        throw new Error("Choose a measurement to update.");
+        throw new Error("Selecciona una medición para actualizar.");
       }
 
       return projectService.updateProjectMeasurement(
@@ -211,7 +211,7 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
   const createAttachmentMutation = useMutation({
     mutationFn: async () => {
       if (!attachmentFile) {
-        throw new Error("Choose a file before uploading.");
+        throw new Error("Selecciona un archivo antes de cargarlo.");
       }
 
       return projectService.createProjectAttachment(
@@ -348,7 +348,7 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
               }}
               value={transitionToStatus}
             >
-              <option value="">Choose next status</option>
+              <option value="">Elegir el siguiente estado</option>
               {project.availableTransitions.map((status) => (
                 <option key={status} value={status}>
                   {PROJECT_STATUS_LABELS[status]}
@@ -361,7 +361,7 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
               onChange={(event) => {
                 setTransitionReason(event.target.value);
               }}
-              placeholder="Reason, required for on hold or cancelled"
+              placeholder="Motivo, obligatorio para poner en espera o cancelar"
               value={transitionReason}
             />
 
@@ -447,21 +447,21 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
                   Site address
                 </dt>
                 <dd className="mt-2 font-medium text-stone-900">
-                  {project.siteAddress || "Not set"}
+                  {project.siteAddress || "Sin configurar"}
                 </dd>
               </div>
               <div className="rounded-md border border-stone-200/90 bg-white/80 px-4 py-4">
                 <dt className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
                   City
                 </dt>
-                <dd className="mt-2 font-medium text-stone-900">{project.city || "Not set"}</dd>
+                <dd className="mt-2 font-medium text-stone-900">{project.city || "Sin configurar"}</dd>
               </div>
               <div className="rounded-md border border-stone-200/90 bg-white/80 px-4 py-4">
                 <dt className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
                   Responsible user
                 </dt>
                 <dd className="mt-2 font-medium text-stone-900">
-                  {project.responsibleUser?.name || "Unassigned"}
+                  {project.responsibleUser?.name || "Sin asignar"}
                 </dd>
               </div>
               <div className="rounded-md border border-stone-200/90 bg-white/80 px-4 py-4">
@@ -469,7 +469,7 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
                   Sales user
                 </dt>
                 <dd className="mt-2 font-medium text-stone-900">
-                  {project.salesUser?.name || "Unassigned"}
+                  {project.salesUser?.name || "Sin asignar"}
                 </dd>
               </div>
             </dl>
@@ -497,10 +497,10 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
                     <div className="flex flex-wrap items-start justify-between gap-3">
                       <div>
                         <p className="font-semibold text-stone-950">
-                          Measurement · Qty {measurement.quantity}
+                          Medición · Cantidad {measurement.quantity}
                         </p>
                         <p className="mt-1 text-sm text-stone-600">
-                          {measurement.locationDescription || "No location description"}
+                          {measurement.locationDescription || "Sin descripción de ubicación"}
                         </p>
                       </div>
                       {canUpdate ? (
@@ -530,7 +530,7 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
                               setDeleteTarget({
                                 id: measurement.id,
                                 kind: "measurement",
-                                label: measurement.locationDescription || "measurement",
+                                label: measurement.locationDescription || "medición",
                               });
                             }}
                             type="button"
@@ -543,7 +543,7 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
 
                     <div className="mt-4 grid gap-3 md:grid-cols-3">
                       <div className="rounded-md bg-stone-50/80 px-3 py-3">
-                        <p className="text-xs uppercase tracking-[0.18em] text-stone-500">Width</p>
+                        <p className="text-xs uppercase tracking-[0.18em] text-stone-500">Ancho</p>
                         <p className="mt-2 font-semibold text-stone-950">
                           {formatDimensionMm(measurement.widthMm)}
                         </p>
@@ -552,7 +552,7 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
                         </p>
                       </div>
                       <div className="rounded-md bg-stone-50/80 px-3 py-3">
-                        <p className="text-xs uppercase tracking-[0.18em] text-stone-500">Height</p>
+                        <p className="text-xs uppercase tracking-[0.18em] text-stone-500">Alto</p>
                         <p className="mt-2 font-semibold text-stone-950">
                           {formatDimensionMm(measurement.heightMm)}
                         </p>
@@ -561,7 +561,7 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
                         </p>
                       </div>
                       <div className="rounded-md bg-stone-50/80 px-3 py-3">
-                        <p className="text-xs uppercase tracking-[0.18em] text-stone-500">Depth</p>
+                        <p className="text-xs uppercase tracking-[0.18em] text-stone-500">Profundidad</p>
                         <p className="mt-2 font-semibold text-stone-950">
                           {formatDimensionMm(measurement.depthMm)}
                         </p>
@@ -574,8 +574,8 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
                 ))
               ) : (
                 <EmptyState
-                  description="Add field measurements here so later quotation templates can consume real dimensions without rekeying."
-                  title="No measurements yet"
+                  description="Agrega aquí las mediciones de campo para que las plantillas de cotización utilicen dimensiones reales sin volver a capturarlas."
+                  title="Aún no hay mediciones"
                 />
               )}
             </div>
@@ -600,7 +600,7 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
               >
                 <div className="flex items-center justify-between gap-3">
                   <p className="font-semibold text-stone-950">
-                    {editingMeasurementId ? "Edit measurement" : "Add measurement"}
+                    {editingMeasurementId ? "Editar medición" : "Agregar medición"}
                   </p>
                   {editingMeasurementId ? (
                     <button
@@ -626,7 +626,7 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
                         locationDescription: event.target.value,
                       }));
                     }}
-                    placeholder="Location description"
+                  placeholder="Descripción de ubicación"
                     value={measurementForm.locationDescription}
                   />
                   <input
@@ -648,7 +648,7 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
                         widthMm: event.target.value,
                       }));
                     }}
-                    placeholder="Width mm"
+                    placeholder="Ancho en mm"
                     value={measurementForm.widthMm}
                   />
                   <input
@@ -659,7 +659,7 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
                         heightMm: event.target.value,
                       }));
                     }}
-                    placeholder="Height mm"
+                    placeholder="Alto en mm"
                     value={measurementForm.heightMm}
                   />
                   <input
@@ -670,7 +670,7 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
                         depthMm: event.target.value,
                       }));
                     }}
-                    placeholder="Depth mm"
+                    placeholder="Profundidad en mm"
                     value={measurementForm.depthMm}
                   />
                   <input
@@ -695,7 +695,7 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
                       notes: event.target.value,
                     }));
                   }}
-                  placeholder="Measurement notes"
+                  placeholder="Notas de medición"
                   value={measurementForm.notes}
                 />
 
@@ -707,7 +707,7 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
                   type="submit"
                 >
                   <Plus className="mr-2 h-4 w-4" />
-                  {editingMeasurementId ? "Save measurement" : "Add measurement"}
+                  {editingMeasurementId ? "Guardar medición" : "Agregar medición"}
                 </button>
               </form>
             ) : null}
@@ -731,7 +731,7 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
                     <div className="flex flex-wrap items-start justify-between gap-3">
                       <div>
                         <p className="font-semibold text-stone-950">
-                          {note.user?.name || "System note"}
+                          {note.user?.name || "Nota del sistema"}
                         </p>
                         <p className="mt-1 text-xs uppercase tracking-[0.18em] text-stone-500">
                           {note.visibility.replace("_", " ")} · {formatDateValue(note.createdAt)}
@@ -758,7 +758,7 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
                               setDeleteTarget({
                                 id: note.id,
                                 kind: "note",
-                                label: note.note.slice(0, 40) || "note",
+                                label: note.note.slice(0, 40) || "nota",
                               });
                             }}
                             type="button"
@@ -773,8 +773,8 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
                 ))
               ) : (
                 <EmptyState
-                  description="Add internal or client-visible notes here to preserve context between sales, measurement, and field teams."
-                  title="No notes yet"
+                  description="Agrega aquí notas internas o visibles para el cliente para conservar el contexto entre ventas, medición y equipos de campo."
+                  title="Aún no hay notas"
                 />
               )}
             </div>
@@ -799,7 +799,7 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
               >
                 <div className="flex items-center justify-between gap-3">
                   <p className="font-semibold text-stone-950">
-                    {editingNoteId ? "Edit note" : "Add note"}
+                    {editingNoteId ? "Editar nota" : "Agregar nota"}
                   </p>
                   {editingNoteId ? (
                     <button
@@ -841,7 +841,7 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
                       note: event.target.value,
                     }));
                   }}
-                  placeholder="Note"
+                      placeholder="Nota"
                   value={noteForm.note}
                 />
 
@@ -851,7 +851,7 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
                   type="submit"
                 >
                   <Plus className="mr-2 h-4 w-4" />
-                  {editingNoteId ? "Save note" : "Add note"}
+                  {editingNoteId ? "Guardar nota" : "Agregar nota"}
                 </button>
               </form>
             ) : null}
@@ -885,7 +885,7 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
                           {attachment.fileName}
                         </a>
                         <p className="mt-1 text-sm text-stone-600">
-                          {attachment.description || "No description"}
+                          {attachment.description || "Sin descripción"}
                         </p>
                       </div>
                       {canUpdate ? (
@@ -915,8 +915,8 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
                 ))
               ) : (
                 <EmptyState
-                  description="Upload measurement photos, field plans, contracts, or other reference files here."
-                  title="No attachments yet"
+                  description="Carga aquí fotografías de medición, planos de campo, contratos u otros archivos de referencia."
+                  title="Aún no hay archivos adjuntos"
                 />
               )}
             </div>
@@ -956,7 +956,7 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
                     onChange={(event) => {
                       setAttachmentDescription(event.target.value);
                     }}
-                    placeholder="Description"
+                    placeholder="Descripción"
                     value={attachmentDescription}
                   />
                 </div>
@@ -973,7 +973,7 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
                   type="submit"
                 >
                   <Paperclip className="mr-2 h-4 w-4" />
-                  Upload attachment
+                  Cargar archivo adjunto
                 </button>
               </form>
             ) : null}
@@ -981,10 +981,10 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
 
           <section className={sectionClassName}>
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-              Status History
+              Historial de estados
             </p>
             <h2 className="mt-2 text-2xl font-semibold tracking-tight text-stone-950">
-              Lifecycle timeline
+              Línea de tiempo del ciclo de vida
             </h2>
 
             <div className="mt-5 space-y-4">
@@ -997,11 +997,11 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
                     <div className="flex flex-wrap items-start justify-between gap-3">
                       <div>
                         <p className="font-semibold text-stone-950">
-                          {entry.fromStatus ? PROJECT_STATUS_LABELS[entry.fromStatus] : "Created"}{" "}
+                          {entry.fromStatus ? PROJECT_STATUS_LABELS[entry.fromStatus] : "Creado"}{" "}
                           → {PROJECT_STATUS_LABELS[entry.toStatus]}
                         </p>
                         <p className="mt-1 text-sm text-stone-600">
-                          {entry.changedByUser?.name || "System"} · {formatDateValue(entry.createdAt)}
+                          {entry.changedByUser?.name || "Sistema"} · {formatDateValue(entry.createdAt)}
                         </p>
                       </div>
                       <ProjectStatusBadge status={entry.toStatus} />
@@ -1013,8 +1013,8 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
                 ))
               ) : (
                 <EmptyState
-                  description="Status changes will build a project timeline here as the record moves through its lifecycle."
-                  title="No status history yet"
+                  description="Los cambios de estado construirán aquí la línea de tiempo del proyecto."
+                  title="Aún no hay historial de estados"
                 />
               )}
             </div>
@@ -1080,14 +1080,14 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
       <ConfirmDialog
         confirmLabel={
           deleteTarget?.kind === "project"
-            ? "Delete project"
+            ? "Eliminar proyecto"
             : deleteTarget?.kind === "note"
-              ? "Delete note"
+              ? "Eliminar nota"
               : deleteTarget?.kind === "measurement"
-                ? "Delete measurement"
-                : "Delete attachment"
+                ? "Eliminar medición"
+                : "Eliminar archivo adjunto"
         }
-        description={`Delete ${deleteTarget?.label ?? "this item"}? This change will be tracked in the audit trail.`}
+        description={`¿Eliminar ${deleteTarget?.label ?? "este elemento"}? Este cambio quedará registrado en la auditoría.`}
         isLoading={deleteProjectMutation.isPending}
         onConfirm={() => {
           if (!deleteTarget) {
@@ -1128,7 +1128,7 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
           }
         }}
         open={Boolean(deleteTarget)}
-        title={`Delete ${deleteTarget?.kind ?? "item"}?`}
+        title={`¿Eliminar ${deleteTarget?.kind ?? "elemento"}?`}
       />
     </main>
   );

@@ -124,12 +124,11 @@ export function ProductForm(props: ProductFormProps) {
             </p>
             <h2 className="text-2xl font-semibold tracking-tight text-stone-950">
               {props.mode === "create"
-                ? "Add a product"
-                : `Update ${productQuery.data?.name ?? "product"}`}
+                ? "Agregar producto"
+                : `Actualizar ${productQuery.data?.name ?? "producto"}`}
             </h2>
             <p className="max-w-3xl text-sm leading-7 text-stone-700">
-              Keep future modules consistent by reusing the same validation, logging, and
-              permission-aware form foundation.
+              Mantén consistentes los módulos futuros reutilizando la misma base de validación, auditoría y formularios protegidos por permisos.
             </p>
           </div>
 
@@ -138,7 +137,7 @@ export function ProductForm(props: ProductFormProps) {
             href={props.mode === "create" ? PRODUCTS_ROUTES.list : PRODUCTS_ROUTES.view(props.productId)}
           >
             <ArrowLeft className="h-4 w-4" />
-            Back
+            Volver
           </Link>
         </div>
       </section>
@@ -146,7 +145,7 @@ export function ProductForm(props: ProductFormProps) {
       <section className={sectionClassName}>
         <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
           <label className="block space-y-2">
-            <span className="text-sm font-medium text-stone-700">Name</span>
+            <span className="text-sm font-medium text-stone-700">Nombre</span>
             <input
               className="w-full rounded-md border border-stone-200 bg-stone-50/80 px-4 py-3 text-sm text-stone-900 outline-none transition focus:border-stone-400 focus:bg-white disabled:cursor-not-allowed disabled:opacity-70"
               disabled={isBusy}
@@ -164,7 +163,7 @@ export function ProductForm(props: ProductFormProps) {
             <span className="space-y-1">
               <span className="block text-sm font-medium text-stone-700">Estado activo</span>
               <span className="block text-xs text-stone-500">
-                Keep this product visible in active table results.
+                Mantén este producto visible en los resultados activos.
               </span>
             </span>
             <input
@@ -177,11 +176,11 @@ export function ProductForm(props: ProductFormProps) {
         </div>
 
         <label className="mt-6 block space-y-2">
-          <span className="text-sm font-medium text-stone-700">Description</span>
+          <span className="text-sm font-medium text-stone-700">Descripción</span>
           <textarea
             className="min-h-40 w-full rounded-md border border-stone-200 bg-stone-50/80 px-4 py-3 text-sm text-stone-900 outline-none transition focus:border-stone-400 focus:bg-white disabled:cursor-not-allowed disabled:opacity-70"
             disabled={isBusy}
-            placeholder="Describe how this product should be used"
+            placeholder="Describe cómo debe utilizarse este producto"
             {...form.register("description")}
           />
           {form.formState.errors.description ? (

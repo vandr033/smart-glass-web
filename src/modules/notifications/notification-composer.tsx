@@ -52,7 +52,7 @@ export function NotificationComposer() {
         userId: "",
       });
       setSubmitError(null);
-      setSubmitMessage("Notification created.");
+      setSubmitMessage("Notificación creada correctamente.");
       await queryClient.invalidateQueries({
         queryKey: QUERY_KEYS.notifications,
       });
@@ -66,8 +66,8 @@ export function NotificationComposer() {
   if (recipientsQuery.isError) {
     return (
       <ErrorState
-        description="The notification composer needs recipient options before it can send a message."
-        title="Unable to load notification recipients"
+        description="El formulario necesita destinatarios disponibles antes de enviar una notificación."
+        title="No se pudieron cargar los destinatarios de notificaciones"
       />
     );
   }
@@ -83,11 +83,10 @@ export function NotificationComposer() {
 
         <div className="space-y-2">
           <h2 className="text-xl font-semibold tracking-tight text-stone-950">
-            Create notification
+            Crear notificación
           </h2>
           <p className="text-sm leading-7 text-stone-700">
-            Send a reusable in-app notification now. This API is the same foundation
-            future email, SMS, and WhatsApp channels can build on.
+            Envía ahora una notificación reutilizable dentro de la aplicación. Esta API es la base para futuros canales de correo, SMS y WhatsApp.
           </p>
         </div>
       </div>
@@ -100,7 +99,7 @@ export function NotificationComposer() {
       >
         <div className="grid gap-5">
           <label className="space-y-2">
-            <span className="text-sm font-semibold text-stone-800">Recipient</span>
+            <span className="text-sm font-semibold text-stone-800">Destinatario</span>
             <select
               className="h-12 w-full rounded-md border border-stone-300/80 bg-white px-4 text-sm text-stone-900 outline-none transition focus:border-[color:var(--color-primary)] focus:ring-2 focus:ring-blue-200"
               {...form.register("userId")}
@@ -120,10 +119,10 @@ export function NotificationComposer() {
 
           <div className="grid gap-5 md:grid-cols-[1fr_12rem]">
             <label className="space-y-2">
-              <span className="text-sm font-semibold text-stone-800">Title</span>
+              <span className="text-sm font-semibold text-stone-800">Título</span>
               <input
                 className="h-12 w-full rounded-md border border-stone-300/80 bg-white px-4 text-sm text-stone-900 outline-none transition focus:border-[color:var(--color-primary)] focus:ring-2 focus:ring-blue-200"
-                placeholder="Role changed"
+                placeholder="Rol actualizado"
                 {...form.register("title")}
                 disabled={createMutation.isPending}
                 type="text"
@@ -134,7 +133,7 @@ export function NotificationComposer() {
             </label>
 
             <label className="space-y-2">
-              <span className="text-sm font-semibold text-stone-800">Type</span>
+              <span className="text-sm font-semibold text-stone-800">Tipo</span>
               <select
                 className="h-12 w-full rounded-md border border-stone-300/80 bg-white px-4 text-sm text-stone-900 outline-none transition focus:border-[color:var(--color-primary)] focus:ring-2 focus:ring-blue-200"
                 {...form.register("type")}
@@ -153,10 +152,10 @@ export function NotificationComposer() {
           </div>
 
           <label className="space-y-2">
-            <span className="text-sm font-semibold text-stone-800">Message</span>
+            <span className="text-sm font-semibold text-stone-800">Mensaje</span>
             <textarea
               className="min-h-36 w-full rounded-lg border border-stone-300/80 bg-white px-4 py-3 text-sm text-stone-900 outline-none transition focus:border-[color:var(--color-primary)] focus:ring-2 focus:ring-blue-200"
-              placeholder="Describe what happened and what the user should know next."
+              placeholder="Describe qué ocurrió y qué debe saber el usuario."
               {...form.register("message")}
               disabled={createMutation.isPending}
             />

@@ -215,7 +215,7 @@ export function SettingsPageContent({ canEdit }: { canEdit: boolean }) {
         timezone: settings.timezone,
       });
       setSubmitError(null);
-      setSubmitMessage("Application settings updated.");
+      setSubmitMessage("Configuración de la aplicación actualizada correctamente.");
       await queryClient.invalidateQueries({
         queryKey: QUERY_KEYS.settings,
       });
@@ -462,7 +462,7 @@ export function SettingsPageContent({ canEdit }: { canEdit: boolean }) {
               <input
                 className="w-full rounded-md border border-stone-200 bg-stone-50/80 px-4 py-3 text-sm text-stone-900 outline-none transition focus:border-stone-400 focus:bg-white disabled:cursor-not-allowed disabled:opacity-70"
                 disabled={!canEdit || isBusy}
-                placeholder="no-reply@example.com"
+                placeholder="no-reply@ejemplo.com"
                 type="email"
                 {...form.register("senderEmail")}
               />

@@ -536,7 +536,7 @@ export function ClientDetail({ clientId }: ClientDetailProps) {
                     email: event.target.value,
                   }));
                 }}
-                placeholder="Email"
+                placeholder="Correo electrónico"
                 value={contactForm.email}
               />
 

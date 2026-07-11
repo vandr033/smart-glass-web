@@ -45,28 +45,28 @@ const nullableNumberSchema = z
     return value;
   })
   .refine((value) => value === null || Number.isFinite(value), {
-    message: "Value must be a valid number.",
+    message: "El valor debe ser un número válido.",
   });
 
 const jsonTextSchema = z.string().default("null");
 
 export const productTemplateCreateFormSchema = z.object({
-  code: z.string().trim().min(1, "Code is required."),
+  code: z.string().trim().min(1, "El código es obligatorio."),
   description: nullableStringSchema,
   initialVersionDefaultMarginPercent: nullableNumberSchema,
   initialVersionDefaultWastePercent: nullableNumberSchema,
   initialVersionDescription: nullableStringSchema,
-  initialVersionName: z.string().trim().min(1, "Initial version name is required."),
+  initialVersionName: z.string().trim().min(1, "El nombre de la versión inicial es obligatorio."),
   initialVersionNotes: nullableStringSchema,
-  name: z.string().trim().min(1, "Template name is required."),
+  name: z.string().trim().min(1, "El nombre de la plantilla es obligatorio."),
   productType: z.enum(PRODUCT_TEMPLATE_TYPES),
   status: z.enum(PRODUCT_TEMPLATE_STATUSES),
 });
 
 export const productTemplateEditFormSchema = z.object({
-  code: z.string().trim().min(1, "Code is required."),
+  code: z.string().trim().min(1, "El código es obligatorio."),
   description: nullableStringSchema,
-  name: z.string().trim().min(1, "Template name is required."),
+  name: z.string().trim().min(1, "El nombre de la plantilla es obligatorio."),
   productType: z.enum(PRODUCT_TEMPLATE_TYPES),
   status: z.enum(PRODUCT_TEMPLATE_STATUSES),
 });
@@ -76,7 +76,7 @@ export const productTemplateVersionFormSchema = z.object({
   defaultWastePercent: nullableNumberSchema,
   description: nullableStringSchema,
   duplicateFromVersionId: nullableStringSchema,
-  name: z.string().trim().min(1, "Version name is required."),
+  name: z.string().trim().min(1, "El nombre de la versión es obligatorio."),
   notes: nullableStringSchema,
   status: z.enum(PRODUCT_TEMPLATE_VERSION_STATUSES),
 });
@@ -85,8 +85,8 @@ const rulesInputItemSchema = z.object({
   defaultValueJsonText: jsonTextSchema,
   inputType: z.enum(PRODUCT_TEMPLATE_INPUT_TYPES),
   isRequired: z.boolean(),
-  key: z.string().trim().min(1, "Input key is required."),
-  label: z.string().trim().min(1, "Input label is required."),
+  key: z.string().trim().min(1, "La clave de entrada es obligatoria."),
+  label: z.string().trim().min(1, "La etiqueta de entrada es obligatoria."),
   optionsJsonText: jsonTextSchema,
   sortOrder: z.coerce.number().int().min(0),
   unit: nullableStringSchema,
@@ -98,8 +98,8 @@ const materialRuleItemSchema = z.object({
   allowRotation: z.boolean(),
   formulaJsonText: jsonTextSchema,
   isActive: z.boolean(),
-  label: z.string().trim().min(1, "Rule label is required."),
-  materialId: z.string().trim().min(1, "Material is required."),
+  label: z.string().trim().min(1, "La etiqueta de la regla es obligatoria."),
+  materialId: z.string().trim().min(1, "El material es obligatorio."),
   ruleType: z.enum(PRODUCT_TEMPLATE_MATERIAL_RULE_TYPES),
   sortOrder: z.coerce.number().int().min(0),
   wastePercent: nullableNumberSchema,
@@ -108,8 +108,8 @@ const materialRuleItemSchema = z.object({
 const accessoryRuleItemSchema = z.object({
   isActive: z.boolean(),
   isOptional: z.boolean(),
-  label: z.string().trim().min(1, "Accessory label is required."),
-  materialId: z.string().trim().min(1, "Material is required."),
+  label: z.string().trim().min(1, "La etiqueta del accesorio es obligatoria."),
+  materialId: z.string().trim().min(1, "El material es obligatorio."),
   quantityFormulaJsonText: jsonTextSchema,
   sortOrder: z.coerce.number().int().min(0),
 });
@@ -117,7 +117,7 @@ const accessoryRuleItemSchema = z.object({
 const laborRuleItemSchema = z.object({
   formulaJsonText: jsonTextSchema,
   isActive: z.boolean(),
-  label: z.string().trim().min(1, "Labor label is required."),
+  label: z.string().trim().min(1, "La etiqueta de mano de obra es obligatoria."),
   laborType: z.enum(PRODUCT_TEMPLATE_LABOR_TYPES),
   sortOrder: z.coerce.number().int().min(0),
   unitCost: nullableNumberSchema,

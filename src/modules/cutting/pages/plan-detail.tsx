@@ -63,7 +63,7 @@ export default function CuttingPlanDetailPage({
   if (planQuery.isPending) {
     return (
       <LoadingState
-        title="Preparing cutting plan"
+        title="Preparando el plan de corte"
       />
     );
   }
@@ -72,7 +72,7 @@ export default function CuttingPlanDetailPage({
     return (
       <ErrorState
         description={planQuery.error.message}
-        title="Cutting plan could not be loaded"
+        title="No se pudo cargar el plan de corte"
       />
     );
   }
@@ -92,14 +92,14 @@ export default function CuttingPlanDetailPage({
               className="inline-flex items-center rounded-md border border-stone-300 bg-white px-4 py-2.5 text-sm font-semibold text-stone-700 transition hover:border-stone-400 hover:text-stone-950"
               href={CUTTING_ROUTES.plans}
             >
-              Back to Plans
+              Volver a planes
             </Link>
             {canPrint ? (
               <Link
                 className="inline-flex items-center rounded-md border border-stone-300 bg-white px-4 py-2.5 text-sm font-semibold text-stone-700 transition hover:border-stone-400 hover:text-stone-950"
                 href={CUTTING_ROUTES.planPrint(plan.id)}
               >
-                Print Layout
+                Imprimir diseño
               </Link>
             ) : null}
             <button
@@ -110,7 +110,7 @@ export default function CuttingPlanDetailPage({
               }}
               type="button"
             >
-              Approve Plan
+              Aprobar plan
             </button>
             <button
               className="inline-flex items-center rounded-md bg-[var(--color-primary)] px-4 py-2.5 text-sm font-semibold text-[color:var(--color-primary-contrast)] transition hover:bg-[var(--color-primary-hover)] disabled:cursor-not-allowed disabled:opacity-60"
@@ -125,12 +125,12 @@ export default function CuttingPlanDetailPage({
               }}
               type="button"
             >
-              Create Remnants
+              Crear remanentes
             </button>
           </>
         }
-        description="Validate each sheet layout, confirm waste and planned remnants, then approve or create remnant records when the plan is ready."
-        eyebrow="Cutting"
+        description="Valida cada diseño de lámina, confirma el desperdicio y los remanentes planificados, y luego aprueba o crea los registros correspondientes."
+        eyebrow="Corte"
         title={plan.code}
       />
 
@@ -149,7 +149,7 @@ export default function CuttingPlanDetailPage({
         <div className="mt-5 grid gap-4 md:grid-cols-4">
           <div className="rounded-[1.1rem] bg-stone-50 px-4 py-4">
             <p className="text-xs font-semibold uppercase tracking-[0.16em] text-stone-500">
-              Sheets
+              Láminas
             </p>
             <p className="mt-2 text-lg font-semibold text-stone-950">{plan.sheetCount}</p>
           </div>

@@ -65,7 +65,7 @@ export default function CuttingOptimizationDetailPage({
   if (optimizationQuery.isPending) {
     return (
       <LoadingState
-        title="Preparing optimization detail"
+        title="Preparando el detalle de la optimización"
       />
     );
   }
@@ -74,7 +74,7 @@ export default function CuttingOptimizationDetailPage({
     return (
       <ErrorState
         description={optimizationQuery.error.message}
-        title="Optimization run could not be loaded"
+        title="No se pudo cargar la corrida de optimización"
       />
     );
   }
@@ -103,7 +103,7 @@ export default function CuttingOptimizationDetailPage({
               }}
               type="button"
             >
-              Cancel Run
+              Cancelar corrida
             </button>
             <button
               className="inline-flex items-center rounded-md bg-[var(--color-primary)] px-4 py-2.5 text-sm font-semibold text-[color:var(--color-primary-contrast)] transition hover:bg-[var(--color-primary-hover)] disabled:cursor-not-allowed disabled:opacity-60"
@@ -119,12 +119,12 @@ export default function CuttingOptimizationDetailPage({
               }}
               type="button"
             >
-              Generate Cutting Plan
+              Generar plan de corte
             </button>
           </>
         }
-        description="Inspect the extracted sheet requirements, review layout warnings, and generate downstream cutting plans only when this run is commercially or operationally acceptable."
-        eyebrow="Cutting"
+        description="Inspecciona los requisitos de láminas extraídos, revisa las advertencias del diseño y genera planes posteriores cuando la corrida sea comercial u operativamente aceptable."
+        eyebrow="Corte"
         title={run.code}
       />
 
@@ -137,14 +137,14 @@ export default function CuttingOptimizationDetailPage({
           </span>
           <span className="text-sm text-stone-700">{getCuttingModeLabel(run.mode)}</span>
           <span className="text-sm text-stone-500">
-            {run.quotation?.code ?? "No quotation"} {run.project ? `· ${run.project.code}` : ""}
+            {run.quotation?.code ?? "Sin cotización"} {run.project ? `· ${run.project.code}` : ""}
           </span>
         </div>
 
         <div className="mt-5 grid gap-4 md:grid-cols-4">
           <div className="rounded-[1.1rem] bg-stone-50 px-4 py-4">
             <p className="text-xs font-semibold uppercase tracking-[0.16em] text-stone-500">
-              Required Area
+              Área requerida
             </p>
             <p className="mt-2 text-lg font-semibold text-stone-950">
               {formatCuttingArea(run.totalRequiredAreaM2)}
@@ -152,7 +152,7 @@ export default function CuttingOptimizationDetailPage({
           </div>
           <div className="rounded-[1.1rem] bg-stone-50 px-4 py-4">
             <p className="text-xs font-semibold uppercase tracking-[0.16em] text-stone-500">
-              Sheet Area
+              Área de lámina
             </p>
             <p className="mt-2 text-lg font-semibold text-stone-950">
               {formatCuttingArea(run.totalSheetAreaM2)}
@@ -160,7 +160,7 @@ export default function CuttingOptimizationDetailPage({
           </div>
           <div className="rounded-[1.1rem] bg-stone-50 px-4 py-4">
             <p className="text-xs font-semibold uppercase tracking-[0.16em] text-stone-500">
-              Waste Area
+              Área de desperdicio
             </p>
             <p className="mt-2 text-lg font-semibold text-stone-950">
               {formatCuttingArea(run.estimatedWasteAreaM2)}
@@ -168,7 +168,7 @@ export default function CuttingOptimizationDetailPage({
           </div>
           <div className="rounded-[1.1rem] bg-stone-50 px-4 py-4">
             <p className="text-xs font-semibold uppercase tracking-[0.16em] text-stone-500">
-              Waste Percent
+              Porcentaje de desperdicio
             </p>
             <p className="mt-2 text-lg font-semibold text-stone-950">
               {formatCuttingPercent(run.wastePercent)}
@@ -198,7 +198,7 @@ export default function CuttingOptimizationDetailPage({
       {createdPlans.length > 0 ? (
         <section className="rounded-lg border border-emerald-200 bg-emerald-50 px-5 py-5">
           <p className="text-sm font-semibold text-emerald-900">
-            Cutting plan generation completed.
+            Generación del plan de corte completada.
           </p>
           <div className="mt-3 flex flex-wrap gap-3">
             {createdPlans.map((plan) => (
@@ -288,8 +288,8 @@ export default function CuttingOptimizationDetailPage({
 
       {run.resultJson && allSheets.length === 0 ? (
         <EmptyState
-          description="This run did not produce any sheet layouts that can be turned into a cutting plan."
-          title="No layout output"
+          description="Esta corrida no produjo diseños de lámina que puedan convertirse en un plan de corte."
+          title="Sin resultado de diseño"
         />
       ) : null}
     </main>

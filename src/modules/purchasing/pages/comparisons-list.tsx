@@ -75,7 +75,7 @@ export default function PurchasingComparisonsListPage() {
             </Link>
           </>
         }
-        description="Review comparison runs, inspect selected supplier mixes, and open the detailed scoring matrix before procurement creates purchase orders."
+        description="Revisa las corridas comparativas, inspecciona las combinaciones de proveedores y abre la matriz detallada antes de crear órdenes de compra."
         eyebrow="Compras"
         title="Comparativos de proveedores"
       />
@@ -149,7 +149,7 @@ export default function PurchasingComparisonsListPage() {
 
         {comparisons.length === 0 ? (
           <EmptyState
-            description="Generate a supplier comparison from an approved request to start ranking supplier options here."
+            description="Genera un comparativo de proveedores desde una solicitud aprobada para comenzar a clasificar las opciones aquí."
             title="No comparisons found"
           />
         ) : null}

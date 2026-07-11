@@ -51,7 +51,7 @@ export default function PurchasingReceiptsListPage() {
   });
 
   if (warehousesQuery.isPending || receiptsQuery.isPending) {
-    return <LoadingState title="Loading purchase receipts" />;
+    return <LoadingState title="Cargando recepciones de compra" />;
   }
 
   if (warehousesQuery.isError || receiptsQuery.isError) {
@@ -60,9 +60,9 @@ export default function PurchasingReceiptsListPage() {
         description={
           warehousesQuery.error?.message ||
           receiptsQuery.error?.message ||
-          "Purchase receipts could not be loaded."
+          "No se pudieron cargar los recibos de compra."
         }
-        title="Purchase receipts are unavailable"
+        title="Las recepciones de compra no están disponibles"
       />
     );
   }
@@ -88,7 +88,7 @@ export default function PurchasingReceiptsListPage() {
             </Link>
           </>
         }
-        description="Review receipt history by warehouse, supplier, and purchase order to confirm that inbound purchasing activity created the expected inventory intake."
+        description="Revisa el historial de recepciones por almacén, proveedor y orden de compra para confirmar que las compras generaron el ingreso esperado al inventario."
         eyebrow="Purchasing"
         title="Purchase Receipts"
       />
@@ -96,7 +96,7 @@ export default function PurchasingReceiptsListPage() {
       <section className={sectionClassName}>
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           <label className="space-y-2 xl:col-span-2">
-            <span className="text-sm font-medium text-stone-700">Search</span>
+            <span className="text-sm font-medium text-stone-700">Buscar</span>
             <input
               className={fieldClassName}
               onChange={(event) => {
@@ -108,7 +108,7 @@ export default function PurchasingReceiptsListPage() {
           </label>
 
           <label className="space-y-2">
-            <span className="text-sm font-medium text-stone-700">Warehouse</span>
+            <span className="text-sm font-medium text-stone-700">Almacén</span>
             <select
               className={fieldClassName}
               onChange={(event) => {
@@ -162,8 +162,8 @@ export default function PurchasingReceiptsListPage() {
               <div>
                 <h2 className="text-xl font-semibold text-stone-950">{receipt.code}</h2>
                 <p className="mt-2 text-sm text-stone-600">
-                  {receipt.supplier?.commercialName || receipt.supplier?.legalName || "No supplier"}{" "}
-                  · {receipt.warehouse?.name || "No warehouse"} · {receipt.itemCount} item(s)
+                  {receipt.supplier?.commercialName || receipt.supplier?.legalName || "Sin proveedor"}{" "}
+                  · {receipt.warehouse?.name || "Sin almacén"} · {receipt.itemCount} ítem(s)
                 </p>
               </div>
               <div className="grid gap-2 text-right text-sm text-stone-600">
@@ -174,13 +174,13 @@ export default function PurchasingReceiptsListPage() {
                   </span>
                 </p>
                 <p>
-                  Received by:{" "}
+                  Recibido por:{" "}
                   <span className="font-semibold text-stone-950">
-                    {receipt.receivedByUser?.name || "System"}
+                    {receipt.receivedByUser?.name || "Sistema"}
                   </span>
                 </p>
                 <p>
-                  Received at:{" "}
+                  Recibido el:{" "}
                   <span className="font-semibold text-stone-950">
                     {formatDateValue(receipt.receivedAt)}
                   </span>
@@ -192,8 +192,8 @@ export default function PurchasingReceiptsListPage() {
 
         {receipts.length === 0 ? (
           <EmptyState
-            description="Receipts will appear here once confirmed purchase orders are received into a warehouse."
-            title="No receipts found"
+            description="Los recibos aparecerán aquí cuando las órdenes de compra confirmadas ingresen a un almacén."
+            title="No se encontraron recibos"
           />
         ) : null}
       </section>

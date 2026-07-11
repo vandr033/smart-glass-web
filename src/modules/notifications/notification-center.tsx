@@ -122,7 +122,7 @@ export function NotificationCenter({
     return (
       <ErrorState
         description={getApiErrorMessage(notificationListQuery.error)}
-        title="Unable to load notifications"
+        title="No se pudieron cargar las notificaciones"
       />
     );
   }
@@ -133,21 +133,21 @@ export function NotificationCenter({
         <StatCard
           description="Las notificaciones nuevas se mantienen destacadas en la campana, el menú y la bandeja."
           icon={Bell}
-          label="Unread"
+          label="No leídas"
           tone="accent"
           value={String(unreadNotifications)}
         />
         <StatCard
-          description="This inbox keeps the full in-app trail that future channels can share."
+          description="Esta bandeja conserva todo el historial de actividad dentro de la aplicación."
           icon={Inbox}
           label="Total"
           value={String(totalNotifications)}
         />
         <StatCard
-          description="Use the shared API to clear noise quickly once you have reviewed recent activity."
+          description="Usa las acciones compartidas para limpiar rápidamente la bandeja después de revisar la actividad reciente."
           icon={Filter}
-          label="Bulk Action"
-          value="Mark all read"
+          label="Acción masiva"
+          value="Marcar todas como leídas"
         />
       </section>
 
@@ -156,10 +156,10 @@ export function NotificationCenter({
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div className="space-y-2">
               <h2 className="text-xl font-semibold tracking-tight text-stone-950">
-                Notification inbox
+                Bandeja de notificaciones
               </h2>
               <p className="text-sm leading-7 text-stone-700">
-                Review recent system events, open unread items, and keep your inbox tidy.
+                Revisa los eventos recientes, abre los avisos no leídos y mantén ordenada tu bandeja.
               </p>
             </div>
 
@@ -171,7 +171,7 @@ export function NotificationCenter({
               }}
               type="button"
             >
-              {markAllReadMutation.isPending ? "Updating..." : "Mark all read"}
+              {markAllReadMutation.isPending ? "Actualizando…" : "Marcar todas como leídas"}
             </button>
           </div>
 
@@ -199,7 +199,7 @@ export function NotificationCenter({
               }}
               value={typeFilter}
             >
-              <option value="all">All types</option>
+              <option value="all">Todos los tipos</option>
               {notificationTypeOptions.map((option) => (
                 <option key={option.value} value={option.value}>
                   {option.label}
@@ -219,7 +219,7 @@ export function NotificationCenter({
               }}
               type="button"
             >
-              {unreadOnly ? "Unread only" : "All notifications"}
+              {unreadOnly ? "Solo no leídas" : "Todas las notificaciones"}
             </button>
           </div>
 
@@ -233,7 +233,7 @@ export function NotificationCenter({
             <div className="mt-8 flex min-h-48 items-center justify-center rounded-lg border border-dashed border-stone-300 bg-white/70">
               <div className="flex items-center gap-3 text-sm font-medium text-stone-600">
                 <LoaderCircle className="h-4 w-4 animate-spin" />
-                Loading notifications...
+                Cargando notificaciones…
               </div>
             </div>
           ) : notifications.length === 0 ? (
@@ -241,7 +241,7 @@ export function NotificationCenter({
               <EmptyState
                 description="Los nuevos avisos aparecerán aquí automáticamente. También puede quitar filtros o crear un aviso manualmente."
                 icon={Inbox}
-                title="No notifications match this view"
+                title="No hay notificaciones para esta vista"
               />
             </div>
           ) : (
@@ -260,7 +260,7 @@ export function NotificationCenter({
                           }}
                           type="button"
                         >
-                          Mark as read
+                          Marcar como leída
                         </button>
                       ) : null}
                       <NotificationDeleteButton

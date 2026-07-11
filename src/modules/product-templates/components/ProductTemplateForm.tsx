@@ -90,7 +90,7 @@ export function ProductTemplateForm(props: ProductTemplateFormProps) {
   }, [editForm, props.mode, templateQuery.data]);
 
   if (props.mode === "edit" && templateQuery.isLoading) {
-    return <ErrorState description="Loading template details..." title="Preparing template form" />;
+    return <ErrorState description="Cargando los detalles de la plantilla…" title="Preparando el formulario de plantilla" />;
   }
 
   if (props.mode === "edit" && templateQuery.isError) {
@@ -104,11 +104,11 @@ export function ProductTemplateForm(props: ProductTemplateFormProps) {
             }}
             type="button"
           >
-            Retry
+            Intentar nuevamente
           </button>
         }
         description={templateQuery.error.message}
-        title="Template details could not be loaded"
+        title="No se pudieron cargar los detalles de la plantilla"
       />
     );
   }
@@ -193,14 +193,14 @@ export function ProductTemplateForm(props: ProductTemplateFormProps) {
               ) : null}
             </label>
             <label className="md:col-span-2 xl:col-span-2">
-              <span className="mb-2 block text-sm font-medium text-stone-700">Name</span>
+              <span className="mb-2 block text-sm font-medium text-stone-700">Nombre</span>
               <input className={fieldClassName} disabled={isBusy} {...form.register("name")} />
               {getFieldError("name") ? (
                 <span className="text-sm text-rose-700">{getFieldError("name")}</span>
               ) : null}
             </label>
             <label className={labelClassName}>
-              <span className="text-sm font-medium text-stone-700">Product type</span>
+              <span className="text-sm font-medium text-stone-700">Tipo de producto</span>
               <select className={fieldClassName} disabled={isBusy} {...form.register("productType")}>
                 {PRODUCT_TEMPLATE_TYPE_OPTIONS.map((option) => (
                   <option key={option.value} value={option.value}>
@@ -210,7 +210,7 @@ export function ProductTemplateForm(props: ProductTemplateFormProps) {
               </select>
             </label>
             <label className={labelClassName}>
-              <span className="text-sm font-medium text-stone-700">Status</span>
+              <span className="text-sm font-medium text-stone-700">Estado</span>
               <select className={fieldClassName} disabled={isBusy} {...form.register("status")}>
                 {PRODUCT_TEMPLATE_STATUS_OPTIONS.map((option) => (
                   <option key={option.value} value={option.value}>
@@ -220,7 +220,7 @@ export function ProductTemplateForm(props: ProductTemplateFormProps) {
               </select>
             </label>
             <label className="md:col-span-2 xl:col-span-4">
-              <span className="mb-2 block text-sm font-medium text-stone-700">Description</span>
+              <span className="mb-2 block text-sm font-medium text-stone-700">Descripción</span>
               <textarea
                 className={textAreaClassName}
                 disabled={isBusy}
@@ -236,7 +236,7 @@ export function ProductTemplateForm(props: ProductTemplateFormProps) {
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
               2. Initial Version
             </p>
-            <h3 className="text-xl font-semibold text-stone-950">Draft version defaults</h3>
+            <h3 className="text-xl font-semibold text-stone-950">Valores predeterminados de la versión de borrador</h3>
           </div>
 
           <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
@@ -280,7 +280,7 @@ export function ProductTemplateForm(props: ProductTemplateFormProps) {
               />
             </label>
             <label className="md:col-span-2 xl:col-span-2">
-              <span className="mb-2 block text-sm font-medium text-stone-700">Notes</span>
+              <span className="mb-2 block text-sm font-medium text-stone-700">Notas</span>
               <textarea
                 className={textAreaClassName}
                 disabled={isBusy}
@@ -373,14 +373,14 @@ export function ProductTemplateForm(props: ProductTemplateFormProps) {
             ) : null}
           </label>
           <label className="md:col-span-2 xl:col-span-2">
-            <span className="mb-2 block text-sm font-medium text-stone-700">Name</span>
+            <span className="mb-2 block text-sm font-medium text-stone-700">Nombre</span>
             <input className={fieldClassName} disabled={isBusy} {...form.register("name")} />
             {getFieldError("name") ? (
               <span className="text-sm text-rose-700">{getFieldError("name")}</span>
             ) : null}
           </label>
           <label className={labelClassName}>
-            <span className="text-sm font-medium text-stone-700">Product type</span>
+              <span className="text-sm font-medium text-stone-700">Tipo de producto</span>
             <select className={fieldClassName} disabled={isBusy} {...form.register("productType")}>
               {PRODUCT_TEMPLATE_TYPE_OPTIONS.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -390,7 +390,7 @@ export function ProductTemplateForm(props: ProductTemplateFormProps) {
             </select>
           </label>
           <label className={labelClassName}>
-            <span className="text-sm font-medium text-stone-700">Status</span>
+            <span className="text-sm font-medium text-stone-700">Estado</span>
             <select className={fieldClassName} disabled={isBusy} {...form.register("status")}>
               {PRODUCT_TEMPLATE_STATUS_OPTIONS.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -400,7 +400,7 @@ export function ProductTemplateForm(props: ProductTemplateFormProps) {
             </select>
           </label>
           <label className="md:col-span-2 xl:col-span-4">
-            <span className="mb-2 block text-sm font-medium text-stone-700">Description</span>
+            <span className="mb-2 block text-sm font-medium text-stone-700">Descripción</span>
             <textarea
               className={textAreaClassName}
               disabled={isBusy}

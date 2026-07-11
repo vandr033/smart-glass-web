@@ -16,13 +16,13 @@ export default async function InvitationsPage() {
               className="inline-flex items-center rounded-md bg-[var(--color-primary)] px-4 py-3 text-sm font-semibold text-[color:var(--color-primary-contrast)] transition hover:bg-[var(--color-primary-hover)]"
               href="/invitations/new"
             >
-              Create invitation
+              Crear invitación
             </Link>
           ) : null
         }
-        description="Track pending, accepted, expired, and revoked invitations from the same reusable DataTable system used across the admin workspace."
-        eyebrow="Onboarding"
-        title="Invitations"
+        description="Consulta las invitaciones pendientes, aceptadas, vencidas y revocadas desde el mismo sistema de tablas del área administrativa."
+        eyebrow="Incorporación"
+        title="Invitaciones"
       />
 
       <InvitationTable />

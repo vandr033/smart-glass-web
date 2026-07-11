@@ -15,24 +15,24 @@ const optionalNumberField = ({ label }: { label: string }) =>
 
       return Number.isFinite(Number(value));
     }, {
-      message: `${label} must be a valid number.`,
+      message: `${label} debe ser un número válido.`,
     })
     .default("");
 
 export const quotationFormSchema = z.object({
-  clientId: z.string().trim().min(1, "Client is required."),
-  currency: z.string().trim().min(1, "Currency is required.").max(16).default("BOB"),
+  clientId: z.string().trim().min(1, "El cliente es obligatorio."),
+  currency: z.string().trim().min(1, "La moneda es obligatoria.").max(16).default("BOB"),
   discountAmount: optionalNumberField({
-    label: "Discount amount",
+    label: "Importe de descuento",
   }),
   exchangeRate: optionalNumberField({
-    label: "Exchange rate",
+    label: "Tipo de cambio",
   }),
   internalNotes: optionalTextField,
   notes: optionalTextField,
   projectId: z.string().trim().default(""),
   taxAmount: optionalNumberField({
-    label: "Tax amount",
+    label: "Importe de impuesto",
   }),
   validUntil: z.string().trim().default(""),
 });

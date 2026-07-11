@@ -29,9 +29,9 @@ export default function InventoryStockPage({ canCreate }: InventoryStockPageProp
             ) : null}
           </>
         }
-        description="Revisa saldos actuales, dimensiones, ubicacion en almacen y accesos rapidos para ajustar, reservar, reportar dano o trasladar stock."
+        description="Revisa saldos actuales, dimensiones, ubicación en almacén y accesos rápidos para ajustar, reservar, reportar daño o trasladar existencias."
         eyebrow="Operaciones"
-        title="Stock de inventario"
+        title="Existencias de inventario"
       />
 
       <InventoryStockTable />

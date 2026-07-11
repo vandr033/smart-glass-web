@@ -45,7 +45,7 @@ const formatPresetSummary = (values: {
     values.thicknessMm ? `T ${formatMeasurement(values.thicknessMm)}` : null,
   ].filter(Boolean);
 
-  return parts.length > 0 ? parts.join(" • ") : "No dimensions defined";
+  return parts.length > 0 ? parts.join(" • ") : "No hay dimensiones definidas";
 };
 
 export function MaterialDimensionPresetsManager({
@@ -89,7 +89,7 @@ export function MaterialDimensionPresetsManager({
           </button>
         }
         description={presetsQuery.error.message}
-        title="Dimension presets could not be loaded"
+        title="No se pudieron cargar las dimensiones predefinidas"
       />
     );
   }
@@ -211,8 +211,8 @@ export function MaterialDimensionPresetsManager({
           </div>
         ) : (
           <EmptyState
-            description="Add standard dimensions such as common glass sheets, package sizes, or stock lengths used repeatedly by this material."
-            title="No dimension presets yet"
+            description="Agrega dimensiones estándar, como láminas de vidrio comunes, tamaños de paquetes o longitudes de inventario usadas repetidamente por este material."
+            title="Aún no hay dimensiones predefinidas"
           />
         )}
       </section>
@@ -220,7 +220,7 @@ export function MaterialDimensionPresetsManager({
       {isEditorOpen ? (
         <div className="fixed inset-0 z-50">
           <button
-            aria-label="Close dimension preset editor"
+            aria-label="Cerrar editor de dimensiones predefinidas"
             className="absolute inset-0 bg-[rgba(24,18,12,0.45)]"
             onClick={closeEditor}
             type="button"
@@ -229,10 +229,10 @@ export function MaterialDimensionPresetsManager({
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-                  {editingPresetId ? "Edit Preset" : "Create Preset"}
+                  {editingPresetId ? "Editar predefinición" : "Crear predefinición"}
                 </p>
                 <h3 className="mt-2 text-2xl font-semibold text-stone-950">
-                  {editingPresetId ? "Update dimension preset" : "New dimension preset"}
+                  {editingPresetId ? "Actualizar dimensión predefinida" : "Nueva dimensión predefinida"}
                 </h3>
               </div>
               <button
@@ -240,7 +240,7 @@ export function MaterialDimensionPresetsManager({
                 onClick={closeEditor}
                 type="button"
               >
-                Close
+                Cerrar
               </button>
             </div>
 
@@ -402,7 +402,7 @@ export function MaterialDimensionPresetsManager({
                   onClick={closeEditor}
                   type="button"
                 >
-                  Cancel
+                  Cancelar
                 </button>
                 <button
                   className="inline-flex items-center gap-2 rounded-md bg-[var(--color-primary)] px-4 py-2.5 text-sm font-semibold text-[color:var(--color-primary-contrast)] transition hover:bg-[var(--color-primary-hover)] disabled:cursor-not-allowed disabled:opacity-60"
@@ -410,8 +410,8 @@ export function MaterialDimensionPresetsManager({
                   type="submit"
                 >
                   {createMutation.isPending || updateMutation.isPending
-                    ? "Saving..."
-                    : "Save preset"}
+                    ? "Guardando…"
+                    : "Guardar predefinición"}
                 </button>
               </div>
             </form>
@@ -420,11 +420,11 @@ export function MaterialDimensionPresetsManager({
       ) : null}
 
       <ConfirmDialog
-        confirmLabel={deleteMutation.isPending ? "Deleting..." : "Delete preset"}
+        confirmLabel={deleteMutation.isPending ? "Eliminando…" : "Eliminar predefinición"}
         description={
           pendingDeletePreset
-            ? `Delete ${pendingDeletePreset.label}? This will remove the preset from the material detail view.`
-            : "Delete this preset?"
+            ? `¿Eliminar ${pendingDeletePreset.label}? Se quitará la predefinición de la vista de detalle del material.`
+            : "¿Eliminar esta predefinición?"
         }
         isLoading={deleteMutation.isPending}
         onConfirm={async () => {
@@ -444,7 +444,7 @@ export function MaterialDimensionPresetsManager({
           }
         }}
         open={Boolean(pendingDeletePreset)}
-        title="Delete preset?"
+        title="¿Eliminar predefinición?"
         tone="danger"
       />
     </>

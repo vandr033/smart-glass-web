@@ -108,7 +108,7 @@ export function InventoryReservationsTable() {
     },
     emptyState: {
       description:
-        "Las reservas blandas y firmes aparecerán aquí cuando el stock empiece a asignarse a cotizaciones o proyectos.",
+        "Las reservas blandas y firmes aparecerán aquí cuando las existencias empiecen a asignarse a cotizaciones o proyectos.",
       title: "No hay reservas para la vista actual",
     },
     filters: [

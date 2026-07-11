@@ -66,7 +66,7 @@ export function InventoryDashboard() {
         actions={
           <>
             <Link className={secondaryButtonClassName} href={INVENTORY_ROUTES.stock}>
-              Stock
+              Existencias
             </Link>
             <Link className={secondaryButtonClassName} href={INVENTORY_ROUTES.reservations}>
               Reservas
@@ -76,32 +76,32 @@ export function InventoryDashboard() {
             </Link>
           </>
         }
-        description="Monitorea el stock disponible, las reservas, los remanentes, el material dañado y los movimientos recientes del módulo de inventario."
+        description="Monitorea las existencias disponibles, las reservas, los remanentes, el material dañado y los movimientos recientes del módulo de inventario."
         eyebrow="Operaciones"
         title="Inventario"
       />
 
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         <StatCard
-          description="Registros de materiales distintos que actualmente cuentan con stock activo."
+          description="Registros de materiales distintos que actualmente cuentan con existencias activas."
           href={INVENTORY_ROUTES.stock}
           icon={Boxes}
-          label="Materiales con stock"
+          label="Materiales con existencias"
           tone="accent"
           value={dashboard.totalMaterialsWithStock.toLocaleString("es-BO")}
         />
         <StatCard
-          description="Registros de stock que hoy se encuentran en o por debajo del nivel operativo considerado como bajo."
+          description="Registros de existencias que hoy se encuentran en o por debajo del nivel operativo considerado como bajo."
           href={INVENTORY_ROUTES.stock}
           icon={PackageSearch}
-          label="Stock bajo"
+          label="Existencias bajas"
           value={dashboard.lowStockCount.toLocaleString("es-BO")}
         />
         <StatCard
           description="Reservas que siguen activas entre asignaciones blandas y firmes."
           href={INVENTORY_ROUTES.reservations}
           icon={ClipboardList}
-          label="Stock reservado"
+          label="Existencias reservadas"
           value={dashboard.reservedStockCount.toLocaleString("es-BO")}
         />
         <StatCard
@@ -119,7 +119,7 @@ export function InventoryDashboard() {
           value={dashboard.remnantsCount.toLocaleString("es-BO")}
         />
         <StatCard
-          description="Almacenes y ubicaciones disponibles para visibilidad de stock y traslados."
+        description="Almacenes y ubicaciones disponibles para visibilidad de existencias y traslados."
           href={INVENTORY_ROUTES.warehouses}
           icon={Warehouse}
           label="Almacenes"
@@ -145,7 +145,7 @@ export function InventoryDashboard() {
 
         {dashboard.recentMovements.length === 0 ? (
           <div className="rounded-lg border border-dashed border-stone-300 px-5 py-8 text-sm text-stone-600">
-            El historial aparecerá aquí después del primer ingreso, ajuste, reserva o traslado de stock.
+            El historial aparecerá aquí después del primer ingreso, ajuste, reserva o traslado de existencias.
           </div>
         ) : (
           <div className={tableWrapperClassName}>

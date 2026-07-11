@@ -27,7 +27,7 @@ export default function ProductsListPage({
             </Link>
           ) : null
         }
-        description="Manage products with the shared DataTable foundation, including search, filters, pagination, and row actions."
+        description="Administra productos con la tabla compartida, incluyendo búsqueda, filtros, paginación y acciones por fila."
         eyebrow="Directory"
         title="Products"
       />

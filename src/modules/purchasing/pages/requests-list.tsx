@@ -95,7 +95,7 @@ export default function PurchasingRequestsListPage() {
             </Link>
           </>
         }
-        description="Review purchasing demand from quotations, cutting plans, inventory shortages, and manual intake before comparing suppliers or issuing orders."
+        description="Revisa la demanda de compras proveniente de cotizaciones, planes de corte, faltantes de inventario y registros manuales antes de comparar proveedores o emitir órdenes."
         eyebrow="Compras"
         title="Solicitudes de compra"
       />
@@ -115,7 +115,7 @@ export default function PurchasingRequestsListPage() {
           </label>
 
           <label className="space-y-2">
-            <span className="text-sm font-medium text-stone-700">Status</span>
+            <span className="text-sm font-medium text-stone-700">Estado</span>
             <select
               className={fieldClassName}
               onChange={(event) => {
@@ -235,7 +235,7 @@ export default function PurchasingRequestsListPage() {
 
         {requests.length === 0 ? (
           <EmptyState
-            description="Try widening the filters or create a manual request from the purchasing intake page."
+          description="Prueba ampliando los filtros o crea una solicitud manual desde la página de ingreso de compras."
             title="No purchase requests found"
           />
         ) : null}

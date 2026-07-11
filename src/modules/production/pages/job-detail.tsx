@@ -456,7 +456,7 @@ export default function ProductionJobDetailPage({
                   {job.project.code} · {job.project.title}
                 </Link>
               ) : (
-                "Not linked"
+                "No vinculada"
               )}
             </p>
             <p>
@@ -469,7 +469,7 @@ export default function ProductionJobDetailPage({
                   {job.quotation.code}
                 </Link>
               ) : (
-                "Not linked"
+                "No vinculada"
               )}
             </p>
             <p>
@@ -482,13 +482,13 @@ export default function ProductionJobDetailPage({
                   {job.cuttingPlan.code}
                 </Link>
               ) : (
-                "Not linked"
+                "No vinculada"
               )}
             </p>
             <p>
               Created by:{" "}
               <span className="font-semibold text-stone-950">
-                {job.createdByUser?.name ?? "System"}
+                {job.createdByUser?.name ?? "Sistema"}
               </span>
             </p>
           </div>
@@ -540,8 +540,8 @@ export default function ProductionJobDetailPage({
           ) : (
             <div className="mt-4">
               <EmptyState
-                description="Once waste is calculated for this job, theoretical versus actual production waste will show here."
-                title="No waste report yet"
+                description="Cuando se calcule el desperdicio de esta orden, aquí se mostrará la comparación entre el desperdicio teórico y el real."
+                title="Aún no hay reporte de desperdicio"
               />
             </div>
           )}
@@ -552,10 +552,10 @@ export default function ProductionJobDetailPage({
         <div className="flex items-center justify-between gap-3">
           <div>
             <p className="text-xs font-semibold tracking-[0.18em] text-stone-500 uppercase">
-              Job Items
+              Artículos de la orden
             </p>
             <h2 className="mt-2 text-xl font-semibold text-stone-950">
-              What this job is producing
+              Qué está produciendo esta orden
             </h2>
           </div>
         </div>
@@ -572,7 +572,7 @@ export default function ProductionJobDetailPage({
                     {item.name}
                   </p>
                   <p className="mt-1 text-xs text-stone-600">
-                    {item.material?.code ?? "No material"} · Qty {item.quantity}
+                    {item.material?.code ?? "Sin material"} · Cant. {item.quantity}
                   </p>
                 </div>
                 <p className="text-xs font-medium text-stone-500">
@@ -590,8 +590,8 @@ export default function ProductionJobDetailPage({
 
           {job.items.length === 0 ? (
             <EmptyState
-              description="This job does not yet have explicit production items."
-              title="No items registered"
+              description="Esta orden aún no tiene artículos de producción explícitos."
+              title="No hay artículos registrados"
             />
           ) : null}
         </div>
@@ -602,17 +602,17 @@ export default function ProductionJobDetailPage({
           <div className="flex items-center justify-between gap-3">
             <div>
               <p className="text-xs font-semibold tracking-[0.18em] text-stone-500 uppercase">
-                Tasks
+                Tareas
               </p>
               <h2 className="mt-2 text-xl font-semibold text-stone-950">
-                Current floor sequence
+                Secuencia actual de planta
               </h2>
             </div>
             <Link
               className="text-sm font-semibold text-[color:var(--color-primary)]"
               href={PRODUCTION_ROUTES.jobTasks(job.id)}
             >
-              Open tasks
+              Ver tareas
             </Link>
           </div>
 
@@ -632,7 +632,7 @@ export default function ProductionJobDetailPage({
                       </p>
                       <p className="mt-1 text-xs text-stone-600">
                         {getProductionTaskTypeLabel(task.taskType)} ·{" "}
-                        {task.assignedToUser?.name ?? "Unassigned"}
+                        {task.assignedToUser?.name ?? "Sin asignar"}
                       </p>
                     </div>
                     <span
@@ -647,8 +647,8 @@ export default function ProductionJobDetailPage({
 
             {job.tasks.length === 0 ? (
               <EmptyState
-                description="Generate a task sequence for this job to start coordinating floor execution."
-                title="No tasks yet"
+                description="Genera una secuencia de tareas para comenzar a coordinar la ejecución en planta."
+                title="Aún no hay tareas"
               />
             ) : null}
           </div>
@@ -658,17 +658,17 @@ export default function ProductionJobDetailPage({
           <div className="flex items-center justify-between gap-3">
             <div>
               <p className="text-xs font-semibold tracking-[0.18em] text-stone-500 uppercase">
-                Quality
+                Calidad
               </p>
               <h2 className="mt-2 text-xl font-semibold text-stone-950">
-                Recent checkpoints
+                Controles recientes
               </h2>
             </div>
             <Link
               className="text-sm font-semibold text-[color:var(--color-primary)]"
               href={PRODUCTION_ROUTES.jobQuality(job.id)}
             >
-              Open quality
+              Ver calidad
             </Link>
           </div>
 
@@ -685,11 +685,11 @@ export default function ProductionJobDetailPage({
                     <div>
                       <p className="text-sm font-semibold text-stone-950">
                         {check.productionTaskId
-                          ? "Task-linked quality check"
-                          : "Job quality check"}
+                          ? "Control de calidad vinculado a tarea"
+                          : "Control de calidad de la orden"}
                       </p>
                       <p className="mt-1 text-xs text-stone-600">
-                        {check.checkedByUser?.name ?? "Pending reviewer"} ·{" "}
+                        {check.checkedByUser?.name ?? "Revisor pendiente"} ·{" "}
                         {formatDateValue(check.checkedAt)}
                       </p>
                     </div>
@@ -705,8 +705,8 @@ export default function ProductionJobDetailPage({
 
             {recentChecks.length === 0 ? (
               <EmptyState
-                description="Quality checks recorded for this job will appear here."
-                title="No quality checks yet"
+                description="Los controles de calidad registrados para esta orden aparecerán aquí."
+                title="Aún no hay controles de calidad"
               />
             ) : null}
           </div>
@@ -741,7 +741,7 @@ export default function ProductionJobDetailPage({
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div>
                     <p className="text-sm font-semibold text-stone-950">
-                      {consumption.material?.name ?? "Manual material"} ·{" "}
+                      {consumption.material?.name ?? "Material manual"} ·{" "}
                       {consumption.quantity} {consumption.unit}
                     </p>
                     <p className="mt-1 text-xs text-stone-600">
@@ -750,7 +750,7 @@ export default function ProductionJobDetailPage({
                     </p>
                   </div>
                   <p className="text-xs font-medium text-stone-500">
-                    {consumption.consumedByUser?.name ?? "System"}
+                    {consumption.consumedByUser?.name ?? "Sistema"}
                   </p>
                 </div>
 
@@ -764,8 +764,8 @@ export default function ProductionJobDetailPage({
 
             {recentConsumptions.length === 0 ? (
               <EmptyState
-                description="Consumption entries will appear here after tasks begin pulling from stock or remnants."
-                title="No material consumption yet"
+                description="Los registros de consumo aparecerán aquí cuando las tareas comiencen a utilizar existencias o remanentes."
+                title="Aún no hay consumo de materiales"
               />
             ) : null}
           </div>
@@ -788,7 +788,7 @@ export default function ProductionJobDetailPage({
                       {entry.fromStatus ?? "Initial"} to {entry.toStatus}
                     </p>
                     <p className="mt-1 text-xs text-stone-600">
-                      {entry.changedByUser?.name ?? "System"} ·{" "}
+                      {entry.changedByUser?.name ?? "Sistema"} ·{" "}
                       {formatDateValue(entry.createdAt)}
                     </p>
                   </div>
@@ -804,8 +804,8 @@ export default function ProductionJobDetailPage({
 
             {job.statusHistory.length === 0 ? (
               <EmptyState
-                description="Status changes will be logged here as the job moves through production."
-                title="No history yet"
+                description="Los cambios de estado se registrarán aquí a medida que la orden avance por producción."
+                title="Aún no hay historial"
               />
             ) : null}
           </div>

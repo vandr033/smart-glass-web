@@ -26,22 +26,22 @@ const sectionClassName =
 
 const formatDate = (value: string | null): string => {
   if (!value) {
-    return "Not available";
+    return "No disponible";
   }
 
-  return new Intl.DateTimeFormat("en-US", {
+  return new Intl.DateTimeFormat("es-BO", {
     dateStyle: "medium",
     timeStyle: "short",
   }).format(new Date(value));
 };
 
 const formatMillimeter = (value: number | null): string => {
-  return value === null ? "Not set" : `${value} mm`;
+  return value === null ? "Sin configurar" : `${value} mm`;
 };
 
 const formatUnitConversion = (value: unknown): string => {
   if (value === null || value === undefined) {
-    return "Not defined";
+    return "No definido";
   }
 
   return JSON.stringify(value, null, 2);
@@ -72,7 +72,7 @@ export function MaterialDetail({ materialId }: MaterialDetailProps) {
           </button>
         }
         description={materialQuery.error.message}
-        title="Material details could not be loaded"
+        title="No se pudieron cargar los detalles del material"
       />
     );
   }
@@ -115,7 +115,7 @@ export function MaterialDetail({ materialId }: MaterialDetailProps) {
               </div>
               <p className="max-w-3xl text-sm leading-7 text-stone-700">
                 {material.description ||
-                  "No additional description has been saved for this material yet."}
+                  "Aún no se ha guardado una descripción adicional para este material."}
               </p>
             </div>
           </div>
@@ -156,47 +156,47 @@ export function MaterialDetail({ materialId }: MaterialDetailProps) {
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         <article className={sectionClassName}>
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-            Units
+            Unidades
           </p>
           <p className="mt-3 text-lg font-semibold text-stone-950">
             {material.baseUnit} / {material.purchaseUnit} / {material.stockUnit}
           </p>
           <p className="mt-2 text-sm text-stone-600">
-            Consumption: {material.consumptionUnit}
+            Consumo: {material.consumptionUnit}
           </p>
         </article>
         <article className={sectionClassName}>
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-            Stock Behavior
+            Comportamiento de existencias
           </p>
           <div className="mt-3 flex flex-wrap gap-2">
-            <BooleanBadge falseLabel="Non-stock" trueLabel="Stockable" value={material.isStockable} />
-            <BooleanBadge falseLabel="Not purchasable" trueLabel="Purchasable" value={material.isPurchasable} />
-            <BooleanBadge falseLabel="Not sellable" trueLabel="Sellable" value={material.isSellable} />
+            <BooleanBadge falseLabel="No almacenable" trueLabel="Almacenable" value={material.isStockable} />
+            <BooleanBadge falseLabel="No comprable" trueLabel="Comprable" value={material.isPurchasable} />
+            <BooleanBadge falseLabel="No vendible" trueLabel="Vendible" value={material.isSellable} />
           </div>
         </article>
         <article className={sectionClassName}>
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-            Cutting Profile
+            Perfil de corte
           </p>
           <p className="mt-3 text-lg font-semibold text-stone-950">
             {material.cuttingProfile.strategy.toUpperCase()}
           </p>
           <p className="mt-2 text-sm text-stone-600">
             {material.cuttingProfile.isCuttable
-              ? "Configured for cutting-aware workflows."
-              : "No cutting workflow enabled."}
+              ? "Configurado para flujos con control de corte."
+              : "No hay un flujo de corte habilitado."}
           </p>
         </article>
         <article className={sectionClassName}>
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-            Remnants
+            Remanentes
           </p>
           <p className="mt-3 text-lg font-semibold text-stone-950">
-            {material.remnantRules.eligible ? "Eligible" : "Not eligible"}
+            {material.remnantRules.eligible ? "Elegible" : "No elegible"}
           </p>
           <p className="mt-2 text-sm text-stone-600">
-            Strategy: {material.remnantRules.strategy.toUpperCase()}
+            Estrategia: {material.remnantRules.strategy.toUpperCase()}
           </p>
         </article>
       </section>
@@ -212,7 +212,7 @@ export function MaterialDetail({ materialId }: MaterialDetailProps) {
                 Color
               </dt>
               <dd className="mt-2 font-medium text-stone-900">
-                {material.color || "Not provided"}
+                {material.color || "No proporcionado"}
               </dd>
             </div>
             <div className="rounded-md border border-stone-200/90 bg-white/80 px-4 py-4">
@@ -220,7 +220,7 @@ export function MaterialDetail({ materialId }: MaterialDetailProps) {
                 Finish
               </dt>
               <dd className="mt-2 font-medium text-stone-900">
-                {material.finish || "Not provided"}
+                {material.finish || "No proporcionado"}
               </dd>
             </div>
             <div className="rounded-md border border-stone-200/90 bg-white/80 px-4 py-4">
@@ -228,7 +228,7 @@ export function MaterialDetail({ materialId }: MaterialDetailProps) {
                 Brand
               </dt>
               <dd className="mt-2 font-medium text-stone-900">
-                {material.brand || "Not provided"}
+                {material.brand || "No proporcionado"}
               </dd>
             </div>
             <div className="rounded-md border border-stone-200/90 bg-white/80 px-4 py-4">
@@ -299,26 +299,26 @@ export function MaterialDetail({ materialId }: MaterialDetailProps) {
                 </ul>
               ) : (
                 <p className="mt-3 text-sm text-stone-700">
-                  No behavior recommendations are currently outstanding.
+                No hay recomendaciones de comportamiento pendientes.
                 </p>
               )}
             </div>
             <div className="rounded-md border border-stone-200/90 bg-white/80 px-4 py-4">
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-                Rotation
+                Rotación
               </p>
               <p className="mt-3 text-sm text-stone-700">
                 {material.allowsRotation
-                  ? "Rotation is allowed for future sheet optimization."
-                  : "Rotation is disabled for this material."}
+                  ? "La rotación está permitida para futuras optimizaciones de hojas."
+                  : "La rotación está deshabilitada para este material."}
               </p>
             </div>
             <div className="rounded-md border border-stone-200/90 bg-white/80 px-4 py-4">
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-                Notes
+                Notas
               </p>
               <p className="mt-3 text-sm text-stone-700">
-                {material.notes || "No internal notes have been saved for this material yet."}
+                {material.notes || "Aún no se han guardado notas internas para este material."}
               </p>
             </div>
           </div>
@@ -331,22 +331,22 @@ export function MaterialDetail({ materialId }: MaterialDetailProps) {
 
       <section className="grid gap-6 xl:grid-cols-3">
         <EmptyState
-          description="Future price lists will attach supplier-specific pricing and validity windows directly to this material."
-          title="Price list placeholder"
+          description="Las futuras listas de precios asociarán precios específicos del proveedor y periodos de vigencia directamente a este material."
+          title="Espacio reservado para listas de precios"
         />
         <EmptyState
-          description="Inventory balances, remnants, and reservations will surface here once stock movement modules are implemented."
-          title="Inventory placeholder"
+          description="Los saldos de inventario, remanentes y reservas aparecerán aquí cuando se implementen los módulos de movimientos."
+          title="Espacio reservado para inventario"
         />
         <EmptyState
-          description="Quote usage, template references, and downstream demand signals will appear here in a later module."
-          title="Quote usage placeholder"
+          description="El uso en cotizaciones, las referencias de plantillas y la demanda posterior aparecerán aquí en un módulo futuro."
+          title="Espacio reservado para uso en cotizaciones"
         />
       </section>
 
       <ConfirmDialog
-        confirmLabel={deleteMutation.isPending ? "Deleting..." : "Delete material"}
-        description={`Soft delete ${material.code} and preserve its audit history for future reference.`}
+        confirmLabel={deleteMutation.isPending ? "Eliminando…" : "Eliminar material"}
+        description={`Elimina ${material.code} y conserva su historial de auditoría para futuras consultas.`}
         isLoading={deleteMutation.isPending}
         onConfirm={async () => {
           await deleteMutation.mutateAsync(material.id);
@@ -359,7 +359,7 @@ export function MaterialDetail({ materialId }: MaterialDetailProps) {
           }
         }}
         open={isDeleteDialogOpen}
-        title="Delete material?"
+        title="¿Eliminar material?"
         tone="danger"
       />
     </main>

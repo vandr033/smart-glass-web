@@ -189,7 +189,7 @@ export default function NewPurchaseRequestPage() {
   return (
     <main className="space-y-6">
       <PageHeader
-        description="Create procurement demand manually or derive it from approved quotations, purchase-required cutting plans, and inventory shortage reviews."
+        description="Crea una necesidad de compra manualmente o deriva la solicitud de cotizaciones aprobadas, planes de corte que requieren compra y faltantes de inventario."
         eyebrow="Compras"
         title="Nueva solicitud de compra"
       />
@@ -216,13 +216,13 @@ export default function NewPurchaseRequestPage() {
 
           {(mode === "MANUAL" || mode === "INVENTORY_SHORTAGE") ? (
             <label className="space-y-2 md:col-span-2 xl:col-span-3">
-              <span className="text-sm font-medium text-stone-700">Notes</span>
+              <span className="text-sm font-medium text-stone-700">Notas</span>
               <textarea
                 className={textAreaClassName}
                 onChange={(event) => {
                   setNotes(event.target.value);
                 }}
-                placeholder="Optional procurement context, constraints, or urgency notes"
+                placeholder="Contexto opcional de compra, restricciones o notas de urgencia"
                 value={notes}
               />
             </label>
@@ -287,7 +287,7 @@ export default function NewPurchaseRequestPage() {
                       }}
                       value={item.materialId}
                     >
-                      <option value="">Select material</option>
+                      <option value="">Seleccionar material</option>
                       {materials.map((material) => (
                         <option key={material.id} value={material.id}>
                           {material.code} · {material.name}
@@ -297,7 +297,7 @@ export default function NewPurchaseRequestPage() {
                   </label>
 
                   <label className="space-y-2">
-                    <span className="text-sm font-medium text-stone-700">Quantity</span>
+                    <span className="text-sm font-medium text-stone-700">Cantidad</span>
                     <input
                       className={fieldClassName}
                       min="0"
@@ -337,7 +337,7 @@ export default function NewPurchaseRequestPage() {
                   </label>
 
                   <label className="space-y-2">
-                    <span className="text-sm font-medium text-stone-700">Required date</span>
+                    <span className="text-sm font-medium text-stone-700">Fecha requerida</span>
                     <input
                       className={fieldClassName}
                       onChange={(event) => {
@@ -406,7 +406,7 @@ export default function NewPurchaseRequestPage() {
                   </label>
 
                   <label className="space-y-2 md:col-span-2 xl:col-span-4">
-                    <span className="text-sm font-medium text-stone-700">Description</span>
+              <span className="text-sm font-medium text-stone-700">Descripción</span>
                     <textarea
                       className={textAreaClassName}
                       onChange={(event) => {
@@ -418,7 +418,7 @@ export default function NewPurchaseRequestPage() {
                           ),
                         );
                       }}
-                      placeholder="Optional purchasing note for this line"
+                      placeholder="Nota opcional de compra para esta línea"
                       value={item.description ?? ""}
                     />
                   </label>
@@ -466,7 +466,7 @@ export default function NewPurchaseRequestPage() {
         <section className={sectionClassName}>
           <div className="grid gap-4 md:grid-cols-[1fr_auto] md:items-end">
             <label className="space-y-2">
-              <span className="text-sm font-medium text-stone-700">Quotation</span>
+              <span className="text-sm font-medium text-stone-700">Cotización</span>
               <select
                 className={fieldClassName}
                 onChange={(event) => {
@@ -474,7 +474,7 @@ export default function NewPurchaseRequestPage() {
                 }}
                 value={quotationId}
               >
-                <option value="">Select quotation</option>
+                <option value="">Seleccionar cotización</option>
                 {quotations.map((quotation) => (
                   <option key={quotation.id} value={quotation.id}>
                     {quotation.code} · {quotation.client.displayName} · {quotation.status}
@@ -509,7 +509,7 @@ export default function NewPurchaseRequestPage() {
                 }}
                 value={cuttingPlanId}
               >
-                <option value="">Select cutting plan</option>
+                <option value="">Seleccionar plan de corte</option>
                 {cuttingPlans.map((plan) => (
                   <option key={plan.id} value={plan.id}>
                     {plan.code} · {plan.material.name} · {plan.status}

@@ -155,17 +155,17 @@ export const materialDimensionPresetFormSchema = z.object({
     min: 0,
   }),
   isDefault: z.boolean().default(false),
-  label: z.string().trim().min(1, "Preset label is required.").max(191),
+    label: z.string().trim().min(1, "La etiqueta predefinida es obligatoria.").max(191),
   lengthMm: optionalNumberStringField({
-    label: "Length",
+    label: "Longitud",
     min: 0,
   }),
   thicknessMm: optionalNumberStringField({
-    label: "Thickness",
+    label: "Espesor",
     min: 0,
   }),
   widthMm: optionalNumberStringField({
-    label: "Width",
+    label: "Ancho",
     min: 0,
   }),
 });
@@ -305,7 +305,7 @@ const getMaterialBehaviorSummary = (
     !["LINEAR", "SHEET"].includes(values.materialType)
   ) {
     errors.push({
-      message: "Only LINEAR or SHEET materials can enable reusable remnant rules.",
+      message: "Solo los materiales LINEAR o SHEET pueden habilitar reglas de remanentes reutilizables.",
       path: "isRemnantEligible",
     });
   }
@@ -321,8 +321,8 @@ export const materialFormSchema = z
     allowsRotation: z.boolean().default(false),
     baseUnit: z.enum(materialUnitValues),
     brand: optionalShortTextField,
-    categoryId: z.string().trim().min(1, "Category is required."),
-    code: z.string().trim().min(1, "Code is required.").max(100),
+    categoryId: z.string().trim().min(1, "La categoría es obligatoria."),
+    code: z.string().trim().min(1, "El código es obligatorio.").max(100),
     color: optionalShortTextField,
     consumptionUnit: z.enum(materialUnitValues),
     defaultWastePercent: optionalNumberStringField({
@@ -350,7 +350,7 @@ export const materialFormSchema = z
       label: "Minimum reusable width",
       min: 0,
     }),
-    name: z.string().trim().min(1, "Name is required.").max(191),
+    name: z.string().trim().min(1, "El nombre es obligatorio.").max(191),
     notes: optionalTextField,
     purchaseUnit: z.enum(materialUnitValues),
     standardHeightMm: optionalNumberStringField({

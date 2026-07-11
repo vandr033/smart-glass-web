@@ -159,7 +159,7 @@ export default function NewProductionJobPage() {
     quotationsQuery.isPending ||
     plansQuery.isPending
   ) {
-    return <LoadingState title="Preparing production job form" />;
+    return <LoadingState title="Preparando el formulario de orden de producción" />;
   }
 
   if (
@@ -229,7 +229,7 @@ export default function NewProductionJobPage() {
                 }}
                 value={sourceQuotationId}
               >
-                <option value="">Select quotation</option>
+                <option value="">Seleccionar cotización</option>
                 {quotationsQuery.data.map((quotation) => (
                   <option key={quotation.id} value={quotation.id}>
                     {quotation.code} · {quotation.client.displayName} · {quotation.status}
@@ -261,7 +261,7 @@ export default function NewProductionJobPage() {
                 }}
                 value={sourceCuttingPlanId}
               >
-                <option value="">Select cutting plan</option>
+                <option value="">Seleccionar plan de corte</option>
                 {plansQuery.data.map((plan) => (
                   <option key={plan.id} value={plan.id}>
                     {plan.code} · {plan.material.name} · {plan.status}
@@ -288,16 +288,16 @@ export default function NewProductionJobPage() {
       <section className={sectionClassName}>
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-            Manual Job
+            Orden manual
           </p>
           <h2 className="mt-2 text-xl font-semibold text-stone-950">
-            Define scheduling and ownership
+            Define la programación y la responsabilidad
           </h2>
         </div>
 
         <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           <label className="space-y-2">
-            <span className="text-sm font-medium text-stone-700">Assigned user</span>
+            <span className="text-sm font-medium text-stone-700">Usuario asignado</span>
             <select
               className={fieldClassName}
               onChange={(event) => {
@@ -305,7 +305,7 @@ export default function NewProductionJobPage() {
               }}
               value={assignedToUserId}
             >
-              <option value="">Unassigned</option>
+              <option value="">Sin asignar</option>
               {usersQuery.data.map((user) => (
                 <option key={user.id} value={user.id}>
                   {user.name} · {user.email}
@@ -315,7 +315,7 @@ export default function NewProductionJobPage() {
           </label>
 
           <label className="space-y-2">
-            <span className="text-sm font-medium text-stone-700">Priority</span>
+            <span className="text-sm font-medium text-stone-700">Prioridad</span>
             <select
               className={fieldClassName}
               onChange={(event) => {
@@ -332,7 +332,7 @@ export default function NewProductionJobPage() {
           </label>
 
           <label className="space-y-2">
-            <span className="text-sm font-medium text-stone-700">Planned start</span>
+            <span className="text-sm font-medium text-stone-700">Inicio planificado</span>
             <input
               className={fieldClassName}
               onChange={(event) => {
@@ -344,7 +344,7 @@ export default function NewProductionJobPage() {
           </label>
 
           <label className="space-y-2">
-            <span className="text-sm font-medium text-stone-700">Planned end</span>
+            <span className="text-sm font-medium text-stone-700">Fin planificado</span>
             <input
               className={fieldClassName}
               onChange={(event) => {
@@ -356,7 +356,7 @@ export default function NewProductionJobPage() {
           </label>
 
           <label className="space-y-2 md:col-span-2">
-            <span className="text-sm font-medium text-stone-700">Project</span>
+            <span className="text-sm font-medium text-stone-700">Proyecto</span>
             <select
               className={fieldClassName}
               onChange={(event) => {
@@ -364,7 +364,7 @@ export default function NewProductionJobPage() {
               }}
               value={projectId}
             >
-              <option value="">No project</option>
+              <option value="">Sin proyecto</option>
               {projectsQuery.data.map((project) => (
                 <option key={project.id} value={project.id}>
                   {project.code} · {project.title}
@@ -374,7 +374,7 @@ export default function NewProductionJobPage() {
           </label>
 
           <label className="space-y-2 md:col-span-2">
-            <span className="text-sm font-medium text-stone-700">Quotation</span>
+            <span className="text-sm font-medium text-stone-700">Cotización</span>
             <select
               className={fieldClassName}
               onChange={(event) => {
@@ -382,7 +382,7 @@ export default function NewProductionJobPage() {
               }}
               value={quotationId}
             >
-              <option value="">No quotation</option>
+              <option value="">Sin cotización</option>
               {quotationsQuery.data.map((quotation) => (
                 <option key={quotation.id} value={quotation.id}>
                   {quotation.code} · {quotation.client.displayName}
@@ -392,7 +392,7 @@ export default function NewProductionJobPage() {
           </label>
 
           <label className="space-y-2 md:col-span-2 xl:col-span-4">
-            <span className="text-sm font-medium text-stone-700">Cutting plan</span>
+            <span className="text-sm font-medium text-stone-700">Plan de corte</span>
             <select
               className={fieldClassName}
               onChange={(event) => {
@@ -400,7 +400,7 @@ export default function NewProductionJobPage() {
               }}
               value={cuttingPlanId}
             >
-              <option value="">No cutting plan</option>
+              <option value="">Sin plan de corte</option>
               {plansQuery.data.map((plan) => (
                 <option key={plan.id} value={plan.id}>
                   {plan.code} · {plan.material.name}
@@ -410,13 +410,13 @@ export default function NewProductionJobPage() {
           </label>
 
           <label className="space-y-2 md:col-span-2 xl:col-span-4">
-            <span className="text-sm font-medium text-stone-700">Notes</span>
+            <span className="text-sm font-medium text-stone-700">Notas</span>
             <textarea
               className={textAreaClassName}
               onChange={(event) => {
                 setNotes(event.target.value);
               }}
-              placeholder="Optional floor instructions, sequencing notes, or packaging requirements"
+              placeholder="Instrucciones opcionales de planta, secuencia o embalaje"
               value={notes}
             />
           </label>
@@ -433,10 +433,10 @@ export default function NewProductionJobPage() {
         <div className="flex items-center justify-between gap-3">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-              Job Items
+              Artículos de la orden
             </p>
             <h2 className="mt-2 text-xl font-semibold text-stone-950">
-              Define what production will build
+              Define qué construirá producción
             </h2>
           </div>
 
@@ -447,7 +447,7 @@ export default function NewProductionJobPage() {
             }}
             type="button"
           >
-            Add Item
+            Agregar artículo
           </button>
         </div>
 
@@ -459,7 +459,7 @@ export default function NewProductionJobPage() {
             >
               <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
                 <label className="space-y-2 md:col-span-2">
-                  <span className="text-sm font-medium text-stone-700">Item name</span>
+                  <span className="text-sm font-medium text-stone-700">Nombre del artículo</span>
                   <input
                     className={fieldClassName}
                     onChange={(event) => {
@@ -474,13 +474,13 @@ export default function NewProductionJobPage() {
                         ),
                       );
                     }}
-                    placeholder="Example: Window frame set A"
+                    placeholder="Ejemplo: Conjunto de marco de ventana A"
                     value={item.name}
                   />
                 </label>
 
                 <label className="space-y-2">
-                  <span className="text-sm font-medium text-stone-700">Quantity</span>
+                  <span className="text-sm font-medium text-stone-700">Cantidad</span>
                   <input
                     className={fieldClassName}
                     min="0.01"
@@ -520,7 +520,7 @@ export default function NewProductionJobPage() {
                     }}
                     value={item.materialId ?? ""}
                   >
-                    <option value="">No material</option>
+                    <option value="">Sin material</option>
                     {materialsQuery.data.map((material) => (
                       <option key={material.id} value={material.id}>
                         {material.code} · {material.name}
@@ -530,7 +530,7 @@ export default function NewProductionJobPage() {
                 </label>
 
                 <label className="space-y-2 md:col-span-2 xl:col-span-3">
-                  <span className="text-sm font-medium text-stone-700">Description</span>
+                  <span className="text-sm font-medium text-stone-700">Descripción</span>
                   <textarea
                     className={textAreaClassName}
                     onChange={(event) => {
@@ -545,7 +545,7 @@ export default function NewProductionJobPage() {
                         ),
                       );
                     }}
-                    placeholder="Optional fabrication or handling notes for this item"
+                    placeholder="Notas opcionales de fabricación o manipulación para este artículo"
                     value={item.description ?? ""}
                   />
                 </label>
@@ -561,7 +561,7 @@ export default function NewProductionJobPage() {
                     }}
                     type="button"
                   >
-                    Remove
+                    Quitar
                   </button>
                 </div>
               </div>
@@ -586,7 +586,7 @@ export default function NewProductionJobPage() {
                 }));
 
               if (normalizedItems.length === 0) {
-                setSubmitError("Add at least one production item before creating the job.");
+                setSubmitError("Agrega al menos un artículo de producción antes de crear la orden.");
                 return;
               }
 

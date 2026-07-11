@@ -51,7 +51,7 @@ export function AcceptInvitationForm() {
   const acceptMutation = useMutation({
     mutationFn: async (values: InvitationAcceptValues) => {
       if (!token) {
-        throw new Error("A valid invitation token is required.");
+        throw new Error("Se necesita un token de invitación válido.");
       }
 
       return invitationService.acceptInvitation({
@@ -72,7 +72,7 @@ export function AcceptInvitationForm() {
 
   const invalidMessage = token
     ? null
-    : "A valid invitation token is required to finish setting up your account.";
+    : "Se necesita un token de invitación válido para terminar de configurar tu cuenta.";
 
   const handleSubmit = form.handleSubmit(async (values) => {
     await acceptMutation.mutateAsync(values);
@@ -80,9 +80,9 @@ export function AcceptInvitationForm() {
 
   return (
     <AuthShell
-      description="Confirm your identity, set your password, and activate the invited account tied to this email address."
-      footer={<AuthLinkRow href="/login" label="Already set up?" linkLabel="Sign in" />}
-      title="Accept invitation"
+      description="Confirma tu identidad, define tu contraseña y activa la cuenta asociada a este correo electrónico."
+      footer={<AuthLinkRow href="/login" label="¿Ya tienes una cuenta?" linkLabel="Iniciar sesión" />}
+      title="Aceptar invitación"
     >
       {invalidMessage ? <AuthBanner tone="info">{invalidMessage}</AuthBanner> : null}
       {previewQuery.error ? (
@@ -96,7 +96,7 @@ export function AcceptInvitationForm() {
         <div className="grid gap-3 sm:grid-cols-2">
           <div className={summaryCardClassName}>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-              Email
+              Correo electrónico
             </p>
             <p className="mt-2 text-sm font-semibold text-stone-950">
               {previewQuery.data.email}
@@ -104,7 +104,7 @@ export function AcceptInvitationForm() {
           </div>
           <div className={summaryCardClassName}>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-              Role
+              Rol
             </p>
             <p className="mt-2 text-sm font-semibold text-stone-950">
               {previewQuery.data.roleName}
@@ -112,7 +112,7 @@ export function AcceptInvitationForm() {
           </div>
           <div className={summaryCardClassName}>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-              Invited by
+              Invitado por
             </p>
             <p className="mt-2 text-sm font-semibold text-stone-950">
               {previewQuery.data.invitedByName}
@@ -120,7 +120,7 @@ export function AcceptInvitationForm() {
           </div>
           <div className={summaryCardClassName}>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-              Expires
+              Vence
             </p>
             <p className="mt-2 text-sm font-semibold text-stone-950">
               {new Date(previewQuery.data.expiresAt).toLocaleDateString()}
@@ -133,15 +133,15 @@ export function AcceptInvitationForm() {
         <AuthInput
           autoComplete="name"
           error={form.formState.errors.name?.message}
-          label="Full name"
-          placeholder="Your name"
+          label="Nombre completo"
+          placeholder="Tu nombre"
           type="text"
           {...form.register("name")}
         />
         <AuthInput
           autoComplete="new-password"
           error={form.formState.errors.password?.message}
-          label="Password"
+          label="Contraseña"
           placeholder="Cree una contraseña"
           type="password"
           {...form.register("password")}
@@ -149,8 +149,8 @@ export function AcceptInvitationForm() {
         <AuthInput
           autoComplete="new-password"
           error={form.formState.errors.confirmPassword?.message}
-          label="Confirm password"
-          placeholder="Repeat the password"
+          label="Confirmar contraseña"
+          placeholder="Repite la contraseña"
           type="password"
           {...form.register("confirmPassword")}
         />
@@ -166,15 +166,15 @@ export function AcceptInvitationForm() {
 
       {previewQuery.isLoading ? (
         <div className="rounded-md border border-stone-200 bg-stone-50/80 px-4 py-3 text-sm text-stone-600">
-          Validating your invitation...
+          Validando tu invitación…
         </div>
       ) : null}
 
       {(invalidMessage || previewQuery.error) ? (
         <div className="rounded-md border border-stone-200 bg-stone-50/80 px-4 py-3 text-sm text-stone-600">
-          Need help? Return to{" "}
+          ¿Necesitas ayuda? Vuelve a{" "}
           <Link className="font-semibold text-stone-950 hover:text-[color:var(--color-primary)]" href="/login">
-            the sign-in page
+            la página de inicio de sesión
           </Link>
           .
         </div>

@@ -206,7 +206,7 @@ export default function ProductionJobQualityPage({
 
         <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           <label className="space-y-2">
-            <span className="text-sm font-medium text-stone-700">Status</span>
+            <span className="text-sm font-medium text-stone-700">Estado</span>
             <select
               className={fieldClassName}
               onChange={(event) => {
@@ -225,7 +225,7 @@ export default function ProductionJobQualityPage({
           </label>
 
           <label className="space-y-2 md:col-span-2 xl:col-span-3">
-            <span className="text-sm font-medium text-stone-700">Task</span>
+            <span className="text-sm font-medium text-stone-700">Tarea</span>
             <select
               className={fieldClassName}
               onChange={(event) => {
@@ -233,7 +233,7 @@ export default function ProductionJobQualityPage({
               }}
               value={productionTaskId}
             >
-              <option value="">Job-level check</option>
+              <option value="">Control de la orden</option>
               {job.tasks.map((task) => (
                 <option key={task.id} value={task.id}>
                   {task.sortOrder} · {task.title}
@@ -243,13 +243,13 @@ export default function ProductionJobQualityPage({
           </label>
 
           <label className="space-y-2 md:col-span-2 xl:col-span-4">
-            <span className="text-sm font-medium text-stone-700">Notes</span>
+            <span className="text-sm font-medium text-stone-700">Notas</span>
             <textarea
               className={textAreaClassName}
               onChange={(event) => {
                 setNotes(event.target.value);
               }}
-              placeholder="What was checked, what passed, or what needs rework"
+              placeholder="Indica qué se revisó, qué pasó o qué necesita retrabajo"
               value={notes}
             />
           </label>
@@ -263,7 +263,7 @@ export default function ProductionJobQualityPage({
               onChange={(event) => {
                 setEvidenceJson(event.target.value);
               }}
-              placeholder='Optional structured payload, for example {"photos":["url-1"],"inspector":"QA-01"}'
+              placeholder='Carga estructurada opcional, por ejemplo {"photos":["url-1"],"inspector":"QA-01"}'
               value={evidenceJson}
             />
           </label>
@@ -317,10 +317,10 @@ export default function ProductionJobQualityPage({
                     <p className="text-sm font-semibold text-stone-950">
                       {linkedTask
                         ? linkedTask.title
-                        : "Job-level quality review"}
+                        : "Revisión de calidad de la orden"}
                     </p>
                     <p className="mt-1 text-xs text-stone-600">
-                      {check.checkedByUser?.name ?? "Pending reviewer"} ·{" "}
+                      {check.checkedByUser?.name ?? "Revisor pendiente"} ·{" "}
                       {formatDateValue(check.checkedAt ?? check.createdAt)}
                     </p>
                   </div>
@@ -348,8 +348,8 @@ export default function ProductionJobQualityPage({
 
           {checks.length === 0 ? (
             <EmptyState
-              description="Checks recorded during fabrication, assembly, or final review will appear here."
-              title="No quality checks yet"
+              description="Los controles registrados durante la fabricación, el ensamblaje o la revisión final aparecerán aquí."
+              title="Aún no hay controles de calidad"
             />
           ) : null}
         </div>

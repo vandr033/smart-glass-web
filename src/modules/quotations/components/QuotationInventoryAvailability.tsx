@@ -130,7 +130,7 @@ export function QuotationInventoryAvailability({
       const primaryStock = availability.stocks.find((stock) => stock.availableQuantity > 0);
 
       if (!primaryStock) {
-        throw new Error("No se encontro una fila de stock disponible para este material.");
+        throw new Error("No se encontró una fila de existencias disponible para este material.");
       }
 
       return inventoryService.createSoftReservation({
@@ -172,7 +172,7 @@ export function QuotationInventoryAvailability({
         </div>
 
         <Link className={secondaryButtonClassName} href={INVENTORY_ROUTES.stock}>
-          Abrir stock
+          Abrir existencias
         </Link>
       </div>
 
@@ -216,7 +216,7 @@ export function QuotationInventoryAvailability({
               </div>
 
               {availabilityQuery.isLoading ? (
-                <p className="mt-4 text-sm text-stone-500">Revisando disponibilidad de stock...</p>
+                <p className="mt-4 text-sm text-stone-500">Revisando disponibilidad de existencias…</p>
               ) : availabilityQuery.isError ? (
                 <p className="mt-4 text-sm text-rose-700">{availabilityQuery.error.message}</p>
               ) : availability ? (

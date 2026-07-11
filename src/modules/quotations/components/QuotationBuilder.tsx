@@ -478,7 +478,7 @@ export function QuotationBuilder({ quotationId }: QuotationBuilderProps) {
     const parsed = Number(value);
 
     if (!Number.isFinite(parsed) || parsed <= 0) {
-      throw new Error(`${label} must be greater than zero.`);
+      throw new Error(`${label} debe ser mayor que cero.`);
     }
 
     return parsed;
@@ -747,7 +747,7 @@ export function QuotationBuilder({ quotationId }: QuotationBuilderProps) {
             }}
             value={typeof value === "string" || typeof value === "number" ? String(value) : ""}
           >
-            <option value="">Select option</option>
+            <option value="">Seleccionar opción</option>
             {options.map((option, index) => {
               if (isRecord(option) && "value" in option) {
                 return (
@@ -1224,7 +1224,7 @@ export function QuotationBuilder({ quotationId }: QuotationBuilderProps) {
                         });
                         await syncQuotation(
                           result.quotation,
-                          "Manual review request submitted.",
+                          "Solicitud de revisión manual enviada.",
                         );
                       });
                     }}

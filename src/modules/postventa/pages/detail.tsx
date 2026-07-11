@@ -1615,7 +1615,7 @@ export default function PostventaDetailPage({ caseId }: PostventaDetailPageProps
                 }}
                 value={reservationForm.inventoryStockId}
               >
-                <option value="">Stock especifico opcional</option>
+                <option value="">Existencia específica opcional</option>
                 {(stockQuery.data?.data ?? []).map((stock) => (
                   <option key={stock.id} value={stock.id}>
                     {stock.locationCode || "Sin ubicacion"} · disponible {stock.availableQuantity} {stock.unit.toLowerCase()}

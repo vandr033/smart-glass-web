@@ -772,7 +772,7 @@ export default function TablerosHomePage() {
           />
           <RankingListado
             data={data.secciones.inventario.stockBajo}
-            title="Materiales con stock bajo"
+            title="Materiales con existencias bajas"
             unit="numero"
           />
         </div>
@@ -890,7 +890,7 @@ export default function TablerosHomePage() {
                 Inventario
               </p>
               <p className="mt-3 text-sm leading-6 text-stone-600">
-                Considera stock, remanentes, materiales criticos y valor almacenado.
+                Considera existencias, remanentes, materiales críticos y valor almacenado.
               </p>
             </div>
             <PackageSearch className="h-5 w-5 text-[color:var(--color-primary)]" />

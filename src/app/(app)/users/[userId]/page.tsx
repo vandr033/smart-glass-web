@@ -16,9 +16,9 @@ export default async function UserDetailPage({ params }: UserDetailPageProps) {
   return (
     <main className="space-y-6">
       <PageHeader
-        description="Review account metadata, role assignments, status, and lifecycle actions from the shared user management module."
-        eyebrow="User Record"
-        title="User Details"
+        description="Revisa los metadatos de la cuenta, los roles asignados, el estado y las acciones del ciclo de vida desde el módulo compartido de usuarios."
+        eyebrow="Registro del usuario"
+        title="Detalle del usuario"
       />
 
       <UserDetail userId={userId} />

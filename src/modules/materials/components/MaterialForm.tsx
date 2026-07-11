@@ -171,7 +171,7 @@ export function MaterialForm(props: MaterialFormProps) {
           </button>
         }
         description={materialQuery.error.message}
-        title="Material details could not be loaded"
+        title="No se pudieron cargar los detalles del material"
       />
     );
   }
@@ -191,7 +191,7 @@ export function MaterialForm(props: MaterialFormProps) {
           </button>
         }
         description={categoriesQuery.error.message}
-        title="Material categories could not be loaded"
+        title="No se pudieron cargar las categorías de materiales"
       />
     );
   }
@@ -243,11 +243,10 @@ export function MaterialForm(props: MaterialFormProps) {
               {props.mode === "create" ? "Crear material" : "Editar material"}
             </p>
             <h2 className="text-2xl font-semibold tracking-tight text-stone-950">
-              {props.mode === "create" ? "Add a catalog material" : "Update material details"}
+              {props.mode === "create" ? "Agregar material al catálogo" : "Actualizar detalles del material"}
             </h2>
             <p className="max-w-3xl text-sm leading-7 text-stone-700">
-              Maintain the master catalog attributes, units, and cutting behavior that future
-              quotation, inventory, optimization, and purchasing flows will depend on.
+              Mantén los atributos maestros del catálogo, las unidades y el comportamiento de corte del que dependerán los futuros flujos de cotización, inventario, optimización y compras.
             </p>
           </div>
 
@@ -260,21 +259,21 @@ export function MaterialForm(props: MaterialFormProps) {
             }
           >
             <ArrowLeft className="h-4 w-4" />
-            Back
+            Volver
           </Link>
         </div>
       </section>
 
       <section className={sectionClassName}>
         {sectionHeader(
-          "1. General Information",
-          "Core catalog identity",
-          "Use stable internal codes and names so downstream imports, pricing, and optimization jobs can reference this material consistently.",
+          "1. Información general",
+          "Identidad principal del catálogo",
+          "Usa códigos y nombres internos estables para que las importaciones, los precios y las optimizaciones posteriores puedan referenciar este material de forma consistente.",
         )}
 
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
           <label className={labelClassName}>
-            <span className="text-sm font-medium text-stone-700">Code</span>
+            <span className="text-sm font-medium text-stone-700">Código</span>
             <input className={fieldClassName} disabled={isBusy} {...form.register("code")} />
             {getFieldError("code") ? (
               <span className="block text-sm text-rose-700">{getFieldError("code")}</span>
@@ -282,7 +281,7 @@ export function MaterialForm(props: MaterialFormProps) {
           </label>
 
           <label className="md:col-span-2 xl:col-span-2">
-            <span className="mb-2 block text-sm font-medium text-stone-700">Name</span>
+            <span className="mb-2 block text-sm font-medium text-stone-700">Nombre</span>
             <input className={fieldClassName} disabled={isBusy} {...form.register("name")} />
             {getFieldError("name") ? (
               <span className="mt-2 block text-sm text-rose-700">{getFieldError("name")}</span>
@@ -290,7 +289,7 @@ export function MaterialForm(props: MaterialFormProps) {
           </label>
 
           <label className="md:col-span-2 xl:col-span-4">
-            <span className="mb-2 block text-sm font-medium text-stone-700">Description</span>
+            <span className="mb-2 block text-sm font-medium text-stone-700">Descripción</span>
             <textarea
               className={`${fieldClassName} min-h-28`}
               disabled={isBusy}
@@ -302,14 +301,14 @@ export function MaterialForm(props: MaterialFormProps) {
 
       <section className={sectionClassName}>
         {sectionHeader(
-          "2. Classification",
-          "Material family and visible attributes",
+          "2. Clasificación",
+          "Familia del material y atributos visibles",
           typeDefinition?.description,
         )}
 
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
           <label className={labelClassName}>
-            <span className="text-sm font-medium text-stone-700">Category</span>
+            <span className="text-sm font-medium text-stone-700">Categoría</span>
             <select
               className={fieldClassName}
               disabled={isBusy}
@@ -330,7 +329,7 @@ export function MaterialForm(props: MaterialFormProps) {
           </label>
 
           <label className={labelClassName}>
-            <span className="text-sm font-medium text-stone-700">Material type</span>
+            <span className="text-sm font-medium text-stone-700">Tipo de material</span>
             <select
               className={fieldClassName}
               disabled={isBusy}
@@ -345,7 +344,7 @@ export function MaterialForm(props: MaterialFormProps) {
           </label>
 
           <label className={labelClassName}>
-            <span className="text-sm font-medium text-stone-700">Status</span>
+            <span className="text-sm font-medium text-stone-700">Estado</span>
             <select
               className={fieldClassName}
               disabled={isBusy}
@@ -365,12 +364,12 @@ export function MaterialForm(props: MaterialFormProps) {
           </label>
 
           <label className={labelClassName}>
-            <span className="text-sm font-medium text-stone-700">Finish</span>
+            <span className="text-sm font-medium text-stone-700">Acabado</span>
             <input className={fieldClassName} disabled={isBusy} {...form.register("finish")} />
           </label>
 
           <label className={labelClassName}>
-            <span className="text-sm font-medium text-stone-700">Brand</span>
+            <span className="text-sm font-medium text-stone-700">Marca</span>
             <input className={fieldClassName} disabled={isBusy} {...form.register("brand")} />
           </label>
         </div>
@@ -379,13 +378,13 @@ export function MaterialForm(props: MaterialFormProps) {
       <section className={sectionClassName}>
         {sectionHeader(
           "3. Units",
-          "Base, purchasing, stock, and consumption units",
-          "Define how the material is measured operationally today so later modules can convert usage safely.",
+          "Unidades base, de compra, de existencias y de consumo",
+          "Define cómo se mide operativamente el material para que los módulos posteriores conviertan el uso de forma segura.",
         )}
 
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
           <label className={labelClassName}>
-            <span className="text-sm font-medium text-stone-700">Base unit</span>
+            <span className="text-sm font-medium text-stone-700">Unidad base</span>
             <select className={fieldClassName} disabled={isBusy} {...form.register("baseUnit")}>
               {MATERIAL_UNIT_OPTIONS.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -396,7 +395,7 @@ export function MaterialForm(props: MaterialFormProps) {
           </label>
 
           <label className={labelClassName}>
-            <span className="text-sm font-medium text-stone-700">Purchase unit</span>
+            <span className="text-sm font-medium text-stone-700">Unidad de compra</span>
             <select
               className={fieldClassName}
               disabled={isBusy}
@@ -411,7 +410,7 @@ export function MaterialForm(props: MaterialFormProps) {
           </label>
 
           <label className={labelClassName}>
-            <span className="text-sm font-medium text-stone-700">Stock unit</span>
+            <span className="text-sm font-medium text-stone-700">Unidad de existencias</span>
             <select
               className={fieldClassName}
               disabled={isBusy}
@@ -426,7 +425,7 @@ export function MaterialForm(props: MaterialFormProps) {
           </label>
 
           <label className={labelClassName}>
-            <span className="text-sm font-medium text-stone-700">Consumption unit</span>
+            <span className="text-sm font-medium text-stone-700">Unidad de consumo</span>
             <select
               className={fieldClassName}
               disabled={isBusy}
@@ -442,12 +441,12 @@ export function MaterialForm(props: MaterialFormProps) {
 
           {showPackageFields ? (
             <label className="space-y-2 md:col-span-2 xl:col-span-4">
-              <span className="text-sm font-medium text-stone-700">Unit conversion JSON</span>
+              <span className="text-sm font-medium text-stone-700">JSON de conversión de unidades</span>
               <textarea
                 className={`${fieldClassName} min-h-36 font-mono text-xs`}
                 disabled={isBusy}
                 {...form.register("unitConversionJsonText")}
-                placeholder='{"unitsPerPackage": 1, "unitLabel": "cartridge"}'
+                placeholder='{"unitsPerPackage": 1, "unitLabel": "cartucho"}'
               />
               {getFieldError("unitConversionJsonText") ? (
                 <span className="block text-sm text-rose-700">
@@ -461,9 +460,9 @@ export function MaterialForm(props: MaterialFormProps) {
 
       <section className={sectionClassName}>
         {sectionHeader(
-          "4. Stock And Purchasing Behavior",
-          "Operational flags",
-          "These toggles describe whether the material should participate in stock, purchasing, and sellable catalog flows.",
+          "4. Comportamiento de existencias y compras",
+          "Indicadores operativos",
+          "Estos interruptores indican si el material participa en los flujos de existencias, compras y catálogo vendible.",
         )}
 
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
@@ -476,9 +475,9 @@ export function MaterialForm(props: MaterialFormProps) {
                 {...form.register("isStockable")}
               />
               <div>
-                <p className="text-sm font-semibold text-stone-900">Stockable</p>
+                <p className="text-sm font-semibold text-stone-900">Almacenable</p>
                 <p className="text-xs text-stone-600">
-                  Track this material as inventory or remaining stock.
+                  Registra este material como existencias o remanente.
                 </p>
               </div>
             </div>
@@ -493,9 +492,9 @@ export function MaterialForm(props: MaterialFormProps) {
                 {...form.register("isPurchasable")}
               />
               <div>
-                <p className="text-sm font-semibold text-stone-900">Purchasable</p>
+                <p className="text-sm font-semibold text-stone-900">Comprable</p>
                 <p className="text-xs text-stone-600">
-                  Allow the item to participate in vendor purchasing flows later.
+                  Permite que el ítem participe posteriormente en flujos de compra a proveedores.
                 </p>
               </div>
             </div>
@@ -510,9 +509,9 @@ export function MaterialForm(props: MaterialFormProps) {
                 {...form.register("isSellable")}
               />
               <div>
-                <p className="text-sm font-semibold text-stone-900">Sellable</p>
+                <p className="text-sm font-semibold text-stone-900">Vendible</p>
                 <p className="text-xs text-stone-600">
-                  Mark the material as directly usable in commercial outputs.
+                  Marca el material como utilizable directamente en resultados comerciales.
                 </p>
               </div>
             </div>
@@ -520,8 +519,8 @@ export function MaterialForm(props: MaterialFormProps) {
 
           {materialType === "SERVICE" ? (
             <div className={`${checkboxCardClassName} text-sm text-stone-700`}>
-              Service materials automatically force `isStockable = false` and hide
-              cut/remnant behavior.
+              Los materiales de servicio establecen automáticamente `isStockable = false` y ocultan
+              el comportamiento de corte y remanentes.
             </div>
           ) : null}
         </div>
@@ -529,9 +528,9 @@ export function MaterialForm(props: MaterialFormProps) {
 
       <section className={sectionClassName}>
         {sectionHeader(
-          "5. Cutting Behavior",
-          "How this material behaves when cut",
-          "Linear and sheet materials usually expose cut-aware fields because they drive future optimization and remnant logic.",
+          "5. Comportamiento de corte",
+          "Cómo se comporta este material al cortarlo",
+          "Los materiales lineales y de hoja suelen mostrar campos de corte porque impulsan la optimización futura y la lógica de remanentes.",
         )}
 
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
@@ -544,16 +543,16 @@ export function MaterialForm(props: MaterialFormProps) {
                 {...form.register("isCuttable")}
               />
               <div>
-                <p className="text-sm font-semibold text-stone-900">Cuttable</p>
+                <p className="text-sm font-semibold text-stone-900">Cortable</p>
                 <p className="text-xs text-stone-600">
-                  Enable when the material is consumed by cutting stock lengths or sheets.
+                  Habilita esta opción cuando el material se consuma cortando largos o hojas.
                 </p>
               </div>
             </div>
           </label>
 
           <label className={labelClassName}>
-            <span className="text-sm font-medium text-stone-700">Default waste %</span>
+          <span className="text-sm font-medium text-stone-700">Desperdicio predeterminado %</span>
             <input
               className={fieldClassName}
               disabled={isBusy}
@@ -576,9 +575,9 @@ export function MaterialForm(props: MaterialFormProps) {
                   {...form.register("allowsRotation")}
                 />
                 <div>
-                  <p className="text-sm font-semibold text-stone-900">Allow rotation</p>
+                  <p className="text-sm font-semibold text-stone-900">Permitir rotación</p>
                   <p className="text-xs text-stone-600">
-                    Permit future 2D optimization to rotate this sheet material.
+                    Permite que futuras optimizaciones 2D roten este material en hoja.
                   </p>
                 </div>
               </div>
@@ -587,8 +586,8 @@ export function MaterialForm(props: MaterialFormProps) {
 
           {materialType === "UNIT" && !showUnitAdvancedFields ? (
             <div className={`${checkboxCardClassName} text-sm text-stone-700`}>
-              Unit materials keep cutting fields hidden until you explicitly enable a special
-              cuttable or remnant workflow.
+              Los materiales unitarios mantienen ocultos los campos de corte hasta que habilites
+              explícitamente un flujo especial de corte o remanentes.
             </div>
           ) : null}
         </div>
@@ -597,8 +596,8 @@ export function MaterialForm(props: MaterialFormProps) {
       <section className={sectionClassName}>
         {sectionHeader(
           "6. Remnant Rules",
-          "Reusable leftovers and minimum salvage sizes",
-          "Only LINEAR and SHEET materials should normally expose remnant recovery rules.",
+          "Sobras reutilizables y tamaños mínimos de recuperación",
+          "Normalmente, solo los materiales LINEAR y SHEET deben mostrar reglas de recuperación de remanentes.",
         )}
 
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
@@ -611,9 +610,9 @@ export function MaterialForm(props: MaterialFormProps) {
                 {...form.register("isRemnantEligible")}
               />
               <div>
-                <p className="text-sm font-semibold text-stone-900">Remnant eligible</p>
+          <p className="text-sm font-semibold text-stone-900">Elegible para remanentes</p>
                 <p className="text-xs text-stone-600">
-                  Preserve reusable leftovers for future remnant tracking.
+                  Conserva sobras reutilizables para el seguimiento futuro de remanentes.
                 </p>
               </div>
             </div>
@@ -622,7 +621,7 @@ export function MaterialForm(props: MaterialFormProps) {
           {showLinearFields && isRemnantEligible ? (
             <label className={labelClassName}>
               <span className="text-sm font-medium text-stone-700">
-                Minimum reusable length (mm)
+                  Largo mínimo reutilizable (mm)
               </span>
               <input
                 className={fieldClassName}
@@ -641,7 +640,7 @@ export function MaterialForm(props: MaterialFormProps) {
             <>
               <label className={labelClassName}>
                 <span className="text-sm font-medium text-stone-700">
-                  Minimum reusable width (mm)
+                  Ancho mínimo reutilizable (mm)
                 </span>
                 <input
                   className={fieldClassName}
@@ -656,7 +655,7 @@ export function MaterialForm(props: MaterialFormProps) {
               </label>
               <label className={labelClassName}>
                 <span className="text-sm font-medium text-stone-700">
-                  Minimum reusable height (mm)
+                  Alto mínimo reutilizable (mm)
                 </span>
                 <input
                   className={fieldClassName}
@@ -676,15 +675,15 @@ export function MaterialForm(props: MaterialFormProps) {
 
       <section className={sectionClassName}>
         {sectionHeader(
-          "7. Physical Dimensions",
-          "Stock size and physical attributes",
-          "Expose only the dimensional fields that matter for the current material behavior.",
+          "7. Dimensiones físicas",
+          "Tamaño de existencias y atributos físicos",
+          "Muestra solo los campos dimensionales relevantes para el comportamiento actual del material.",
         )}
 
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
           {showLinearFields ? (
             <label className={labelClassName}>
-              <span className="text-sm font-medium text-stone-700">Standard length (mm)</span>
+              <span className="text-sm font-medium text-stone-700">Largo estándar (mm)</span>
               <input
                 className={fieldClassName}
                 disabled={isBusy}
@@ -701,7 +700,7 @@ export function MaterialForm(props: MaterialFormProps) {
           {showSheetFields || showUnitAdvancedFields ? (
             <>
               <label className={labelClassName}>
-                <span className="text-sm font-medium text-stone-700">Standard length (mm)</span>
+                <span className="text-sm font-medium text-stone-700">Largo estándar (mm)</span>
                 <input
                   className={fieldClassName}
                   disabled={isBusy}
@@ -714,7 +713,7 @@ export function MaterialForm(props: MaterialFormProps) {
                 ) : null}
               </label>
               <label className={labelClassName}>
-                <span className="text-sm font-medium text-stone-700">Standard width (mm)</span>
+                <span className="text-sm font-medium text-stone-700">Ancho estándar (mm)</span>
                 <input
                   className={fieldClassName}
                   disabled={isBusy}
@@ -731,7 +730,7 @@ export function MaterialForm(props: MaterialFormProps) {
 
           {showUnitAdvancedFields ? (
             <label className={labelClassName}>
-              <span className="text-sm font-medium text-stone-700">Standard height (mm)</span>
+              <span className="text-sm font-medium text-stone-700">Alto estándar (mm)</span>
               <input
                 className={fieldClassName}
                 disabled={isBusy}
@@ -742,7 +741,7 @@ export function MaterialForm(props: MaterialFormProps) {
 
           {showSheetFields || showUnitAdvancedFields ? (
             <label className={labelClassName}>
-              <span className="text-sm font-medium text-stone-700">Thickness (mm)</span>
+              <span className="text-sm font-medium text-stone-700">Espesor (mm)</span>
               <input
                 className={fieldClassName}
                 disabled={isBusy}
@@ -753,8 +752,8 @@ export function MaterialForm(props: MaterialFormProps) {
 
           {!showLinearFields && !showSheetFields && !showUnitAdvancedFields ? (
             <div className="rounded-md border border-dashed border-stone-300 bg-white/60 px-4 py-5 text-sm text-stone-600 md:col-span-2 xl:col-span-4">
-              This material type does not need explicit stock dimensions unless you enable a
-              special cuttable or remnant workflow.
+              Este tipo de material no necesita dimensiones explícitas de existencias a menos que habilites
+              un flujo especial de corte o remanentes.
             </div>
           ) : null}
         </div>
@@ -768,7 +767,7 @@ export function MaterialForm(props: MaterialFormProps) {
         )}
 
         <label className={labelClassName}>
-          <span className="text-sm font-medium text-stone-700">Internal notes</span>
+          <span className="text-sm font-medium text-stone-700">Notas internas</span>
           <textarea
             className={`${fieldClassName} min-h-32`}
             disabled={isBusy}
@@ -779,7 +778,7 @@ export function MaterialForm(props: MaterialFormProps) {
 
       {behaviorSummary.warnings.length > 0 ? (
         <section className="rounded-lg border border-blue-200/80 bg-blue-50 px-5 py-4 text-sm text-blue-900">
-          <p className="font-semibold text-blue-950">Behavior recommendations</p>
+          <p className="font-semibold text-blue-950">Recomendaciones de comportamiento</p>
           <ul className="mt-2 space-y-1">
             {behaviorSummary.warnings.map((warning) => (
               <li key={`${warning.path}:${warning.message}`}>{warning.message}</li>
@@ -803,7 +802,7 @@ export function MaterialForm(props: MaterialFormProps) {
               : MATERIALS_ROUTES.view(props.materialId)
           }
         >
-          Cancel
+          Cancelar
         </Link>
         <button
           className="inline-flex items-center gap-2 rounded-md bg-[var(--color-primary)] px-4 py-2.5 text-sm font-semibold text-[color:var(--color-primary-contrast)] transition hover:bg-[var(--color-primary-hover)] disabled:cursor-not-allowed disabled:opacity-60"

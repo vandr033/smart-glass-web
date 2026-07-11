@@ -59,7 +59,7 @@ export default function PurchasingReceiveOrderPage({
   });
 
   if (orderQuery.isPending || warehousesQuery.isPending) {
-    return <LoadingState title="Preparing receipt form" />;
+    return <LoadingState title="Preparando el formulario de recepción" />;
   }
 
   if (orderQuery.isError || warehousesQuery.isError) {
@@ -68,9 +68,9 @@ export default function PurchasingReceiveOrderPage({
         description={
           orderQuery.error?.message ||
           warehousesQuery.error?.message ||
-          "Receipt form dependencies could not be loaded."
+          "No se pudieron cargar las dependencias del formulario de recepción."
         }
-        title="Receipt form is unavailable"
+        title="El formulario de recepción no está disponible"
       />
     );
   }
@@ -90,7 +90,7 @@ export default function PurchasingReceiveOrderPage({
   return (
     <main className="space-y-6">
       <PageHeader
-        description="Capture which warehouse received the order, how much arrived, and any batch, location, or dimensional details needed for stock creation."
+        description="Registra qué almacén recibió la orden, cuánto llegó y los datos de lote, ubicación o dimensiones necesarios para crear las existencias."
         eyebrow="Purchasing"
         title={`Receive ${order.code}`}
       />
@@ -98,7 +98,7 @@ export default function PurchasingReceiveOrderPage({
       <section className={sectionClassName}>
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           <label className="space-y-2">
-            <span className="text-sm font-medium text-stone-700">Warehouse</span>
+            <span className="text-sm font-medium text-stone-700">Almacén</span>
             <select
               className={fieldClassName}
               onChange={(event) => {
@@ -106,7 +106,7 @@ export default function PurchasingReceiveOrderPage({
               }}
               value={warehouseId}
             >
-              <option value="">Select warehouse</option>
+              <option value="">Selecciona un almacén</option>
               {warehousesQuery.data.map((warehouse) => (
                 <option key={warehouse.id} value={warehouse.id}>
                   {warehouse.code} · {warehouse.name}
@@ -128,20 +128,20 @@ export default function PurchasingReceiveOrderPage({
           </label>
 
           <label className="space-y-2 md:col-span-2 xl:col-span-3">
-            <span className="text-sm font-medium text-stone-700">Notes</span>
+            <span className="text-sm font-medium text-stone-700">Notas</span>
             <textarea
               className={textAreaClassName}
               onChange={(event) => {
                 setNotes(event.target.value);
               }}
-              placeholder="Optional warehouse receipt note"
+              placeholder="Nota opcional de recepción en almacén"
               value={notes}
             />
           </label>
         </div>
 
         <div className="mt-4 rounded-[1rem] border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-900">
-          Supplier: <strong>{order.supplier?.commercialName || order.supplier?.legalName}</strong>{" "}
+              Proveedor: <strong>{order.supplier?.commercialName || order.supplier?.legalName}</strong>{" "}
           · Expected delivery {formatDateOnlyValue(order.expectedDeliveryDate)}
         </div>
 
@@ -200,8 +200,8 @@ export default function PurchasingReceiveOrderPage({
                       {orderItem.material.name}
                     </h3>
                     <p className="mt-2 text-sm text-stone-600">
-                      Ordered {formatPurchasingQuantity(orderItem.quantity, orderItem.unit)} ·
-                      Remaining {formatPurchasingQuantity(remainingQuantity, orderItem.unit)}
+                    Ordenado: {formatPurchasingQuantity(orderItem.quantity, orderItem.unit)} ·
+                    Pendiente: {formatPurchasingQuantity(remainingQuantity, orderItem.unit)}
                     </p>
                   </div>
                   <p className="text-sm text-stone-500">{orderItem.material.code}</p>
@@ -388,8 +388,8 @@ export default function PurchasingReceiveOrderPage({
         {outstandingItems.length === 0 ? (
           <div className="mt-5">
             <EmptyState
-              description="Every line on this purchase order is already fully received."
-              title="Nothing left to receive"
+              description="Todas las líneas de esta orden de compra ya fueron recibidas por completo."
+              title="No queda nada por recibir"
             />
           </div>
         ) : null}

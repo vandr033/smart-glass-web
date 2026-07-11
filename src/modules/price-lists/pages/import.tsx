@@ -49,11 +49,11 @@ export default function ImportPriceListPage() {
   const importMutation = useMutation({
     mutationFn: async () => {
       if (!supplierId) {
-        throw new Error("Choose a supplier before uploading.");
+        throw new Error("Selecciona un proveedor antes de cargar el archivo.");
       }
 
       if (!file) {
-        throw new Error("Choose an Excel or CSV file to continue.");
+        throw new Error("Selecciona un archivo Excel o CSV para continuar.");
       }
 
       return priceListService.importPriceList({
@@ -72,7 +72,7 @@ export default function ImportPriceListPage() {
   });
 
   if (suppliersQuery.isLoading) {
-    return <LoadingState cards={3} title="Loading suppliers for import" />;
+    return <LoadingState cards={3} title="Cargando proveedores para importar" />;
   }
 
   if (suppliersQuery.isError) {
@@ -86,11 +86,11 @@ export default function ImportPriceListPage() {
             }}
             type="button"
           >
-            Retry
+            Intentar nuevamente
           </button>
         }
         description={suppliersQuery.error.message}
-        title="Import setup could not be loaded"
+        title="No se pudo cargar la configuración de importación"
       />
     );
   }
@@ -100,12 +100,12 @@ export default function ImportPriceListPage() {
       <PageHeader
         actions={
           <Link className={secondaryButtonClassName} href={PRICE_LISTS_ROUTES.list}>
-            Back to imports
+            Volver a importaciones
           </Link>
         }
-        description="Upload supplier Excel or CSV files, preserve raw rows, and kick off the mapping workflow that feeds pricing history and future purchasing decisions."
-        eyebrow="Import"
-        title="New Price List Import"
+        description="Carga archivos Excel o CSV de proveedores, conserva las filas originales e inicia el flujo de mapeo que alimenta el historial de precios y futuras compras."
+        eyebrow="Importación"
+        title="Nueva importación de lista de precios"
       />
 
       <section className={sectionClassName}>
@@ -116,7 +116,7 @@ export default function ImportPriceListPage() {
                 Configuración de carga
               </p>
               <h2 className="mt-2 text-2xl font-semibold tracking-tight text-stone-950">
-                Bring in the supplier file exactly once
+                Carga el archivo del proveedor una sola vez
               </h2>
               <p className="mt-2 max-w-3xl text-sm leading-7 text-stone-700">
                 The importer stores every row, including invalid ones, so the team can fix
@@ -219,7 +219,7 @@ export default function ImportPriceListPage() {
                 type="button"
               >
                 <FileSpreadsheet className="mr-2 h-4 w-4" />
-                {importMutation.isPending ? "Uploading..." : "Import price list"}
+                {importMutation.isPending ? "Cargando…" : "Importar lista de precios"}
               </button>
 
               <Link className={secondaryButtonClassName} href={PRICE_LISTS_ROUTES.list}>

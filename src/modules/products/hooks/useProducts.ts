@@ -15,7 +15,7 @@ import {
 export const productFormSchema = z.object({
   description: z.string().trim().max(500).optional(),
   isActive: z.boolean().default(true),
-  name: z.string().trim().min(2, "Name must be at least 2 characters.").max(191),
+  name: z.string().trim().min(2, "El nombre debe tener al menos 2 caracteres.").max(191),
 });
 
 export type ProductFormValues = z.infer<typeof productFormSchema>;

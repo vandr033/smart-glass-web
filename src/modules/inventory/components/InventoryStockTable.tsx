@@ -141,7 +141,7 @@ export function InventoryStockTable() {
     emptyState: {
       description:
         "Registra el primer ingreso para empezar a seguir inventario fisico, reservas, remanentes y danos.",
-      title: "No hay stock para la vista actual",
+      title: "No hay existencias para la vista actual",
     },
     filters: [
       {
@@ -166,7 +166,7 @@ export function InventoryStockTable() {
       },
       {
         id: "stockType",
-        label: "Tipo de stock",
+        label: "Tipo de existencia",
         options: Object.entries(INVENTORY_STOCK_TYPE_LABELS).map(([value, label]) => ({
           label,
           value,
@@ -195,7 +195,7 @@ export function InventoryStockTable() {
         label: "Ajustar",
         onClick: async (row) => {
           const rawDelta = window.prompt(
-            "Cantidad de ajuste. Usa valores negativos para disminuir stock.",
+            "Cantidad de ajuste. Usa valores negativos para disminuir existencias.",
             "1",
           );
 
@@ -280,7 +280,7 @@ export function InventoryStockTable() {
             window.prompt("Severidad: LOW, MEDIUM, HIGH o TOTAL_LOSS", "MEDIUM") ??
             "MEDIUM"
           ).toUpperCase() as "HIGH" | "LOW" | "MEDIUM" | "TOTAL_LOSS";
-          const description = window.prompt("Descripcion del dano", "Reportado desde la tabla de stock") ?? null;
+          const description = window.prompt("Descripción del daño", "Reportado desde la tabla de existencias") ?? null;
 
           await inventoryService.createDamagedMaterial({
             damageType: "OTHER",
@@ -325,7 +325,7 @@ export function InventoryStockTable() {
             inventoryStockId: row.id,
             locationCode: null,
             quantity: Number(rawQuantity),
-            reason: "Trasladado desde la tabla de stock",
+          reason: "Trasladado desde la tabla de existencias",
             toWarehouseId: targetWarehouseId,
           });
         },
@@ -338,7 +338,7 @@ export function InventoryStockTable() {
         variant: "view",
       },
     ],
-    searchPlaceholder: "Buscar por material, lote, ubicacion, almacen o nota de stock",
+    searchPlaceholder: "Buscar por material, lote, ubicación, almacén o nota de existencias",
   };
 
   return <DataTable config={tableConfig} endpoint="/inventory/stock" />;

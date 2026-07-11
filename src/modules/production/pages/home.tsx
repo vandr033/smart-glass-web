@@ -30,7 +30,7 @@ const isOpenJob = (status: string) => !["CANCELLED", "COMPLETED"].includes(statu
 
 const getDueLabel = (plannedEndDate: string | null, now: number) => {
   if (!plannedEndDate) {
-    return "No due date";
+    return "Sin fecha de vencimiento";
   }
 
   const dueDate = new Date(plannedEndDate);
@@ -43,7 +43,7 @@ const getDueLabel = (plannedEndDate: string | null, now: number) => {
   }
 
   if (diffDays === 0) {
-    return "Due today";
+    return "Vence hoy";
   }
 
   return `Due in ${diffDays} day(s)`;
@@ -72,7 +72,7 @@ export default function ProductionHomePage() {
   });
 
   if (jobsQuery.isPending) {
-    return <LoadingState title="Preparing production workspace" />;
+    return <LoadingState title="Preparando el espacio de producción" />;
   }
 
   if (jobsQuery.isError) {
@@ -134,35 +134,35 @@ export default function ProductionHomePage() {
             ) : null}
           </>
         }
-        description="Track jobs flowing in from quotations and cutting, spot deadline risk early, and keep material consumption, quality checks, and waste signals visible from one place."
-        eyebrow="Operations"
+        description="Sigue las órdenes provenientes de cotizaciones y corte, detecta a tiempo los riesgos de fecha y mantén visibles el consumo de materiales, los controles de calidad y el desperdicio."
+        eyebrow="Operaciones"
         title="Produccion"
       />
 
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         <StatCard
-          description="All production jobs currently registered in the system."
+          description="Todas las órdenes de producción registradas actualmente en el sistema."
           icon={Factory}
-          label="Total Jobs"
+          label="Órdenes totales"
           value={String(jobsQuery.data.pagination.total)}
         />
         <StatCard
-          description="Jobs that are ready, active, or temporarily paused on the floor."
+          description="Órdenes listas, activas o pausadas temporalmente en planta."
           icon={ClipboardCheck}
-          label="Active Queue"
+          label="Cola activa"
           tone="accent"
           value={String(activeJobs.length)}
         />
         <StatCard
-          description="Urgent jobs still open and needing immediate production attention."
+          description="Órdenes urgentes abiertas que requieren atención inmediata en producción."
           icon={AlertTriangle}
-          label="Urgent Jobs"
+          label="Órdenes urgentes"
           value={String(urgentJobs.length)}
         />
         <StatCard
-          description="Tasks still pending, in progress, or blocked across all visible jobs."
+          description="Tareas pendientes, en proceso o bloqueadas en todas las órdenes visibles."
           icon={PackageSearch}
-          label="Pending Tasks"
+          label="Tareas pendientes"
           value={String(pendingTasks)}
         />
       </section>
@@ -172,10 +172,10 @@ export default function ProductionHomePage() {
           <div className="flex items-center justify-between gap-3">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-                Deadline Watch
+                Seguimiento de fechas
               </p>
               <h2 className="mt-2 text-xl font-semibold text-stone-950">
-                Jobs due soon
+                Órdenes próximas a vencer
               </h2>
             </div>
             <Link
@@ -213,8 +213,8 @@ export default function ProductionHomePage() {
                         </span>
                       </div>
                       <p className="mt-1 text-xs text-stone-600">
-                        {job.project?.title ?? job.quotation?.code ?? "Manual job"} ·{" "}
-                        {job.pendingTaskCount} pending task(s)
+                        {job.project?.title ?? job.quotation?.code ?? "Orden manual"} ·{" "}
+                        {job.pendingTaskCount} tarea(s) pendiente(s)
                       </p>
                     </div>
                     <div className="text-right text-xs text-stone-500">
@@ -230,8 +230,8 @@ export default function ProductionHomePage() {
 
             {dueSoonJobs.length === 0 ? (
               <EmptyState
-                description="Open jobs with planned end dates in the next week will surface here automatically."
-                title="No near-term deadlines"
+                description="Las órdenes abiertas con fecha planificada de finalización durante la próxima semana aparecerán aquí automáticamente."
+                title="No hay fechas próximas"
               />
             ) : null}
           </div>
@@ -241,17 +241,17 @@ export default function ProductionHomePage() {
           <div className="flex items-center justify-between gap-3">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-                Waste Watch
+                Seguimiento de desperdicio
               </p>
               <h2 className="mt-2 text-xl font-semibold text-stone-950">
-                Jobs with variance signals
+                Órdenes con variaciones
               </h2>
             </div>
             <Link
               className="text-sm font-semibold text-[color:var(--color-primary)]"
               href={PRODUCTION_ROUTES.jobs}
             >
-              View jobs
+              Ver órdenes
             </Link>
           </div>
 
@@ -266,15 +266,15 @@ export default function ProductionHomePage() {
                   <div>
                     <p className="text-sm font-semibold text-stone-950">{job.code}</p>
                     <p className="mt-1 text-xs text-stone-600">
-                      {job.cuttingPlan?.code ?? "No cutting plan"} ·{" "}
+                      {job.cuttingPlan?.code ?? "Sin plan de corte"} ·{" "}
                       {job.wasteReport?.hasActualWasteData
-                        ? "Actual waste recorded"
-                        : "Theoretical estimate only"}
+                        ? "Desperdicio real registrado"
+                        : "Solo estimación teórica"}
                     </p>
                   </div>
                   <div className="text-right text-xs text-stone-500">
                     <p>
-                      Variance{" "}
+                      Variación{" "}
                       <span className="font-semibold text-stone-950">
                         {formatProductionArea(job.wasteReport?.varianceAreaM2 ?? 0)}
                       </span>
@@ -289,8 +289,8 @@ export default function ProductionHomePage() {
 
             {wasteSignals.length === 0 ? (
               <EmptyState
-                description="Waste reports will appear here after jobs with cutting plans begin recording production consumption or recalculating waste."
-                title="No waste signals yet"
+                description="Los reportes de desperdicio aparecerán aquí cuando las órdenes con planes de corte registren consumo o recalculen el desperdicio."
+                title="Aún no hay señales de desperdicio"
               />
             ) : null}
           </div>

@@ -83,7 +83,7 @@ export function DamagedMaterialsTable() {
     },
     emptyState: {
       description:
-        "Los reportes de material dañado aparecerán aquí cuando el stock sea marcado para revisión desde la página de stock o desde el flujo de daños.",
+        "Los reportes de material dañado aparecerán aquí cuando las existencias sean marcadas para revisión desde la página de existencias o desde el flujo de daños.",
       title: "No hay material dañado para la vista actual",
     },
     filters: [

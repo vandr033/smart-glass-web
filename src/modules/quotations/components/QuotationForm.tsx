@@ -109,7 +109,7 @@ export function QuotationForm(props: QuotationFormProps) {
   const updateMutation = useMutation({
     mutationFn: async (values: QuotationFormValues) => {
       if (props.mode !== "edit") {
-        throw new Error("Quotation id is required.");
+        throw new Error("El identificador de la cotización es obligatorio.");
       }
 
       return quotationService.updateQuotation(

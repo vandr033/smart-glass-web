@@ -27,7 +27,7 @@ export default function CuttingPlanPrintPage({
   if (printQuery.isPending) {
     return (
       <LoadingState
-        title="Loading print view"
+        title="Cargando vista de impresión"
       />
     );
   }
@@ -36,7 +36,7 @@ export default function CuttingPlanPrintPage({
     return (
       <ErrorState
         description={printQuery.error.message}
-        title="Print layout could not be loaded"
+        title="No se pudo cargar el diseño de impresión"
       />
     );
   }
@@ -46,8 +46,8 @@ export default function CuttingPlanPrintPage({
   return (
     <main className="space-y-6">
       <PageHeader
-        description="Print-friendly cutting layout with sheet dimensions, piece labels, and planned remnant zones."
-        eyebrow="Print Layout"
+        description="Diseño de corte imprimible con dimensiones de lámina, etiquetas de piezas y zonas de remanentes planificadas."
+        eyebrow="Diseño de impresión"
         title={plan.code}
       />
 
@@ -55,23 +55,23 @@ export default function CuttingPlanPrintPage({
         <div className="grid gap-4 md:grid-cols-4">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-              Quotation
+              Cotización
             </p>
             <p className="mt-2 text-sm font-semibold text-stone-950">
-              {plan.optimizationRun.quotation?.code ?? "No quotation"}
+              {plan.optimizationRun.quotation?.code ?? "Sin cotización"}
             </p>
           </div>
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-              Project
+              Proyecto
             </p>
             <p className="mt-2 text-sm font-semibold text-stone-950">
-              {plan.optimizationRun.project?.code ?? "No project"}
+              {plan.optimizationRun.project?.code ?? "Sin proyecto"}
             </p>
           </div>
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-              Required Area
+              Área requerida
             </p>
             <p className="mt-2 text-sm font-semibold text-stone-950">
               {formatCuttingArea(plan.totalRequiredAreaM2)}

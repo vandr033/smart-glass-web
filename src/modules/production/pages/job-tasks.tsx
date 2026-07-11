@@ -524,7 +524,7 @@ export default function ProductionJobTasksPage({
                   }}
                   value={taskDraft.assignedToUserId}
                 >
-                  <option value="">Unassigned</option>
+                  <option value="">Sin asignar</option>
                   {usersQuery.data.map((user) => (
                     <option key={user.id} value={user.id}>
                       {user.name} · {user.email}
@@ -632,7 +632,7 @@ export default function ProductionJobTasksPage({
                         </p>
                         <p className="mt-1 text-xs text-stone-600">
                           {getProductionTaskTypeLabel(task.taskType)} ·{" "}
-                          {task.assignedToUser?.name ?? "Unassigned"} ·{" "}
+                          {task.assignedToUser?.name ?? "Sin asignar"} ·{" "}
                           {formatDateValue(task.startedAt)}
                         </p>
                       </div>
@@ -675,7 +675,7 @@ export default function ProductionJobTasksPage({
                   }}
                   value={activeMaterialId}
                 >
-                  <option value="">Select material</option>
+                  <option value="">Seleccionar material</option>
                   {materialOptions.map((material) => (
                     <option key={material.id} value={material.id}>
                       {material.code} · {material.name}
@@ -753,7 +753,7 @@ export default function ProductionJobTasksPage({
                     }}
                     value={inventoryStockId}
                   >
-                    <option value="">Select stock</option>
+                    <option value="">Seleccionar existencias</option>
                     {(stocksQuery.data ?? []).map((stock) => (
                       <option key={stock.id} value={stock.id}>
                         {stock.warehouse.code} · Qty {stock.availableQuantity}{" "}
@@ -784,7 +784,7 @@ export default function ProductionJobTasksPage({
                     }}
                     value={remnantPieceId}
                   >
-                    <option value="">Select remnant</option>
+                    <option value="">Seleccionar remanente</option>
                     {(remnantsQuery.data ?? []).map((remnant) => (
                       <option key={remnant.id} value={remnant.id}>
                         {remnant.code} · Qty {remnant.quantity} {remnant.unit}
@@ -891,7 +891,7 @@ export default function ProductionJobTasksPage({
                   onChange={(event) => {
                     setNotes(event.target.value);
                   }}
-                  placeholder="Optional note about actual usage, breakage, or mismatch"
+                  placeholder="Nota opcional sobre uso real, rotura o diferencia"
                   value={notes}
                 />
               </label>
@@ -935,7 +935,7 @@ export default function ProductionJobTasksPage({
                       }}
                       value={remnantWarehouseId}
                     >
-                      <option value="">Select warehouse</option>
+                      <option value="">Seleccionar almacén</option>
                       {warehousesQuery.data.map((warehouse) => (
                         <option key={warehouse.id} value={warehouse.id}>
                           {warehouse.code} · {warehouse.name}
@@ -1067,7 +1067,7 @@ export default function ProductionJobTasksPage({
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div>
                       <p className="text-sm font-semibold text-stone-950">
-                        {consumption.material?.name ?? "Manual material"} ·{" "}
+                        {consumption.material?.name ?? "Material manual"} ·{" "}
                         {consumption.quantity} {consumption.unit}
                       </p>
                       <p className="mt-1 text-xs text-stone-600">
@@ -1076,7 +1076,7 @@ export default function ProductionJobTasksPage({
                       </p>
                     </div>
                     <p className="text-xs font-medium text-stone-500">
-                      {consumption.consumedByUser?.name ?? "System"}
+                      {consumption.consumedByUser?.name ?? "Sistema"}
                     </p>
                   </div>
                 </div>
@@ -1084,8 +1084,8 @@ export default function ProductionJobTasksPage({
 
               {job.materialConsumptions.length === 0 ? (
                 <EmptyState
-                  description="Consumption recorded from stock, remnants, or manual floor use will appear here."
-                  title="No consumption recorded yet"
+                  description="El consumo registrado desde existencias, remanentes o uso manual en planta aparecerá aquí."
+                  title="Aún no hay consumo registrado"
                 />
               ) : null}
             </div>

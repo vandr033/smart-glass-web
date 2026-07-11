@@ -96,14 +96,14 @@ export default function PurchasingRequestDetailPage({
   });
 
   if (requestQuery.isPending) {
-    return <LoadingState title="Loading purchase request" />;
+    return <LoadingState title="Cargando solicitud de compra" />;
   }
 
   if (requestQuery.isError) {
     return (
       <ErrorState
         description={requestQuery.error.message}
-        title="Purchase request could not be loaded"
+        title="No se pudo cargar la solicitud de compra"
       />
     );
   }
@@ -138,7 +138,7 @@ export default function PurchasingRequestDetailPage({
             ) : null}
           </>
         }
-        description="Review the origin of this purchasing need, validate the requested lines, and move it through approval and supplier comparison."
+        description="Revisa el origen de esta necesidad de compra, valida las líneas solicitadas y avanza por la aprobación y el comparativo de proveedores."
         eyebrow="Purchasing"
         title={request.code}
       />
@@ -215,7 +215,7 @@ export default function PurchasingRequestDetailPage({
                 onChange={(event) => {
                   setActionNotes(event.target.value);
                 }}
-                placeholder="Optional approval, rejection, or cancellation context"
+                placeholder="Contexto opcional de aprobación, rechazo o cancelación"
                 value={actionNotes}
               />
             </label>
@@ -310,7 +310,7 @@ export default function PurchasingRequestDetailPage({
 
                 <div className="grid gap-2 text-right text-sm text-stone-600">
                   <p>
-                    Required date:{" "}
+                    Fecha requerida:{" "}
                     <span className="font-semibold text-stone-950">
                       {formatDateOnlyValue(item.requiredDate)}
                     </span>
@@ -342,7 +342,7 @@ export default function PurchasingRequestDetailPage({
                   <p className="mt-2 text-sm font-semibold text-stone-950">
                     {item.preferredSupplier?.commercialName ||
                       item.preferredSupplier?.legalName ||
-                      "Not set"}
+                      "Sin configurar"}
                   </p>
                 </div>
                 <div className="rounded-[1rem] border border-stone-200 bg-stone-50 px-4 py-4">
@@ -362,8 +362,8 @@ export default function PurchasingRequestDetailPage({
 
         {request.items.length === 0 ? (
           <EmptyState
-            description="This request does not have any purchase lines yet, so it cannot be approved or compared."
-            title="No items in this request"
+            description="Esta solicitud aún no tiene líneas de compra, por lo que no puede aprobarse ni compararse."
+            title="No hay artículos en esta solicitud"
           />
         ) : null}
       </section>

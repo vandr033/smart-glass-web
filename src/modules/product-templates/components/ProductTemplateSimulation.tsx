@@ -35,7 +35,7 @@ type ProductTemplateSimulationProps = {
 };
 
 const formatDateTime = (value: string): string => {
-  return new Intl.DateTimeFormat("en-US", {
+  return new Intl.DateTimeFormat("es-BO", {
     dateStyle: "medium",
     timeStyle: "short",
   }).format(new Date(value));
@@ -43,10 +43,10 @@ const formatDateTime = (value: string): string => {
 
 const formatCurrencyValue = (amount: number | null): string => {
   if (amount === null) {
-    return "Unavailable";
+    return "No disponible";
   }
 
-  return new Intl.NumberFormat("en-US", {
+  return new Intl.NumberFormat("es-BO", {
     currency: "BOB",
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
@@ -118,7 +118,7 @@ export function ProductTemplateSimulation({
   );
 
   if (versionQuery.isLoading || materialsQuery.isLoading) {
-    return <LoadingState cards={4} title="Loading simulator" />;
+    return <LoadingState cards={4} title="Cargando simulador" />;
   }
 
   if (versionQuery.isError || materialsQuery.isError || !versionQuery.data) {
@@ -142,9 +142,9 @@ export function ProductTemplateSimulation({
         description={
           versionQuery.error?.message ??
           materialsQuery.error?.message ??
-          "The simulator could not be prepared."
+          "No se pudo preparar el simulador."
         }
-        title="Simulation setup failed"
+        title="La configuración de simulación falló"
       />
     );
   }
@@ -313,7 +313,7 @@ export function ProductTemplateSimulation({
       <section className={sectionClassName}>
         <div className="mb-6 space-y-1">
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-            Inputs
+            Entradas
           </p>
           <h2 className="text-2xl font-semibold tracking-tight text-stone-950">
             Dynamic form
@@ -332,7 +332,7 @@ export function ProductTemplateSimulation({
                 void historyQuery.refetch();
               }
             } catch (error) {
-              window.alert(error instanceof Error ? error.message : "Simulation failed.");
+              window.alert(error instanceof Error ? error.message : "La simulación falló.");
             }
           }}
         >
@@ -358,8 +358,8 @@ export function ProductTemplateSimulation({
 
       {!simulation ? (
         <EmptyState
-          description="Run the first simulation to see material usage, cuts, labor, and price preview output."
-          title="No simulation has been run yet"
+          description="Ejecuta la primera simulación para ver el uso de materiales, cortes, mano de obra y una vista previa de precios."
+          title="Aún no se ha ejecutado ninguna simulación"
         />
       ) : (
         <>
@@ -372,13 +372,13 @@ export function ProductTemplateSimulation({
                 </p>
               </div>
               <div className="rounded-lg border border-stone-200 bg-white px-5 py-4">
-                <p className="text-xs uppercase tracking-[0.22em] text-stone-500">Waste cost</p>
+                <p className="text-xs uppercase tracking-[0.22em] text-stone-500">Costo de desperdicio</p>
                 <p className="mt-3 text-lg font-semibold text-stone-950">
                   {formatCurrencyValue(simulation.resultJson.wasteCost)}
                 </p>
               </div>
               <div className="rounded-lg border border-stone-200 bg-white px-5 py-4">
-                <p className="text-xs uppercase tracking-[0.22em] text-stone-500">Labor cost</p>
+                <p className="text-xs uppercase tracking-[0.22em] text-stone-500">Costo de mano de obra</p>
                 <p className="mt-3 text-lg font-semibold text-stone-950">
                   {formatCurrencyValue(simulation.resultJson.laborCost)}
                 </p>
@@ -402,9 +402,9 @@ export function ProductTemplateSimulation({
                   <tr>
                     <th className="px-5 py-4 font-semibold">Material</th>
                     <th className="px-5 py-4 font-semibold">Rule</th>
-                    <th className="px-5 py-4 font-semibold">Quantity</th>
-                    <th className="px-5 py-4 font-semibold">Unit cost</th>
-                    <th className="px-5 py-4 font-semibold">Cost</th>
+                    <th className="px-5 py-4 font-semibold">Cantidad</th>
+                    <th className="px-5 py-4 font-semibold">Costo unitario</th>
+                    <th className="px-5 py-4 font-semibold">Costo</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -422,7 +422,7 @@ export function ProductTemplateSimulation({
                       </td>
                       <td className="px-5 py-4 text-stone-700">
                         {item.estimatedUnitCost === null
-                          ? "Unavailable"
+                          ? "No disponible"
                           : formatCurrencyValue(item.estimatedUnitCost)}
                       </td>
                       <td className="px-5 py-4 font-medium text-stone-950">
@@ -476,7 +476,7 @@ export function ProductTemplateSimulation({
           </section>
 
           <section className={sectionClassName}>
-            <h2 className="text-xl font-semibold text-stone-950">Labor breakdown</h2>
+            <h2 className="text-xl font-semibold text-stone-950">Desglose de mano de obra</h2>
             {simulation.resultJson.labor.length > 0 ? (
               <div className="mt-4 space-y-3">
                 {simulation.resultJson.labor.map((item) => (

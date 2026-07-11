@@ -40,10 +40,10 @@ type ProductTemplateDetailProps = {
 
 const formatDateTime = (value: string | null): string => {
   if (!value) {
-    return "Not set";
+    return "Sin configurar";
   }
 
-  return new Intl.DateTimeFormat("en-US", {
+  return new Intl.DateTimeFormat("es-BO", {
     dateStyle: "medium",
     timeStyle: "short",
   }).format(new Date(value));
@@ -85,7 +85,7 @@ export function ProductTemplateDetail({
       defaultWastePercent: 10,
       description: null,
       duplicateFromVersionId: null,
-      name: "New draft version",
+      name: "Nueva versión de borrador",
       notes: null,
       status: "DRAFT",
     },
@@ -93,7 +93,7 @@ export function ProductTemplateDetail({
   });
 
   if (templateQuery.isLoading || versionsQuery.isLoading) {
-    return <LoadingState cards={4} title="Loading product template" />;
+    return <LoadingState cards={4} title="Cargando plantilla de producto" />;
   }
 
   if (templateQuery.isError || versionsQuery.isError) {
@@ -116,9 +116,9 @@ export function ProductTemplateDetail({
         description={
           templateQuery.error?.message ??
           versionsQuery.error?.message ??
-          "Template data could not be loaded."
+          "No se pudieron cargar los datos de la plantilla."
         }
-        title="Product template details could not be loaded"
+        title="No se pudieron cargar los detalles de la plantilla de producto"
       />
     );
   }
@@ -128,8 +128,8 @@ export function ProductTemplateDetail({
   if (!template) {
     return (
       <ErrorState
-        description="Template data is unavailable right now."
-        title="Product template could not be loaded"
+        description="Los datos de la plantilla no están disponibles en este momento."
+        title="No se pudo cargar la plantilla de producto"
       />
     );
   }
@@ -188,7 +188,7 @@ export function ProductTemplateDetail({
                   className={secondaryButtonClassName}
                   disabled={deleteMutation.isPending}
                   onClick={async () => {
-                    if (!window.confirm("Archive this template? Existing versions will stay for audit history.")) {
+                    if (!window.confirm("¿Archivar esta plantilla? Las versiones existentes permanecerán en el historial de auditoría.")) {
                       return;
                     }
 
@@ -217,17 +217,17 @@ export function ProductTemplateDetail({
       <section className={sectionClassName}>
         <div className="grid gap-4 md:grid-cols-4">
           <div className="rounded-lg border border-stone-200 bg-white px-5 py-4">
-            <p className="text-xs uppercase tracking-[0.22em] text-stone-500">Status</p>
+            <p className="text-xs uppercase tracking-[0.22em] text-stone-500">Estado</p>
             <p className="mt-3 text-lg font-semibold text-stone-950">
               {PRODUCT_TEMPLATE_STATUS_LABELS[template.status]}
             </p>
           </div>
           <div className="rounded-lg border border-stone-200 bg-white px-5 py-4">
-            <p className="text-xs uppercase tracking-[0.22em] text-stone-500">Current version</p>
+            <p className="text-xs uppercase tracking-[0.22em] text-stone-500">Versión vigente</p>
             <p className="mt-3 text-lg font-semibold text-stone-950">
               {template.currentVersion
                 ? `V${template.currentVersion.versionNumber}`
-                : "Not assigned"}
+                : "Sin asignar"}
             </p>
           </div>
           <div className="rounded-lg border border-stone-200 bg-white px-5 py-4">
@@ -237,7 +237,7 @@ export function ProductTemplateDetail({
             </p>
           </div>
           <div className="rounded-lg border border-stone-200 bg-white px-5 py-4">
-            <p className="text-xs uppercase tracking-[0.22em] text-stone-500">Updated</p>
+            <p className="text-xs uppercase tracking-[0.22em] text-stone-500">Actualizado</p>
             <p className="mt-3 text-lg font-semibold text-stone-950">
               {formatDateTime(template.updatedAt)}
             </p>
@@ -259,7 +259,7 @@ export function ProductTemplateDetail({
 
         {versions.length === 0 ? (
           <EmptyState
-            description="Create the first version to define inputs, formulas, and simulation behavior."
+            description="Crea la primera versión para definir entradas, fórmulas y comportamiento de simulación."
             title="No versions exist yet"
           />
         ) : (
@@ -349,11 +349,11 @@ export function ProductTemplateDetail({
           >
             <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
               <label className="md:col-span-2 xl:col-span-2">
-                <span className="mb-2 block text-sm font-medium text-stone-700">Name</span>
+                <span className="mb-2 block text-sm font-medium text-stone-700">Nombre</span>
                 <input className={fieldClassName} {...createVersionForm.register("name")} />
               </label>
               <label>
-                <span className="mb-2 block text-sm font-medium text-stone-700">Status</span>
+                <span className="mb-2 block text-sm font-medium text-stone-700">Estado</span>
                 <select className={fieldClassName} {...createVersionForm.register("status")}>
                   {PRODUCT_TEMPLATE_VERSION_STATUS_OPTIONS.map((option) => (
                     <option key={option.value} value={option.value}>
@@ -364,13 +364,13 @@ export function ProductTemplateDetail({
               </label>
               <label>
                 <span className="mb-2 block text-sm font-medium text-stone-700">
-                  Duplicate from
+                  Duplicar desde
                 </span>
                 <select
                   className={fieldClassName}
                   {...createVersionForm.register("duplicateFromVersionId")}
                 >
-                  <option value="">Start empty</option>
+                  <option value="">Comenzar vacío</option>
                   {versions.map((version) => (
                     <option key={version.id} value={version.id}>
                       V{version.versionNumber} · {version.name}
@@ -380,7 +380,7 @@ export function ProductTemplateDetail({
               </label>
               <label>
                 <span className="mb-2 block text-sm font-medium text-stone-700">
-                  Default margin %
+                  Margen predeterminado %
                 </span>
                 <input
                   className={fieldClassName}
@@ -390,7 +390,7 @@ export function ProductTemplateDetail({
               </label>
               <label>
                 <span className="mb-2 block text-sm font-medium text-stone-700">
-                  Default waste %
+                  Desperdicio predeterminado %
                 </span>
                 <input
                   className={fieldClassName}
@@ -399,7 +399,7 @@ export function ProductTemplateDetail({
                 />
               </label>
               <label className="md:col-span-2">
-                <span className="mb-2 block text-sm font-medium text-stone-700">Description</span>
+                <span className="mb-2 block text-sm font-medium text-stone-700">Descripción</span>
                 <textarea
                   className={textAreaClassName}
                   rows={4}
@@ -407,7 +407,7 @@ export function ProductTemplateDetail({
                 />
               </label>
               <label className="md:col-span-2">
-                <span className="mb-2 block text-sm font-medium text-stone-700">Notes</span>
+                <span className="mb-2 block text-sm font-medium text-stone-700">Notas</span>
                 <textarea
                   className={textAreaClassName}
                   rows={4}

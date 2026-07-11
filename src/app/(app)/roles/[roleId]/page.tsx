@@ -16,9 +16,9 @@ export default async function RoleDetailPage({ params }: RoleDetailPageProps) {
   return (
     <main className="space-y-6">
       <PageHeader
-        description="Review assigned permissions, metadata, and protected-role safeguards from the shared role management module."
-        eyebrow="Role Record"
-        title="Role Details"
+        description="Revisa los permisos asignados, los metadatos y las protecciones de roles desde el módulo compartido de administración de roles."
+        eyebrow="Registro del rol"
+        title="Detalle del rol"
       />
 
       <RoleDetail roleId={roleId} />

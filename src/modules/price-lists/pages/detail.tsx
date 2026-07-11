@@ -112,7 +112,7 @@ export default function PriceListDetailPage({
   });
 
   if (detailQuery.isLoading) {
-    return <LoadingState cards={4} title="Loading import summary" />;
+    return <LoadingState cards={4} title="Cargando resumen de importación" />;
   }
 
   if (detailQuery.isError || !detailQuery.data) {
@@ -126,11 +126,11 @@ export default function PriceListDetailPage({
             }}
             type="button"
           >
-            Retry
+            Intentar nuevamente
           </button>
         }
-        description={detailQuery.error?.message ?? "The import could not be loaded."}
-        title="Price list import could not be loaded"
+        description={detailQuery.error?.message ?? "No se pudo cargar la importación."}
+        title="No se pudo cargar la importación de la lista de precios"
       />
     );
   }
@@ -144,48 +144,48 @@ export default function PriceListDetailPage({
         actions={
           <>
             <Link className={secondaryButtonClassName} href={PRICE_LISTS_ROUTES.list}>
-              Back to imports
+              Volver a importaciones
             </Link>
             <Link
               className={secondaryButtonClassName}
               href={PRICE_LISTS_ROUTES.mapping(record.id)}
             >
-              Mapping workspace
+              Espacio de mapeo
             </Link>
             <Link className={secondaryButtonClassName} href={PRICE_LISTS_ROUTES.history}>
               <History className="mr-2 h-4 w-4" />
-              Price history
+              Historial de precios
             </Link>
           </>
         }
-        description={`Imported from ${record.supplier.legalName}. Review unresolved rows, validate the file, and approve only when the current-price update is safe to apply.`}
-        eyebrow="Import Detail"
+        description={`Importada desde ${record.supplier.legalName}. Revisa las filas sin resolver, valida el archivo y aprueba solo cuando sea seguro actualizar los precios vigentes.`}
+        eyebrow="Detalle de importación"
         title={record.fileName}
       />
 
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         <StatCard
-          description="Rows detected from the uploaded spreadsheet."
+          description="Filas detectadas en la hoja de cálculo cargada."
           icon={FileCheck2}
-          label="Rows"
+          label="Filas"
           value={String(record.rowCount)}
         />
         <StatCard
-          description="Rows already tied to internal materials."
+          description="Filas vinculadas a materiales internos."
           icon={CheckCircle2}
-          label="Mapped"
+          label="Mapeadas"
           value={String(record.mappedCount)}
         />
         <StatCard
-          description="Rows still blocking validation or approval."
+          description="Filas que aún bloquean la validación o aprobación."
           icon={FolderSearch2}
-          label="Unmapped"
+          label="Sin mapear"
           value={String(record.unmappedCount)}
         />
         <StatCard
-          description="Invalid or malformed rows kept for review."
+          description="Filas inválidas o malformadas conservadas para revisión."
           icon={AlertTriangle}
-          label="Invalid"
+          label="Inválidas"
           tone={record.invalidCount > 0 ? "accent" : "default"}
           value={String(record.invalidCount)}
         />
@@ -195,7 +195,7 @@ export default function PriceListDetailPage({
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-              Status
+              Estado
             </p>
             <div className="mt-3 flex flex-wrap items-center gap-3">
               <PriceListStatusBadge status={record.status} />
@@ -239,7 +239,7 @@ export default function PriceListDetailPage({
                 }}
                 type="button"
               >
-                {validateMutation.isPending ? "Validating..." : "Validate import"}
+                {validateMutation.isPending ? "Validando…" : "Validar importación"}
               </button>
             ) : null}
             {canApprove ? (
@@ -303,7 +303,7 @@ export default function PriceListDetailPage({
               </div>
               <div className="flex items-start justify-between gap-3">
                 <dt className="font-medium text-stone-500">Approved by</dt>
-                <dd>{record.approvedByUser?.name ?? "Not approved"}</dd>
+                <dd>{record.approvedByUser?.name ?? "No aprobado"}</dd>
               </div>
             </dl>
           </div>
@@ -316,20 +316,20 @@ export default function PriceListDetailPage({
               <div className="rounded-md border border-stone-200 bg-stone-50/70 px-4 py-3">
                 <p className="font-semibold text-stone-950">
                   {record.unmappedCount === 0
-                    ? "All rows are mapped."
+                    ? "Todas las filas están mapeadas."
                     : `${record.unmappedCount} rows still need mapping attention.`}
                 </p>
               </div>
               <div className="rounded-md border border-stone-200 bg-stone-50/70 px-4 py-3">
                 <p className="font-semibold text-stone-950">
                   {record.invalidCount === 0
-                    ? "No invalid rows are currently blocking approval."
+                    ? "No hay filas inválidas bloqueando actualmente la aprobación."
                     : `${record.invalidCount} invalid rows must be fixed or ignored.`}
                 </p>
               </div>
               <div className="rounded-md border border-stone-200 bg-stone-50/70 px-4 py-3">
                 <p className="font-semibold text-stone-950">
-                  Approval stays disabled until the status becomes `VALIDATED`.
+                  La aprobación permanecerá deshabilitada hasta que el estado sea `VALIDATED`.
                 </p>
               </div>
             </div>
@@ -338,28 +338,28 @@ export default function PriceListDetailPage({
       </section>
 
       <ConfirmDialog
-        confirmLabel="Approve import"
-        description="Approving will close old current prices for the same supplier and materials, create new current prices, and write price-history records. Double-check the mapping workspace before continuing."
+        confirmLabel="Aprobar importación"
+        description="La aprobación cerrará los precios vigentes anteriores del mismo proveedor y materiales, creará nuevos precios y registrará el historial. Revisa el mapeo antes de continuar."
         isLoading={approveMutation.isPending}
         onConfirm={() => {
           approveMutation.mutate();
         }}
         onOpenChange={setApproveOpen}
         open={approveOpen}
-        title="Approve this price list?"
+        title="¿Aprobar esta lista de precios?"
         tone="default"
       />
 
       <ConfirmDialog
-        confirmLabel="Reject import"
-        description="Rejecting keeps the historical import record but prevents this file from becoming current pricing."
+        confirmLabel="Rechazar importación"
+        description="El rechazo conserva el registro histórico, pero evita que este archivo se convierta en el precio vigente."
         isLoading={rejectMutation.isPending}
         onConfirm={() => {
           rejectMutation.mutate();
         }}
         onOpenChange={setRejectOpen}
         open={rejectOpen}
-        title="Reject this import?"
+        title="¿Rechazar esta importación?"
       />
     </main>
   );

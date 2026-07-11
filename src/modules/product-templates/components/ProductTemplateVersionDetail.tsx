@@ -44,10 +44,10 @@ type ProductTemplateVersionDetailProps = {
 
 const formatDateTime = (value: string | null): string => {
   if (!value) {
-    return "Not set";
+    return "Sin configurar";
   }
 
-  return new Intl.DateTimeFormat("en-US", {
+  return new Intl.DateTimeFormat("es-BO", {
     dateStyle: "medium",
     timeStyle: "short",
   }).format(new Date(value));
@@ -100,7 +100,7 @@ export function ProductTemplateVersionDetail({
   }, [form, versionQuery.data]);
 
   if (versionQuery.isLoading) {
-    return <LoadingState cards={4} title="Loading template version" />;
+    return <LoadingState cards={4} title="Cargando versión de plantilla" />;
   }
 
   if (versionQuery.isError || !versionQuery.data) {
@@ -117,8 +117,8 @@ export function ProductTemplateVersionDetail({
             Retry
           </button>
         }
-        description={versionQuery.error?.message ?? "Version data could not be loaded."}
-        title="Template version could not be loaded"
+        description={versionQuery.error?.message ?? "No se pudieron cargar los datos de la versión."}
+        title="No se pudo cargar la versión de plantilla"
       />
     );
   }
@@ -208,13 +208,13 @@ export function ProductTemplateVersionDetail({
       <section className={sectionClassName}>
         <div className="grid gap-4 md:grid-cols-4">
           <div className="rounded-lg border border-stone-200 bg-white px-5 py-4">
-            <p className="text-xs uppercase tracking-[0.22em] text-stone-500">Status</p>
+            <p className="text-xs uppercase tracking-[0.22em] text-stone-500">Estado</p>
             <p className="mt-3 text-lg font-semibold text-stone-950">
               {PRODUCT_TEMPLATE_VERSION_STATUS_LABELS[version.status]}
             </p>
           </div>
           <div className="rounded-lg border border-stone-200 bg-white px-5 py-4">
-            <p className="text-xs uppercase tracking-[0.22em] text-stone-500">Inputs</p>
+            <p className="text-xs uppercase tracking-[0.22em] text-stone-500">Entradas</p>
             <p className="mt-3 text-lg font-semibold text-stone-950">{version.inputs.length}</p>
           </div>
           <div className="rounded-lg border border-stone-200 bg-white px-5 py-4">
@@ -245,12 +245,12 @@ export function ProductTemplateVersionDetail({
         <div className="grid gap-4 md:grid-cols-2">
           <div className="rounded-lg border border-emerald-200 bg-emerald-50 px-5 py-4">
             <p className="text-sm font-semibold text-emerald-900">
-              {version.validation.isValid ? "Version is valid" : "Version still has blockers"}
+              {version.validation.isValid ? "La versión es válida" : "La versión aún tiene bloqueos"}
             </p>
             <p className="mt-2 text-sm text-emerald-800">
               {version.validation.isValid
-                ? "This version can be activated and used for simulation."
-                : "Fix the validation issues below before activation."}
+                ? "Esta versión puede activarse y utilizarse para simulación."
+                : "Corrige los problemas de validación antes de activarla."}
             </p>
           </div>
           <div className="rounded-lg border border-stone-200 bg-white px-5 py-4">
@@ -313,11 +313,11 @@ export function ProductTemplateVersionDetail({
           >
             <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
               <label className="md:col-span-2">
-                <span className="mb-2 block text-sm font-medium text-stone-700">Name</span>
+                <span className="mb-2 block text-sm font-medium text-stone-700">Nombre</span>
                 <input className={fieldClassName} {...form.register("name")} />
               </label>
               <label>
-                <span className="mb-2 block text-sm font-medium text-stone-700">Status</span>
+                <span className="mb-2 block text-sm font-medium text-stone-700">Estado</span>
                 <select className={fieldClassName} {...form.register("status")}>
                   {PRODUCT_TEMPLATE_VERSION_STATUS_OPTIONS.map((option) => (
                     <option key={option.value} value={option.value}>
@@ -328,7 +328,7 @@ export function ProductTemplateVersionDetail({
               </label>
               <label>
                 <span className="mb-2 block text-sm font-medium text-stone-700">
-                  Default margin %
+                  Margen predeterminado %
                 </span>
                 <input
                   className={fieldClassName}
@@ -338,7 +338,7 @@ export function ProductTemplateVersionDetail({
               </label>
               <label>
                 <span className="mb-2 block text-sm font-medium text-stone-700">
-                  Default waste %
+                  Desperdicio predeterminado %
                 </span>
                 <input
                   className={fieldClassName}
@@ -347,7 +347,7 @@ export function ProductTemplateVersionDetail({
                 />
               </label>
               <label className="md:col-span-2">
-                <span className="mb-2 block text-sm font-medium text-stone-700">Description</span>
+                <span className="mb-2 block text-sm font-medium text-stone-700">Descripción</span>
                 <textarea
                   className={textAreaClassName}
                   rows={4}
@@ -355,7 +355,7 @@ export function ProductTemplateVersionDetail({
                 />
               </label>
               <label className="md:col-span-2">
-                <span className="mb-2 block text-sm font-medium text-stone-700">Notes</span>
+                <span className="mb-2 block text-sm font-medium text-stone-700">Notas</span>
                 <textarea className={textAreaClassName} rows={4} {...form.register("notes")} />
               </label>
             </div>
@@ -382,7 +382,7 @@ export function ProductTemplateVersionDetail({
       <section className={sectionClassName}>
         <div className="grid gap-4 lg:grid-cols-2">
           <div className="rounded-lg border border-stone-200 bg-white px-5 py-5">
-            <p className="text-sm font-semibold text-stone-900">Inputs</p>
+            <p className="text-sm font-semibold text-stone-900">Entradas</p>
             <div className="mt-4 space-y-3">
               {version.inputs.map((input) => (
                 <div key={input.id} className="rounded-md border border-stone-200 px-4 py-3">
@@ -392,7 +392,7 @@ export function ProductTemplateVersionDetail({
                   <p className="mt-1 text-sm text-stone-600">
                     Key: {input.key}
                     {input.unit ? ` · ${input.unit}` : ""}
-                    {input.isRequired ? " · Required" : " · Optional"}
+                    {input.isRequired ? " · Obligatorio" : " · Opcional"}
                   </p>
                 </div>
               ))}
@@ -422,7 +422,7 @@ export function ProductTemplateVersionDetail({
                     {rule.label} · {PRODUCT_TEMPLATE_LABOR_TYPE_LABELS[rule.laborType]}
                   </p>
                   <p className="mt-1 text-sm text-stone-600">
-                    Unit cost: {rule.unitCost ?? 0}
+                    Costo unitario: {rule.unitCost ?? 0}
                   </p>
                 </div>
               ))}

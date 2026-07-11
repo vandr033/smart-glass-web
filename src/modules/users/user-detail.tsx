@@ -18,10 +18,10 @@ type UserDetailProps = {
 
 const formatDate = (value: string | null): string => {
   if (!value) {
-    return "Never";
+    return "Nunca";
   }
 
-  return new Intl.DateTimeFormat("en-US", {
+  return new Intl.DateTimeFormat("es-BO", {
     dateStyle: "medium",
     timeStyle: "short",
   }).format(new Date(value));
@@ -104,7 +104,7 @@ export function UserDetail({ userId }: UserDetailProps) {
   if (!user) {
     return (
       <section className="rounded-lg border border-stone-300/70 bg-white/90 p-6 text-sm text-stone-600 shadow-[0_18px_44px_rgba(15,47,91,0.06)]">
-        Loading user details...
+        Cargando los detalles del usuario…
       </section>
     );
   }
@@ -134,7 +134,7 @@ export function UserDetail({ userId }: UserDetailProps) {
             <div className="space-y-3">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-                  User Record
+                  Registro del usuario
                 </p>
                 <h2 className="mt-2 text-3xl font-semibold tracking-tight text-stone-950">
                   {user.name}
@@ -173,14 +173,14 @@ export function UserDetail({ userId }: UserDetailProps) {
               href="/users"
             >
               <ArrowLeft className="h-4 w-4" />
-              Back to users
+              Volver a usuarios
             </Link>
             <Link
               className="inline-flex items-center gap-2 rounded-md border border-[color:var(--color-primary-hover)] bg-[var(--color-primary)] px-4 py-2.5 text-sm font-semibold text-[color:var(--color-primary-contrast)] transition hover:bg-[var(--color-primary-hover)]"
               href={`/users/${user.id}/edit`}
             >
               <Pencil className="h-4 w-4" />
-              Edit user
+              Editar usuario
             </Link>
           </div>
         </div>
@@ -189,7 +189,7 @@ export function UserDetail({ userId }: UserDetailProps) {
       <section className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
         <section className="rounded-lg border border-stone-300/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(239,246,255,0.95))] p-6 shadow-[0_20px_50px_rgba(15,47,91,0.08)]">
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-            Access Overview
+            Resumen de acceso
           </p>
           <div className="mt-5 grid gap-4 sm:grid-cols-2">
             {user.roles.map((role) => (
@@ -204,7 +204,7 @@ export function UserDetail({ userId }: UserDetailProps) {
                   <div className="space-y-1">
                     <p className="text-sm font-semibold text-stone-950">{role.name}</p>
                     <p className="text-xs leading-5 text-stone-500">
-                      {role.description || "No description available."}
+                      {role.description || "No hay una descripción disponible."}
                     </p>
                   </div>
                 </div>
@@ -215,12 +215,12 @@ export function UserDetail({ userId }: UserDetailProps) {
 
         <section className="rounded-lg border border-stone-300/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(239,246,255,0.95))] p-6 shadow-[0_20px_50px_rgba(15,47,91,0.08)]">
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-            Record Metadata
+            Metadatos del registro
           </p>
           <dl className="mt-5 space-y-4 text-sm">
             <div className="rounded-md border border-stone-200/90 bg-white/80 px-4 py-4">
               <dt className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-                Last login
+                Último acceso
               </dt>
               <dd className="mt-2 font-medium text-stone-900">
                 {formatDate(user.lastLoginAt)}
@@ -228,7 +228,7 @@ export function UserDetail({ userId }: UserDetailProps) {
             </div>
             <div className="rounded-md border border-stone-200/90 bg-white/80 px-4 py-4">
               <dt className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-                Created at
+                Fecha de creación
               </dt>
               <dd className="mt-2 font-medium text-stone-900">
                 {formatDate(user.createdAt)}
@@ -236,7 +236,7 @@ export function UserDetail({ userId }: UserDetailProps) {
             </div>
             <div className="rounded-md border border-stone-200/90 bg-white/80 px-4 py-4">
               <dt className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-                Updated at
+                Última actualización
               </dt>
               <dd className="mt-2 font-medium text-stone-900">
                 {formatDate(user.updatedAt)}
@@ -278,17 +278,17 @@ export function UserDetail({ userId }: UserDetailProps) {
       <ConfirmDialog
         confirmLabel={
           pendingAction === "delete"
-            ? "Delete user"
+            ? "Eliminar usuario"
             : pendingAction === "disable"
-              ? "Disable user"
-              : "Enable user"
+              ? "Desactivar usuario"
+              : "Activar usuario"
         }
         description={
           pendingAction === "delete"
-            ? `Soft-delete ${user.name} from active records. Their audit trail remains intact.`
+            ? `Eliminar a ${user.name} de los registros activos. Su historial de auditoría se conservará.`
             : pendingAction === "disable"
-              ? `${user.name} will lose active access until re-enabled.`
-              : `${user.name} will regain active access immediately.`
+              ? `${user.name} perderá el acceso hasta que se reactive su cuenta.`
+              : `${user.name} recuperará el acceso inmediatamente.`
         }
         isLoading={deleteMutation.isPending || deactivateMutation.isPending}
         onConfirm={() => {
@@ -307,10 +307,10 @@ export function UserDetail({ userId }: UserDetailProps) {
         open={Boolean(pendingAction)}
         title={
           pendingAction === "delete"
-            ? "Delete this user?"
+            ? "¿Eliminar este usuario?"
             : pendingAction === "disable"
-              ? "Disable this user?"
-              : "Enable this user?"
+              ? "¿Desactivar este usuario?"
+              : "¿Activar este usuario?"
         }
         tone={pendingAction === "delete" ? "danger" : "default"}
       />

@@ -64,7 +64,7 @@ export default function ProductViewPage({
             Editar producto
           </Link>
         }
-        description="Review product metadata from the shared module scaffold without leaving the permission-aware admin workspace."
+        description="Revisa los metadatos del producto desde el módulo compartido sin salir del área administrativa protegida por permisos."
         eyebrow="Registro de producto"
         title="Detalle del producto"
       />
@@ -90,7 +90,7 @@ export default function ProductViewPage({
               Descripción
             </dt>
             <dd className="text-sm leading-7 text-stone-700">
-              {record.description || "No description provided."}
+              {record.description || "No se proporcionó una descripción."}
             </dd>
           </div>
           <div className="space-y-2">

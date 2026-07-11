@@ -53,9 +53,9 @@ export default function CuttingOptimizationsListPage() {
   return (
     <main className="space-y-6">
       <PageHeader
-        description="Review commercial estimation and operational purchase runs, compare waste, and open each layout before generating plans."
-        eyebrow="Cutting"
-        title="Optimization Runs"
+        description="Revisa las corridas de estimación comercial y compra operativa, compara el desperdicio y abre cada diseño antes de generar planes."
+        eyebrow="Corte"
+        title="Corridas de optimización"
       />
 
       <section className="rounded-lg border border-stone-200 bg-white px-5 py-4">
@@ -95,8 +95,8 @@ export default function CuttingOptimizationsListPage() {
                     </span>
                   </div>
                   <p className="mt-2 text-sm text-stone-600">
-                    {getCuttingModeLabel(run.mode)} · {run.quotation?.code ?? "No quotation"} ·{" "}
-                    {run.material?.name ?? "Mixed materials"}
+                    {getCuttingModeLabel(run.mode)} · {run.quotation?.code ?? "Sin cotización"} ·{" "}
+                    {run.material?.name ?? "Materiales mixtos"}
                   </p>
                 </div>
 

@@ -50,9 +50,9 @@ export function LoginForm() {
 
   const statusMessage =
     searchParams.get("verified") === "1"
-      ? "Your email is verified. You can sign in now."
+      ? "Tu correo electrónico fue verificado. Ya puedes iniciar sesión."
       : searchParams.get("registered") === "1"
-        ? "Account created. Check your inbox to verify your email."
+        ? "Cuenta creada. Revisa tu bandeja para verificar tu correo electrónico."
         : searchParams.get("invited") === "1"
           ? "Invitación aceptada. Inicie sesión con la contraseña que acaba de crear."
         : searchParams.get("reset") === "1"
@@ -83,7 +83,7 @@ export function LoginForm() {
     mutationFn: authService.resendVerificationEmail,
     onSuccess: () => {
       setResendError(null);
-      setResendMessage("A fresh verification email is on its way.");
+      setResendMessage("Se envió un nuevo correo de verificación.");
     },
     onError: (error) => {
       setResendMessage(null);
@@ -102,7 +102,7 @@ export function LoginForm() {
 
     if (!email) {
       form.setError("email", {
-        message: "Enter your email first so we know where to send it.",
+        message: "Ingresa primero tu correo electrónico para saber dónde enviarlo.",
       });
       return;
     }
@@ -113,8 +113,8 @@ export function LoginForm() {
   return (
     <AuthShell
       description="Inicie sesión con su correo y contraseña. La verificación y la sesión se gestionan de forma segura."
-      footer={<AuthLinkRow href="/register" label="Need an account?" linkLabel="Register" />}
-      title="Welcome back"
+      footer={<AuthLinkRow href="/register" label="¿Necesitas una cuenta?" linkLabel="Registrarse" />}
+      title="Te damos la bienvenida"
     >
       {statusMessage ? <AuthBanner tone="success">{statusMessage}</AuthBanner> : null}
       {verificationError ? <AuthBanner tone="info">{verificationError}</AuthBanner> : null}
@@ -129,7 +129,7 @@ export function LoginForm() {
           autoComplete="email"
           error={form.formState.errors.email?.message}
           label="Correo electrónico"
-          placeholder="you@company.com"
+          placeholder="tu@empresa.com"
           type="email"
           {...form.register("email")}
         />
@@ -137,7 +137,7 @@ export function LoginForm() {
           autoComplete="current-password"
           error={form.formState.errors.password?.message}
           label="Contraseña"
-          placeholder="Enter your password"
+          placeholder="Ingresa tu contraseña"
           type="password"
           revealable
           {...form.register("password")}
@@ -149,7 +149,7 @@ export function LoginForm() {
             onClick={handleResend}
             type="button"
           >
-            Resend verification email
+            Reenviar correo de verificación
           </button>
           <Link className="font-medium text-stone-700 transition hover:text-stone-950" href="/forgot-password">
             ¿Olvidó su contraseña?

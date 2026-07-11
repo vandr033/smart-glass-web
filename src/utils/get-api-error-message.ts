@@ -66,6 +66,14 @@ const translateValidationMessage = (message: string): string => {
     return "Algunos permisos seleccionados ya no son compatibles con esta version del ERP.";
   }
 
+  if (
+    /\b(?:is required|must be|cannot be|could not|not found|already exists|only |selected|available|supported|failed|created|updated|deleted|changed|assigned|enabled|disabled|pending|accepted|expired|revoked|warehouse|supplier|material|quotation|project|purchase|inventory|production|installation|profile|cutting|price list|import|file|quantity|currency|description|name|title|code|date|password|email|role|user|notification|invitation)\b/i.test(
+      normalizedMessage,
+    )
+  ) {
+    return "La información enviada no es válida.";
+  }
+
   return normalizedMessage;
 };
 

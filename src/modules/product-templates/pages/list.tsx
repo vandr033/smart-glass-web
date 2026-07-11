@@ -37,10 +37,10 @@ type ProductTemplatesListPageProps = {
 
 const formatDateTime = (value: string | null): string => {
   if (!value) {
-    return "Not set";
+    return "Sin configurar";
   }
 
-  return new Intl.DateTimeFormat("en-US", {
+  return new Intl.DateTimeFormat("es-BO", {
     dateStyle: "medium",
     timeStyle: "short",
   }).format(new Date(value));
@@ -179,7 +179,7 @@ export default function ProductTemplatesListPage({
             }}
             value={productType}
           >
-            <option value="">All product types</option>
+            <option value="">Todos los tipos de producto</option>
             {Object.entries(PRODUCT_TEMPLATE_TYPE_LABELS).map(([value, label]) => (
               <option key={value} value={value}>
                 {label}
@@ -214,7 +214,7 @@ export default function ProductTemplatesListPage({
               </Link>
             ) : null
           }
-          // description="Once templates are created, this table will show their active version, rule coverage, and the quickest path into simulation."
+          // Texto equivalente: la descripción de esta tabla se mantiene en español.
           description="Una vez que se creen plantillas, esta tabla mostrará su versión activa, la cobertura de reglas y el camino más rápido hacia la simulación."
           title="No hay plantillas de productos que mostrar"
         />

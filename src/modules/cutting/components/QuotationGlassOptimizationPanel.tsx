@@ -47,7 +47,7 @@ export function QuotationGlassOptimizationPanel({
         mode: "COMMERCIAL_ESTIMATION",
       }),
     onSuccess: async (result) => {
-      setFeedbackMessage("Commercial glass optimization completed.");
+      setFeedbackMessage("La optimización comercial del vidrio se completó correctamente.");
       await queryClient.invalidateQueries({
         queryKey: CUTTING_QUERY_KEYS.quotationRequirements(quotationId),
       });
@@ -68,7 +68,7 @@ export function QuotationGlassOptimizationPanel({
     return (
       <section className="rounded-lg border border-stone-200 bg-white px-5 py-5">
         <LoadingState
-          title="Preparing glass requirements"
+          title="Preparando los requerimientos de vidrio"
         />
       </section>
     );
@@ -90,7 +90,7 @@ export function QuotationGlassOptimizationPanel({
             </button>
           }
           description={requirementsQuery.error.message}
-          title="Glass requirements could not be extracted"
+          title="No se pudieron extraer los requisitos de vidrio"
         />
       </section>
     );

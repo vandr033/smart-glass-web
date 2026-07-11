@@ -70,7 +70,7 @@ export default function PurchasingRequestComparePage({
   });
 
   if (requestQuery.isPending || scoringConfigsQuery.isPending || comparisonsQuery.isPending) {
-    return <LoadingState title="Preparing supplier comparison" />;
+    return <LoadingState title="Preparando comparativo de proveedores" />;
   }
 
   if (requestQuery.isError || scoringConfigsQuery.isError || comparisonsQuery.isError) {
@@ -80,9 +80,9 @@ export default function PurchasingRequestComparePage({
           requestQuery.error?.message ||
           scoringConfigsQuery.error?.message ||
           comparisonsQuery.error?.message ||
-          "Supplier comparison setup could not be loaded."
+          "No se pudo cargar la configuración del comparativo de proveedores."
         }
-        title="Supplier comparison is unavailable"
+        title="El comparativo de proveedores no está disponible"
       />
     );
   }
@@ -107,7 +107,7 @@ export default function PurchasingRequestComparePage({
             </Link>
           </>
         }
-        description="Select the supplier scoring configuration for this request, generate a fresh comparison matrix, and review prior runs tied to the same demand."
+        description="Selecciona la configuración de evaluación de proveedores, genera una matriz comparativa y revisa corridas anteriores de la misma necesidad."
         eyebrow="Purchasing"
         title={`Compare Suppliers for ${request.code}`}
       />
@@ -211,7 +211,7 @@ export default function PurchasingRequestComparePage({
 
         {existingComparisons.length === 0 ? (
           <EmptyState
-            description="No supplier comparison has been generated for this request yet."
+                description="Aún no se ha generado un comparativo de proveedores para esta solicitud."
             title="No comparison history"
           />
         ) : null}

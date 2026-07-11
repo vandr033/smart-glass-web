@@ -25,23 +25,23 @@ export const CUTTING_QUERY_KEYS = {
 } as const;
 
 export const CUTTING_MODE_LABELS = {
-  COMMERCIAL_ESTIMATION: "Commercial Estimation",
+  COMMERCIAL_ESTIMATION: "Estimación comercial",
   OPERATIONAL_PURCHASE: "Compra operativa",
 } as const;
 
 export const CUTTING_RUN_STATUS_LABELS = {
-  APPROVED: "Approved",
-  CANCELLED: "Cancelled",
-  COMPLETED: "Completed",
-  DRAFT: "Draft",
-  FAILED: "Failed",
-  RUNNING: "Running",
+  APPROVED: "Aprobado",
+  CANCELLED: "Cancelado",
+  COMPLETED: "Completado",
+  DRAFT: "Borrador",
+  FAILED: "Fallido",
+  RUNNING: "En ejecución",
 } as const;
 
 export const CUTTING_PLAN_STATUS_LABELS = {
-  APPROVED: "Approved",
-  CANCELLED: "Cancelled",
-  COMPLETED: "Completed",
-  DRAFT: "Draft",
-  SENT_TO_PRODUCTION: "Sent to Production",
+  APPROVED: "Aprobado",
+  CANCELLED: "Cancelado",
+  COMPLETED: "Completado",
+  DRAFT: "Borrador",
+  SENT_TO_PRODUCTION: "Enviado a producción",
 } as const;

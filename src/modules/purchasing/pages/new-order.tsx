@@ -95,7 +95,7 @@ export default function NewPurchaseOrderPage() {
   });
 
   if (suppliersQuery.isPending || materialsQuery.isPending || requestQuery.isPending) {
-    return <LoadingState title="Preparing purchase order form" />;
+    return <LoadingState title="Preparando el formulario de orden de compra" />;
   }
 
   if (suppliersQuery.isError || materialsQuery.isError || requestQuery.isError) {
@@ -105,9 +105,9 @@ export default function NewPurchaseOrderPage() {
           suppliersQuery.error?.message ||
           materialsQuery.error?.message ||
           requestQuery.error?.message ||
-          "Purchase order form dependencies could not be loaded."
+          "No se pudieron cargar las dependencias del formulario de orden de compra."
         }
-        title="Purchase order form is unavailable"
+        title="El formulario de orden de compra no está disponible"
       />
     );
   }
@@ -152,15 +152,15 @@ export default function NewPurchaseOrderPage() {
   return (
     <main className="space-y-6">
       <PageHeader
-        description="Create a purchase order manually or start from an approved request so supplier commitments, costs, and receiving can be tracked end to end."
-        eyebrow="Purchasing"
-        title="New Purchase Order"
+        description="Crea una orden de compra manualmente o parte de una solicitud aprobada para dar seguimiento completo a compromisos, costos y recepción."
+        eyebrow="Compras"
+        title="Nueva orden de compra"
       />
 
       <section className={sectionClassName}>
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           <label className="space-y-2 md:col-span-2">
-            <span className="text-sm font-medium text-stone-700">Supplier</span>
+            <span className="text-sm font-medium text-stone-700">Proveedor</span>
             <select
               className={fieldClassName}
               onChange={(event) => {
@@ -168,7 +168,7 @@ export default function NewPurchaseOrderPage() {
               }}
               value={activeSupplierId}
             >
-              <option value="">Select supplier</option>
+              <option value="">Seleccionar proveedor</option>
               {suppliers.map((supplier) => (
                 <option key={supplier.id} value={supplier.id}>
                   {supplier.commercialName || supplier.legalName}
@@ -204,7 +204,7 @@ export default function NewPurchaseOrderPage() {
           </label>
 
           <label className="space-y-2">
-            <span className="text-sm font-medium text-stone-700">Currency</span>
+            <span className="text-sm font-medium text-stone-700">Moneda</span>
             <input
               className={fieldClassName}
               onChange={(event) => {
@@ -215,7 +215,7 @@ export default function NewPurchaseOrderPage() {
           </label>
 
           <label className="space-y-2">
-            <span className="text-sm font-medium text-stone-700">Discount amount</span>
+            <span className="text-sm font-medium text-stone-700">Importe de descuento</span>
             <input
               className={fieldClassName}
               min="0"
@@ -229,7 +229,7 @@ export default function NewPurchaseOrderPage() {
           </label>
 
           <label className="space-y-2">
-            <span className="text-sm font-medium text-stone-700">Tax amount</span>
+            <span className="text-sm font-medium text-stone-700">Importe de impuesto</span>
             <input
               className={fieldClassName}
               min="0"
@@ -243,13 +243,13 @@ export default function NewPurchaseOrderPage() {
           </label>
 
           <label className="space-y-2 md:col-span-2 xl:col-span-4">
-            <span className="text-sm font-medium text-stone-700">Notes</span>
+            <span className="text-sm font-medium text-stone-700">Notas</span>
             <textarea
               className={textAreaClassName}
               onChange={(event) => {
                 setNotes(event.target.value || null);
               }}
-              placeholder="Optional delivery, commercial, or warehouse instructions"
+              placeholder="Instrucciones opcionales de entrega, comerciales o de almacén"
               value={activeNotes}
             />
           </label>
@@ -318,7 +318,7 @@ export default function NewPurchaseOrderPage() {
                     }}
                     value={item.materialId}
                   >
-                    <option value="">Select material</option>
+                    <option value="">Seleccionar material</option>
                     {materials.map((material) => (
                       <option key={material.id} value={material.id}>
                         {material.code} · {material.name}
@@ -328,7 +328,7 @@ export default function NewPurchaseOrderPage() {
                 </label>
 
                 <label className="space-y-2">
-                  <span className="text-sm font-medium text-stone-700">Quantity</span>
+                  <span className="text-sm font-medium text-stone-700">Cantidad</span>
                   <input
                     className={fieldClassName}
                     min="0"
@@ -388,7 +388,7 @@ export default function NewPurchaseOrderPage() {
                 </label>
 
                 <label className="space-y-2 md:col-span-2 xl:col-span-3">
-                  <span className="text-sm font-medium text-stone-700">Description</span>
+                  <span className="text-sm font-medium text-stone-700">Descripción</span>
                   <textarea
                     className={textAreaClassName}
                     onChange={(event) => {
@@ -400,7 +400,7 @@ export default function NewPurchaseOrderPage() {
                         ),
                       );
                     }}
-                    placeholder="Optional PO line note"
+              placeholder="Nota opcional de la línea de la orden"
                     value={item.description ?? ""}
                   />
                 </label>

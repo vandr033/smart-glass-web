@@ -112,7 +112,7 @@ export function InventoryMovementsTable() {
     },
     emptyState: {
       description:
-        "El historial aparecera cuando el stock empiece a moverse entre ingresos, traslados, reservas o danos.",
+        "El historial aparecerá cuando las existencias empiecen a moverse entre ingresos, traslados, reservas o daños.",
       title: "No hay movimientos para la vista actual",
     },
     filters: [

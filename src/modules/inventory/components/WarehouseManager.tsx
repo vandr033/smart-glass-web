@@ -279,7 +279,7 @@ export function WarehouseManager() {
                       disabled={deleteMutation.isPending}
                       onClick={() => {
                         const confirmed = window.confirm(
-                          `Eliminar el almacen ${warehouse.code}? Solo se permite si ya no tiene stock activo.`,
+                          `¿Eliminar el almacén ${warehouse.code}? Solo se permite si ya no tiene existencias activas.`,
                         );
 
                         if (!confirmed) {

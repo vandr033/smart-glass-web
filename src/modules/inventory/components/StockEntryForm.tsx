@@ -127,7 +127,7 @@ export function StockEntryForm() {
   };
 
   if (warehousesQuery.isLoading || materialsQuery.isLoading) {
-    return <LoadingState cards={3} title="Cargando formulario de ingreso de stock" />;
+    return <LoadingState cards={3} title="Cargando formulario de ingreso de existencias" />;
   }
 
   if (warehousesQuery.isError || materialsQuery.isError) {
@@ -147,9 +147,9 @@ export function StockEntryForm() {
         description={
           warehousesQuery.error?.message ??
           materialsQuery.error?.message ??
-          "No se pudieron cargar las opciones necesarias para registrar stock."
+          "No se pudieron cargar las opciones necesarias para registrar existencias."
         }
-        title="El formulario de ingreso de stock no está disponible"
+        title="El formulario de ingreso de existencias no está disponible"
       />
     );
   }
@@ -208,7 +208,7 @@ export function StockEntryForm() {
           </label>
 
           <label className="space-y-2">
-            <span className="text-sm font-medium text-stone-700">Tipo de stock</span>
+            <span className="text-sm font-medium text-stone-700">Tipo de existencia</span>
             <select
               className={fieldClassName}
               onChange={(event) => {
@@ -415,7 +415,7 @@ export function StockEntryForm() {
 
         <div className="flex flex-wrap gap-3">
           <button className={primaryButtonClassName} disabled={createMutation.isPending} type="submit">
-            {createMutation.isPending ? "Guardando..." : "Crear ingreso de stock"}
+            {createMutation.isPending ? "Guardando…" : "Crear ingreso de existencias"}
           </button>
           <button
             className={secondaryButtonClassName}

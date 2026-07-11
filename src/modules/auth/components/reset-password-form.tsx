@@ -28,7 +28,7 @@ export function ResetPasswordForm() {
       ? "Este enlace de restablecimiento no es válido o venció. Solicite uno nuevo."
       : token
         ? null
-        : "A valid reset token is required to set a new password.";
+        : "Se necesita un token de restablecimiento válido para definir una nueva contraseña.";
 
   const form = useForm<ResetPasswordValues>({
     defaultValues: {
@@ -58,9 +58,9 @@ export function ResetPasswordForm() {
 
   return (
     <AuthShell
-      description="Choose a new password for your account once your reset token is validated."
+      description="Define una nueva contraseña para tu cuenta cuando se valide el token de restablecimiento."
       footer={<AuthLinkRow href="/login" label="¿Volver a su cuenta?" linkLabel="Iniciar sesión" />}
-      title="Reset password"
+      title="Restablecer contraseña"
     >
       {invalidMessage ? <AuthBanner tone="info">{invalidMessage}</AuthBanner> : null}
       {resetMutation.error ? (
@@ -79,22 +79,22 @@ export function ResetPasswordForm() {
         <AuthInput
           autoComplete="new-password"
           error={form.formState.errors.confirmPassword?.message}
-          label="Confirm password"
-          placeholder="Repeat the new password"
+          label="Confirmar contraseña"
+          placeholder="Repite la nueva contraseña"
           type="password"
           {...form.register("confirmPassword")}
         />
 
         <button className={buttonClass} disabled={!token || resetMutation.isPending} type="submit">
-          {resetMutation.isPending ? "Updating password..." : "Set new password"}
+          {resetMutation.isPending ? "Actualizando contraseña…" : "Definir nueva contraseña"}
         </button>
       </form>
 
       {invalidMessage ? (
         <div className="rounded-md border border-stone-200 bg-stone-50/80 px-4 py-3 text-sm text-stone-600">
-          Need a new link?{" "}
+          ¿Necesitas un nuevo enlace?{" "}
           <Link className="font-semibold text-stone-950 hover:text-[color:var(--color-primary)]" href="/forgot-password">
-            Request another reset email
+            Solicitar otro correo de restablecimiento
           </Link>
           .
         </div>

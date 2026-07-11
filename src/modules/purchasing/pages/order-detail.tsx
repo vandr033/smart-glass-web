@@ -144,7 +144,7 @@ export default function PurchasingOrderDetailPage({
             ) : null}
           </>
         }
-        description="Track supplier status changes, confirm delivery commitments, and move incoming stock into warehouse receiving once materials arrive."
+        description="Da seguimiento a los cambios de estado del proveedor, confirma compromisos de entrega y registra el ingreso al almacén cuando lleguen los materiales."
         eyebrow="Compras"
         title={order.code}
       />
@@ -157,7 +157,7 @@ export default function PurchasingOrderDetailPage({
             {badge.label}
           </span>
           <span className="text-sm text-stone-700">
-            {order.supplier?.commercialName || order.supplier?.legalName || "No supplier"}
+            {order.supplier?.commercialName || order.supplier?.legalName || "Sin proveedor"}
           </span>
           {order.purchaseRequest ? (
             <Link
@@ -224,7 +224,7 @@ export default function PurchasingOrderDetailPage({
                 onChange={(event) => {
                   setActionNotes(event.target.value);
                 }}
-                placeholder="Optional supplier communication or status change note"
+              placeholder="Comunicación opcional con el proveedor o nota del cambio de estado"
                 value={actionNotes}
               />
             </label>
@@ -379,7 +379,7 @@ export default function PurchasingOrderDetailPage({
                 <div>
                   <p className="text-sm font-semibold text-stone-950">{receipt.code}</p>
                   <p className="mt-1 text-xs text-stone-600">
-                    {receipt.warehouse?.name || "No warehouse"}
+                    {receipt.warehouse?.name || "Sin almacén"}
                   </p>
                 </div>
                 <p className="text-xs font-medium text-stone-500">
@@ -391,7 +391,7 @@ export default function PurchasingOrderDetailPage({
 
           {order.receipts.length === 0 ? (
             <EmptyState
-              description="No warehouse receipt has been recorded for this purchase order yet."
+              description="Aún no se ha registrado una recepción en almacén para esta orden de compra."
               title="No receipts yet"
             />
           ) : null}
