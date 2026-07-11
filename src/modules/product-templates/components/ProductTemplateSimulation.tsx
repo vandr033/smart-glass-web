@@ -136,7 +136,7 @@ export function ProductTemplateSimulation({
             }}
             type="button"
           >
-            Retry
+            Reintentar
           </button>
         }
         description={
@@ -277,11 +277,11 @@ export function ProductTemplateSimulation({
               href={PRODUCT_TEMPLATES_ROUTES.versionView(versionId)}
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to version
+              Volver a versión
             </Link>
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-                Simulation
+                Simulación
               </p>
               <h1 className="mt-2 text-3xl font-semibold tracking-tight text-stone-950">
                 V{version.versionNumber} · {version.name}
@@ -350,7 +350,7 @@ export function ProductTemplateSimulation({
 
           <div className="flex justify-end">
             <button className={primaryButtonClassName} disabled={simulateMutation.isPending} type="submit">
-              Run simulation
+                Ejecutar simulación
             </button>
           </div>
         </form>

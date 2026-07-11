@@ -158,7 +158,7 @@ export function ProductTemplateForm(props: ProductTemplateFormProps) {
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div className="space-y-2">
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-                Create Template
+                Crear plantilla
               </p>
               <h2 className="text-2xl font-semibold tracking-tight text-stone-950">
                 Start a reusable product blueprint
@@ -234,7 +234,7 @@ export function ProductTemplateForm(props: ProductTemplateFormProps) {
         <section className={sectionClassName}>
           <div className="mb-6 space-y-1">
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-              2. Initial Version
+              2. Versión inicial
             </p>
             <h3 className="text-xl font-semibold text-stone-950">Valores predeterminados de la versión de borrador</h3>
           </div>
@@ -242,7 +242,7 @@ export function ProductTemplateForm(props: ProductTemplateFormProps) {
           <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
             <label className="md:col-span-2">
               <span className="mb-2 block text-sm font-medium text-stone-700">
-                Version name
+                Nombre de versión
               </span>
               <input
                 className={fieldClassName}
@@ -270,7 +270,7 @@ export function ProductTemplateForm(props: ProductTemplateFormProps) {
             </label>
             <label className="md:col-span-2 xl:col-span-2">
               <span className="mb-2 block text-sm font-medium text-stone-700">
-                Version description
+                Descripción de versión
               </span>
               <textarea
                 className={textAreaClassName}
@@ -299,7 +299,7 @@ export function ProductTemplateForm(props: ProductTemplateFormProps) {
 
         <div className="flex justify-end gap-3">
           <Link className={secondaryButtonClassName} href={PRODUCT_TEMPLATES_ROUTES.list}>
-            Cancel
+            Cancelar
           </Link>
           <button className={primaryButtonClassName} disabled={isBusy} type="submit">
             Create template
@@ -342,10 +342,10 @@ export function ProductTemplateForm(props: ProductTemplateFormProps) {
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div className="space-y-2">
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-              Edit Template
+              Editar plantilla
             </p>
             <h2 className="text-2xl font-semibold tracking-tight text-stone-950">
-              Update the commercial shell
+              Actualiza la estructura comercial
             </h2>
             <p className="max-w-3xl text-sm leading-7 text-stone-700">
               Template rules, inputs, and simulation behavior stay in the version workspace. This
@@ -422,7 +422,7 @@ export function ProductTemplateForm(props: ProductTemplateFormProps) {
           className={secondaryButtonClassName}
           href={PRODUCT_TEMPLATES_ROUTES.view(props.templateId)}
         >
-          Cancel
+          Cancelar
         </Link>
         <button className={primaryButtonClassName} disabled={isBusy} type="submit">
           Guardar cambios

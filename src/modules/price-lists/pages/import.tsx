@@ -119,14 +119,14 @@ export default function ImportPriceListPage() {
                 Carga el archivo del proveedor una sola vez
               </h2>
               <p className="mt-2 max-w-3xl text-sm leading-7 text-stone-700">
-                The importer stores every row, including invalid ones, so the team can fix
-                mapping and validation issues without losing the original supplier context.
+                El importador conserva cada fila, incluso las inválidas, para que el equipo pueda corregir
+                problemas de mapeo y validación sin perder el contexto original del proveedor.
               </p>
             </div>
 
             <div className="grid gap-4 md:grid-cols-2">
               <label className="space-y-2">
-                <span className="text-sm font-semibold text-stone-800">Supplier</span>
+                <span className="text-sm font-semibold text-stone-800">Proveedor</span>
                 <select
                   className={fieldClassName}
                   onChange={(event) => {
@@ -145,7 +145,7 @@ export default function ImportPriceListPage() {
               </label>
 
               <label className="space-y-2">
-                <span className="text-sm font-semibold text-stone-800">Default currency</span>
+                <span className="text-sm font-semibold text-stone-800">Moneda predeterminada</span>
                 <select
                   className={fieldClassName}
                   onChange={(event) => {
@@ -163,7 +163,7 @@ export default function ImportPriceListPage() {
             </div>
 
             <label className="block space-y-2">
-              <span className="text-sm font-semibold text-stone-800">Spreadsheet file</span>
+              <span className="text-sm font-semibold text-stone-800">Archivo de hoja de cálculo</span>
               <div className="rounded-lg border border-dashed border-stone-300 bg-white/70 p-6">
                 <div className="flex flex-col items-start gap-4 md:flex-row md:items-center md:justify-between">
                   <div className="flex items-start gap-4">
@@ -172,10 +172,10 @@ export default function ImportPriceListPage() {
                     </div>
                     <div>
                       <p className="font-semibold text-stone-950">
-                        Accepts `.xlsx`, `.xls`, and `.csv`
+                        Acepta `.xlsx`, `.xls` y `.csv`
                       </p>
                       <p className="mt-1 text-sm leading-6 text-stone-600">
-                        PDF parsing is intentionally deferred for this MVP.
+                        La lectura de PDF queda fuera de esta primera versión.
                       </p>
                     </div>
                   </div>
@@ -195,7 +195,7 @@ export default function ImportPriceListPage() {
                   <div className="mt-4 rounded-md border border-stone-200 bg-stone-50/80 px-4 py-3 text-sm text-stone-700">
                     <p className="font-semibold text-stone-950">{file.name}</p>
                     <p className="mt-1">
-                      {(file.size / 1024 / 1024).toFixed(2)} MB · ready to import
+                      {(file.size / 1024 / 1024).toFixed(2)} MB · listo para importar
                     </p>
                   </div>
                 ) : null}
@@ -223,32 +223,31 @@ export default function ImportPriceListPage() {
               </button>
 
               <Link className={secondaryButtonClassName} href={PRICE_LISTS_ROUTES.list}>
-                Cancel
+                Cancelar
               </Link>
             </div>
           </div>
 
           <div className="rounded-lg border border-stone-200/80 bg-white/75 p-5">
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-              What happens next
+              Qué sucede después
             </p>
             <ol className="mt-4 space-y-4 text-sm leading-7 text-stone-700">
               <li>
-                1. The backend stores the raw file metadata and every detected row.
+                1. El sistema guarda los metadatos del archivo original y cada fila detectada.
               </li>
               <li>
-                2. Header aliases are normalized and price values are parsed row by row.
+                2. Se normalizan los nombres alternativos de columnas y se leen los precios fila por fila.
               </li>
               <li>
-                3. Exact and fuzzy matching try to connect supplier items to internal
-                materials.
+                3. La coincidencia exacta y aproximada intenta vincular los artículos del proveedor
+                con materiales internos.
               </li>
               <li>
-                4. The mapping workspace highlights unmapped or invalid rows before
-                validation.
+                4. El espacio de mapeo resalta las filas sin vincular o inválidas antes de validar.
               </li>
               <li>
-                5. Approval closes old current prices and records the change history.
+                5. La aprobación cierra los precios vigentes anteriores y registra el historial de cambios.
               </li>
             </ol>
           </div>

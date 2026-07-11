@@ -239,7 +239,9 @@ export const projectService = {
       formData,
       {
         headers: {
-          "Content-Type": "multipart/form-data",
+          // Let the browser/axios add the multipart boundary.
+          Accept: "application/json",
+          "Content-Type": undefined,
         },
       },
     );

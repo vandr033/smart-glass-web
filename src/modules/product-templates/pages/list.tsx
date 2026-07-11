@@ -102,7 +102,7 @@ export default function ProductTemplatesListPage({
             }}
             type="button"
           >
-            Retry
+            Reintentar
           </button>
         }
         description={templatesQuery.error.message}
@@ -127,7 +127,7 @@ export default function ProductTemplatesListPage({
             {canManage ? (
               <Link className={primaryButtonClassName} href={PRODUCT_TEMPLATES_ROUTES.create}>
                 <Plus className="mr-2 h-4 w-4" />
-                Crear plantilla
+              Crear plantilla
               </Link>
             ) : null}
           </>
@@ -227,7 +227,7 @@ export default function ProductTemplatesListPage({
                   <th className="px-5 py-4 font-semibold">Plantilla</th>
                   <th className="px-5 py-4 font-semibold">Tipo</th>
                   <th className="px-5 py-4 font-semibold">Estado</th>
-                  <th className="px-5 py-4 font-semibold">Versíon Actual</th>
+                  <th className="px-5 py-4 font-semibold">Versión actual</th>
                   <th className="px-5 py-4 font-semibold">Actualizado</th>
                   <th className="px-5 py-4 font-semibold">Acciones</th>
                 </tr>
@@ -269,7 +269,7 @@ export default function ProductTemplatesListPage({
                           </p>
                         </>
                       ) : (
-                        <span className="text-stone-500">No version yet</span>
+                        <span className="text-stone-500">Aún no hay versión</span>
                       )}
                     </td>
                     <td className="px-5 py-4 text-stone-700">
@@ -281,7 +281,7 @@ export default function ProductTemplatesListPage({
                           className={secondaryButtonClassName}
                           href={PRODUCT_TEMPLATES_ROUTES.view(record.id)}
                         >
-                          View
+                          Ver
                         </Link>
                         {record.currentVersion ? (
                           <Link
@@ -290,7 +290,7 @@ export default function ProductTemplatesListPage({
                               record.currentVersion.id,
                             )}
                           >
-                            Simulate
+                            Simular
                           </Link>
                         ) : null}
                         {canManage ? (
@@ -298,7 +298,7 @@ export default function ProductTemplatesListPage({
                             className={secondaryButtonClassName}
                             href={PRODUCT_TEMPLATES_ROUTES.edit(record.id)}
                           >
-                            Edit
+                            Editar
                           </Link>
                         ) : null}
                       </div>
@@ -311,7 +311,7 @@ export default function ProductTemplatesListPage({
 
           <div className="flex items-center justify-between border-t border-stone-200/80 px-5 py-4">
             <p className="text-sm text-stone-600">
-              Page {pagination?.page ?? 1} of {totalPages}
+              Página {pagination?.page ?? 1} de {totalPages}
             </p>
 
             <div className="flex gap-2">
@@ -323,7 +323,7 @@ export default function ProductTemplatesListPage({
                 }}
                 type="button"
               >
-                Previous
+                Anterior
               </button>
               <button
                 className={secondaryButtonClassName}
@@ -333,7 +333,7 @@ export default function ProductTemplatesListPage({
                 }}
                 type="button"
               >
-                Next
+                Siguiente
               </button>
             </div>
           </div>

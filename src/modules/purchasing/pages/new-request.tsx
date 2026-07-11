@@ -241,10 +241,10 @@ export default function NewPurchaseRequestPage() {
           <div className="flex items-center justify-between gap-3">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-                Manual Intake
+                Ingreso manual
               </p>
               <h2 className="mt-2 text-xl font-semibold text-stone-950">
-                Build request lines
+                Crear líneas de solicitud
               </h2>
             </div>
             <button
@@ -254,7 +254,7 @@ export default function NewPurchaseRequestPage() {
               }}
               type="button"
             >
-              Add Line
+              Agregar línea
             </button>
           </div>
 
@@ -317,7 +317,7 @@ export default function NewPurchaseRequestPage() {
                   </label>
 
                   <label className="space-y-2">
-                    <span className="text-sm font-medium text-stone-700">Unit</span>
+                    <span className="text-sm font-medium text-stone-700">Unidad</span>
                     <input
                       className={fieldClassName}
                       onChange={(event) => {
@@ -356,7 +356,7 @@ export default function NewPurchaseRequestPage() {
 
                   <label className="space-y-2">
                     <span className="text-sm font-medium text-stone-700">
-                      Preferred supplier
+                      Proveedor preferido
                     </span>
                     <select
                       className={fieldClassName}
@@ -371,7 +371,7 @@ export default function NewPurchaseRequestPage() {
                       }}
                       value={item.preferredSupplierId ?? ""}
                     >
-                      <option value="">No preference</option>
+                      <option value="">Sin preferencia</option>
                       {suppliers.map((supplier) => (
                         <option key={supplier.id} value={supplier.id}>
                           {supplier.commercialName || supplier.legalName}
@@ -382,7 +382,7 @@ export default function NewPurchaseRequestPage() {
 
                   <label className="space-y-2">
                     <span className="text-sm font-medium text-stone-700">
-                      Estimated unit cost
+                      Costo unitario estimado
                     </span>
                     <input
                       className={fieldClassName}
@@ -435,7 +435,7 @@ export default function NewPurchaseRequestPage() {
                     }}
                     type="button"
                   >
-                    Remove Line
+                    Quitar línea
                   </button>
                 </div>
               </section>
@@ -456,7 +456,7 @@ export default function NewPurchaseRequestPage() {
               }}
               type="button"
             >
-              Create Request
+              Crear solicitud
             </button>
           </div>
         </section>
@@ -491,7 +491,7 @@ export default function NewPurchaseRequestPage() {
               }}
               type="button"
             >
-              Create from Quotation
+              Crear desde cotización
             </button>
           </div>
         </section>
@@ -501,7 +501,7 @@ export default function NewPurchaseRequestPage() {
         <section className={sectionClassName}>
           <div className="grid gap-4 md:grid-cols-[1fr_auto] md:items-end">
             <label className="space-y-2">
-              <span className="text-sm font-medium text-stone-700">Cutting plan</span>
+                <span className="text-sm font-medium text-stone-700">Plan de corte</span>
               <select
                 className={fieldClassName}
                 onChange={(event) => {
@@ -526,7 +526,7 @@ export default function NewPurchaseRequestPage() {
               }}
               type="button"
             >
-              Create from Cutting Plan
+              Crear desde plan de corte
             </button>
           </div>
         </section>
@@ -536,10 +536,10 @@ export default function NewPurchaseRequestPage() {
         <section className={sectionClassName}>
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-              Shortage Intake
+              Ingreso por faltante
             </p>
             <h2 className="mt-2 text-xl font-semibold text-stone-950">
-              Select materials that need replenishment
+              Selecciona los materiales que necesitan reposición
             </h2>
           </div>
 
@@ -589,7 +589,7 @@ export default function NewPurchaseRequestPage() {
               }}
               type="button"
             >
-              Create from Shortage
+              Crear desde faltante
             </button>
           </div>
         </section>

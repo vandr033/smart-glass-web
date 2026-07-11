@@ -32,6 +32,7 @@ routeLabelMap.set("/admin/audit-log", "Auditoria");
 routeLabelMap.set("/admin/clients", "Clientes");
 routeLabelMap.set("/admin/cutting", "Corte");
 routeLabelMap.set("/admin/inventory", "Inventario");
+routeLabelMap.set("/admin/inventory/warehouses", "Almacenes");
 routeLabelMap.set("/admin/installation", "Instalaciones");
 routeLabelMap.set("/admin/material-categories", "Categorias de materiales");
 routeLabelMap.set("/admin/materials", "Materiales");

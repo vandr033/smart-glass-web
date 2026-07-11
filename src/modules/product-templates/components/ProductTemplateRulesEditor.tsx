@@ -240,7 +240,7 @@ export function ProductTemplateRulesEditor({
             }}
             type="button"
           >
-            Retry
+            Reintentar
           </button>
         }
         description={
@@ -266,7 +266,7 @@ export function ProductTemplateRulesEditor({
               href={PRODUCT_TEMPLATES_ROUTES.versionView(versionId)}
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to version
+              Volver a versión
             </Link>
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
@@ -287,7 +287,7 @@ export function ProductTemplateRulesEditor({
               className={secondaryButtonClassName}
               href={PRODUCT_TEMPLATES_ROUTES.versionSimulate(version.id)}
             >
-              Simulate
+                Simular
             </Link>
           </div>
         </div>
@@ -336,7 +336,7 @@ export function ProductTemplateRulesEditor({
               type="button"
             >
               <Plus className="mr-2 h-4 w-4" />
-              Add input
+                  Agregar entrada
             </button>
           </div>
 
@@ -344,7 +344,7 @@ export function ProductTemplateRulesEditor({
             {inputsFieldArray.fields.map((field, index) => (
               <div key={field.id} className="rounded-lg border border-stone-200 bg-white p-5">
                 <div className="mb-4 flex items-center justify-between">
-                  <p className="text-sm font-semibold text-stone-900">Input {index + 1}</p>
+                  <p className="text-sm font-semibold text-stone-900">Entrada {index + 1}</p>
                   <button
                     className={secondaryButtonClassName}
                     onClick={() => {
@@ -366,7 +366,7 @@ export function ProductTemplateRulesEditor({
                       </option>
                     ))}
                   </select>
-                  <input className={fieldClassName} placeholder="Unit" {...form.register(`inputs.${index}.unit`)} />
+                  <input className={fieldClassName} placeholder="Unidad" {...form.register(`inputs.${index}.unit`)} />
                   <label className="flex items-center gap-2 text-sm text-stone-700">
                     <input type="checkbox" {...form.register(`inputs.${index}.isRequired`)} />
                     Obligatorio
@@ -405,7 +405,7 @@ export function ProductTemplateRulesEditor({
           <div className="mb-5 flex items-center justify-between gap-4">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-                Material Rules
+                Reglas de materiales
               </p>
               <h2 className="mt-2 text-2xl font-semibold tracking-tight text-stone-950">
                 Core bill-of-material rules
@@ -422,7 +422,7 @@ export function ProductTemplateRulesEditor({
               type="button"
             >
               <Plus className="mr-2 h-4 w-4" />
-              Add material rule
+              Agregar regla de material
             </button>
           </div>
 
@@ -499,7 +499,7 @@ export function ProductTemplateRulesEditor({
           <div className="mb-5 flex items-center justify-between gap-4">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-                Accessory Rules
+                Reglas de accesorios
               </p>
               <h2 className="mt-2 text-2xl font-semibold tracking-tight text-stone-950">
                 Artículos opcionales y consumibles
@@ -516,7 +516,7 @@ export function ProductTemplateRulesEditor({
               type="button"
             >
               <Plus className="mr-2 h-4 w-4" />
-              Add accessory rule
+              Agregar regla de accesorio
             </button>
           </div>
 
@@ -593,7 +593,7 @@ export function ProductTemplateRulesEditor({
               type="button"
             >
               <Plus className="mr-2 h-4 w-4" />
-              Add labor rule
+              Agregar regla de mano de obra
             </button>
           </div>
 
@@ -661,10 +661,10 @@ export function ProductTemplateRulesEditor({
             className={secondaryButtonClassName}
             href={PRODUCT_TEMPLATES_ROUTES.versionView(versionId)}
           >
-            Cancel
+            Cancelar
           </Link>
           <button className={primaryButtonClassName} disabled={updateMutation.isPending} type="submit">
-            Save rules
+            Guardar reglas
           </button>
         </div>
       </form>

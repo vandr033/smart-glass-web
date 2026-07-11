@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,7 +19,11 @@ import {
 } from "@/modules/commercial/ui";
 import { getApiErrorMessage } from "@/utils";
 
-import { PROJECTS_ROUTES, PROJECT_PRIORITY_OPTIONS, PROJECT_TYPE_OPTIONS } from "../constants";
+import {
+  PROJECTS_ROUTES,
+  PROJECT_PRIORITY_OPTIONS,
+  PROJECT_TYPE_OPTIONS,
+} from "../constants";
 import {
   EMPTY_PROJECT_FORM_VALUES,
   mapRecordToFormValues,
@@ -43,6 +47,7 @@ export function ProjectForm(props: ProjectFormProps) {
   const router = useRouter();
   const {
     useClientOptions,
+    useClientDetails,
     useCreateProject,
     useProject,
     useProjectUserOptions,
@@ -70,6 +75,14 @@ export function ProjectForm(props: ProjectFormProps) {
     control: form.control,
     name: "longitude",
   });
+  const selectedClientId = useWatch({
+    control: form.control,
+    name: "clientId",
+  });
+  const selectedClientQuery = useClientDetails(
+    props.mode === "create" ? selectedClientId : "",
+  );
+  const defaultedClientIdRef = useRef<string | null>(null);
 
   useEffect(() => {
     if (props.mode !== "edit" || !projectQuery.data) {
@@ -78,6 +91,57 @@ export function ProjectForm(props: ProjectFormProps) {
 
     form.reset(mapRecordToFormValues(projectQuery.data));
   }, [form, projectQuery.data, props.mode]);
+
+  useEffect(() => {
+    if (props.mode !== "create") {
+      return;
+    }
+
+    if (!selectedClientId) {
+      defaultedClientIdRef.current = null;
+      return;
+    }
+
+    const client = selectedClientQuery.data;
+    if (!client || defaultedClientIdRef.current === client.id) {
+      return;
+    }
+
+    const preferredAddress =
+      client.addresses.find((address) => address.isProjectSite) ??
+      client.addresses.find((address) => address.isBilling) ??
+      client.addresses[0];
+
+    form.setValue(
+      "siteAddress",
+      preferredAddress?.address ?? client.billingAddress ?? "",
+      {
+        shouldDirty: false,
+        shouldValidate: true,
+      },
+    );
+    form.setValue("city", preferredAddress?.city ?? client.city ?? "", {
+      shouldDirty: false,
+      shouldValidate: true,
+    });
+    form.setValue(
+      "latitude",
+      preferredAddress?.latitude === null ||
+        preferredAddress?.latitude === undefined
+        ? ""
+        : String(preferredAddress.latitude),
+      { shouldDirty: false, shouldValidate: true },
+    );
+    form.setValue(
+      "longitude",
+      preferredAddress?.longitude === null ||
+        preferredAddress?.longitude === undefined
+        ? ""
+        : String(preferredAddress.longitude),
+      { shouldDirty: false, shouldValidate: true },
+    );
+    defaultedClientIdRef.current = client.id;
+  }, [form, props.mode, selectedClientId, selectedClientQuery.data]);
 
   if (props.mode === "edit" && projectQuery.isError) {
     return (
@@ -131,6 +195,7 @@ export function ProjectForm(props: ProjectFormProps) {
     updateMutation.isPending ||
     clientOptionsQuery.isLoading ||
     userOptionsQuery.isLoading ||
+    selectedClientQuery.isLoading ||
     (props.mode === "edit" && projectQuery.isLoading);
 
   const getFieldError = (name: keyof ProjectFormValues): string | null => {
@@ -163,15 +228,17 @@ export function ProjectForm(props: ProjectFormProps) {
       <section className={sectionClassName}>
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div className="space-y-2">
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
+            <p className="text-xs font-semibold tracking-[0.24em] text-[color:var(--color-primary)] uppercase">
               {props.mode === "create" ? "Crear proyecto" : "Editar proyecto"}
             </p>
             <h2 className="text-2xl font-semibold tracking-tight text-stone-950">
-              {props.mode === "create" ? "Registrar proyecto" : "Actualizar proyecto"}
+              {props.mode === "create"
+                ? "Registrar proyecto"
+                : "Actualizar proyecto"}
             </h2>
             <p className="max-w-3xl text-sm leading-7 text-stone-700">
-              Define el cliente, el tipo de trabajo, las fechas y los responsables que
-              guiaran el proyecto durante su ciclo operativo.
+              Define el cliente, el tipo de trabajo, las fechas y los
+              responsables que guiaran el proyecto durante su ciclo operativo.
             </p>
           </div>
 
@@ -191,15 +258,21 @@ export function ProjectForm(props: ProjectFormProps) {
 
       <section className={sectionClassName}>
         <div className="mb-6 space-y-1">
-          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
+          <p className="text-xs font-semibold tracking-[0.24em] text-[color:var(--color-primary)] uppercase">
             1. Cliente
           </p>
-          <h3 className="text-xl font-semibold text-stone-950">Selecciona al cliente</h3>
+          <h3 className="text-xl font-semibold text-stone-950">
+            Selecciona al cliente
+          </h3>
         </div>
 
         <label className="space-y-2">
           <span className="text-sm font-medium text-stone-700">Cliente</span>
-          <select className={fieldClassName} disabled={isBusy} {...form.register("clientId")}>
+          <select
+            className={fieldClassName}
+            disabled={isBusy}
+            {...form.register("clientId")}
+          >
             <option value="">Selecciona un cliente</option>
             {(clientOptionsQuery.data ?? []).map((client) => (
               <option key={client.id} value={client.id}>
@@ -208,27 +281,49 @@ export function ProjectForm(props: ProjectFormProps) {
             ))}
           </select>
           {getFieldError("clientId") ? (
-            <span className="block text-sm text-rose-700">{getFieldError("clientId")}</span>
+            <span className="block text-sm text-rose-700">
+              {getFieldError("clientId")}
+            </span>
+          ) : null}
+          {selectedClientQuery.isError ? (
+            <span className="block text-sm text-amber-700">
+              No pudimos cargar las direcciones guardadas del cliente. Puedes
+              ingresar la dirección manualmente.
+            </span>
           ) : null}
         </label>
       </section>
 
       <section className={sectionClassName}>
         <div className="mb-6 space-y-1">
-          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
+          <p className="text-xs font-semibold tracking-[0.24em] text-[color:var(--color-primary)] uppercase">
             2. Informacion del proyecto
           </p>
-          <h3 className="text-xl font-semibold text-stone-950">Describe el trabajo</h3>
+          <h3 className="text-xl font-semibold text-stone-950">
+            Describe el trabajo
+          </h3>
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
           <label className="md:col-span-2 xl:col-span-2">
-            <span className="mb-2 block text-sm font-medium text-stone-700">Titulo</span>
-            <input className={fieldClassName} disabled={isBusy} {...form.register("title")} />
+            <span className="mb-2 block text-sm font-medium text-stone-700">
+              Titulo
+            </span>
+            <input
+              className={fieldClassName}
+              disabled={isBusy}
+              {...form.register("title")}
+            />
           </label>
           <label className={labelClassName}>
-            <span className="text-sm font-medium text-stone-700">Tipo de proyecto</span>
-            <select className={fieldClassName} disabled={isBusy} {...form.register("projectType")}>
+            <span className="text-sm font-medium text-stone-700">
+              Tipo de proyecto
+            </span>
+            <select
+              className={fieldClassName}
+              disabled={isBusy}
+              {...form.register("projectType")}
+            >
               {PROJECT_TYPE_OPTIONS.map((option) => (
                 <option key={option.value} value={option.value}>
                   {option.label}
@@ -237,8 +332,14 @@ export function ProjectForm(props: ProjectFormProps) {
             </select>
           </label>
           <label className={labelClassName}>
-            <span className="text-sm font-medium text-stone-700">Prioridad</span>
-            <select className={fieldClassName} disabled={isBusy} {...form.register("priority")}>
+            <span className="text-sm font-medium text-stone-700">
+              Prioridad
+            </span>
+            <select
+              className={fieldClassName}
+              disabled={isBusy}
+              {...form.register("priority")}
+            >
               {PROJECT_PRIORITY_OPTIONS.map((option) => (
                 <option key={option.value} value={option.value}>
                   {option.label}
@@ -247,7 +348,9 @@ export function ProjectForm(props: ProjectFormProps) {
             </select>
           </label>
           <label className="md:col-span-2 xl:col-span-4">
-            <span className="mb-2 block text-sm font-medium text-stone-700">Descripcion</span>
+            <span className="mb-2 block text-sm font-medium text-stone-700">
+              Descripcion
+            </span>
             <textarea
               className={textAreaClassName}
               disabled={isBusy}
@@ -259,10 +362,16 @@ export function ProjectForm(props: ProjectFormProps) {
 
       <section className={sectionClassName}>
         <div className="mb-6 space-y-1">
-          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
+          <p className="text-xs font-semibold tracking-[0.24em] text-[color:var(--color-primary)] uppercase">
             3. Ubicacion
           </p>
-          <h3 className="text-xl font-semibold text-stone-950">Direccion y coordenadas</h3>
+          <h3 className="text-xl font-semibold text-stone-950">
+            Direccion y coordenadas
+          </h3>
+          <p className="max-w-2xl text-sm leading-6 text-stone-600">
+            Al seleccionar un cliente, usamos su dirección de obra guardada como
+            valor inicial. Puedes cambiarla sin modificar los datos del cliente.
+          </p>
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
@@ -278,7 +387,8 @@ export function ProjectForm(props: ProjectFormProps) {
                 });
                 form.setValue(
                   "latitude",
-                  nextValue.latitude === null || nextValue.latitude === undefined
+                  nextValue.latitude === null ||
+                    nextValue.latitude === undefined
                     ? ""
                     : String(nextValue.latitude),
                   {
@@ -288,7 +398,8 @@ export function ProjectForm(props: ProjectFormProps) {
                 );
                 form.setValue(
                   "longitude",
-                  nextValue.longitude === null || nextValue.longitude === undefined
+                  nextValue.longitude === null ||
+                    nextValue.longitude === undefined
                     ? ""
                     : String(nextValue.longitude),
                   {
@@ -306,22 +417,30 @@ export function ProjectForm(props: ProjectFormProps) {
           </div>
           <label className={labelClassName}>
             <span className="text-sm font-medium text-stone-700">Ciudad</span>
-            <input className={fieldClassName} disabled={isBusy} {...form.register("city")} />
+            <input
+              className={fieldClassName}
+              disabled={isBusy}
+              {...form.register("city")}
+            />
           </label>
         </div>
       </section>
 
       <section className={sectionClassName}>
         <div className="mb-6 space-y-1">
-          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
+          <p className="text-xs font-semibold tracking-[0.24em] text-[color:var(--color-primary)] uppercase">
             4. Fechas operativas
           </p>
-          <h3 className="text-xl font-semibold text-stone-950">Planifica los hitos</h3>
+          <h3 className="text-xl font-semibold text-stone-950">
+            Planifica los hitos
+          </h3>
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
           <label className={labelClassName}>
-            <span className="text-sm font-medium text-stone-700">Medicion estimada</span>
+            <span className="text-sm font-medium text-stone-700">
+              Medicion estimada
+            </span>
             <input
               className={fieldClassName}
               disabled={isBusy}
@@ -330,7 +449,9 @@ export function ProjectForm(props: ProjectFormProps) {
             />
           </label>
           <label className={labelClassName}>
-            <span className="text-sm font-medium text-stone-700">Entrega estimada</span>
+            <span className="text-sm font-medium text-stone-700">
+              Entrega estimada
+            </span>
             <input
               className={fieldClassName}
               disabled={isBusy}
@@ -339,7 +460,9 @@ export function ProjectForm(props: ProjectFormProps) {
             />
           </label>
           <label className={labelClassName}>
-            <span className="text-sm font-medium text-stone-700">Instalacion estimada</span>
+            <span className="text-sm font-medium text-stone-700">
+              Instalacion estimada
+            </span>
             <input
               className={fieldClassName}
               disabled={isBusy}
@@ -352,15 +475,19 @@ export function ProjectForm(props: ProjectFormProps) {
 
       <section className={sectionClassName}>
         <div className="mb-6 space-y-1">
-          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
+          <p className="text-xs font-semibold tracking-[0.24em] text-[color:var(--color-primary)] uppercase">
             5. Responsables
           </p>
-          <h3 className="text-xl font-semibold text-stone-950">Asigna responsables</h3>
+          <h3 className="text-xl font-semibold text-stone-950">
+            Asigna responsables
+          </h3>
         </div>
 
         <div className="grid gap-6 md:grid-cols-2">
           <label className={labelClassName}>
-            <span className="text-sm font-medium text-stone-700">Responsable operativo</span>
+            <span className="text-sm font-medium text-stone-700">
+              Responsable operativo
+            </span>
             <select
               className={fieldClassName}
               disabled={isBusy}
@@ -375,8 +502,14 @@ export function ProjectForm(props: ProjectFormProps) {
             </select>
           </label>
           <label className={labelClassName}>
-            <span className="text-sm font-medium text-stone-700">Responsable comercial</span>
-            <select className={fieldClassName} disabled={isBusy} {...form.register("salesUserId")}>
+            <span className="text-sm font-medium text-stone-700">
+              Responsable comercial
+            </span>
+            <select
+              className={fieldClassName}
+              disabled={isBusy}
+              {...form.register("salesUserId")}
+            >
               <option value="">Sin asignar</option>
               {(userOptionsQuery.data ?? []).map((user) => (
                 <option key={user.id} value={user.id}>
@@ -390,10 +523,12 @@ export function ProjectForm(props: ProjectFormProps) {
 
       <section className={sectionClassName}>
         <div className="mb-6 space-y-1">
-          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
+          <p className="text-xs font-semibold tracking-[0.24em] text-[color:var(--color-primary)] uppercase">
             6. Notas
           </p>
-          <h3 className="text-xl font-semibold text-stone-950">Contexto interno del proyecto</h3>
+          <h3 className="text-xl font-semibold text-stone-950">
+            Contexto interno del proyecto
+          </h3>
         </div>
 
         <textarea
@@ -409,7 +544,11 @@ export function ProjectForm(props: ProjectFormProps) {
         ) : null}
 
         <div className="mt-6 flex flex-wrap gap-3">
-          <button className={primaryButtonClassName} disabled={isBusy} type="submit">
+          <button
+            className={primaryButtonClassName}
+            disabled={isBusy}
+            type="submit"
+          >
             {isBusy
               ? "Guardando..."
               : props.mode === "create"

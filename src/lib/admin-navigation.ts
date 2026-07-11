@@ -83,6 +83,17 @@ export const buildAdminNavigationItems = (
       permission: moduleItem.requiredPermission ?? undefined,
       route: moduleItem.route,
     })),
+    ...(currentUser.permissions.includes("inventory.read") &&
+    !normalizedModules.some((moduleItem) => moduleItem.route === "/admin/inventory/warehouses")
+      ? [
+          {
+            icon: "Warehouse",
+            label: "Almacenes",
+            permission: "inventory.read",
+            route: "/admin/inventory/warehouses",
+          },
+        ]
+      : []),
     ...productionAdvancedItems.filter((advancedItem) => !normalizedModules.some((moduleItem) => moduleItem.route === advancedItem.route)),
     ...((currentUser.permissions.includes("tableros.ver") ||
       currentUser.permissions.includes("reportes.ver") ||
@@ -198,6 +209,7 @@ export const buildSidebarSections = (items: SidebarItem[]): SidebarSection[] => 
     ]),
     makeSection("Operaciones", [
       "/admin/inventory",
+      "/admin/inventory/warehouses",
       "/admin/remnants",
       "/admin/production",
       "/admin/installation",

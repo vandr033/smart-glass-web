@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import Link from "next/link";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -38,7 +38,7 @@ import {
 import { POSTVENTA_ROUTES } from "@/modules/postventa/constants";
 import { getApiErrorMessage } from "@/utils";
 import { projectService } from "@/services/project-service";
-import type { ProjectNoteVisibility } from "@/types";
+import type { ProjectNoteVisibility, ProjectStatus } from "@/types";
 
 import {
   EMPTY_MEASUREMENT_FORM_VALUES,
@@ -105,15 +105,25 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
   const { useDeleteProject, useProject } = useProjects();
   const projectQuery = useProject(projectId);
   const deleteProjectMutation = useDeleteProject();
-  const [transitionToStatus, setTransitionToStatus] = useState("");
+  const [transitionToStatus, setTransitionToStatus] = useState<
+    ProjectStatus | ""
+  >("");
   const [transitionReason, setTransitionReason] = useState("");
   const [noteForm, setNoteForm] = useState(emptyNoteForm);
-  const [measurementForm, setMeasurementForm] = useState(EMPTY_MEASUREMENT_FORM_VALUES);
+  const [measurementForm, setMeasurementForm] = useState(
+    EMPTY_MEASUREMENT_FORM_VALUES,
+  );
   const [editingNoteId, setEditingNoteId] = useState<string | null>(null);
-  const [editingMeasurementId, setEditingMeasurementId] = useState<string | null>(null);
-  const [attachmentType, setAttachmentType] = useState<"PHOTO" | "PLAN" | "MEASUREMENT" | "CONTRACT" | "QUOTATION" | "OTHER">("OTHER");
+  const [editingMeasurementId, setEditingMeasurementId] = useState<
+    string | null
+  >(null);
+  const [attachmentType, setAttachmentType] = useState<
+    "PHOTO" | "PLAN" | "MEASUREMENT" | "CONTRACT" | "QUOTATION" | "OTHER"
+  >("OTHER");
   const [attachmentDescription, setAttachmentDescription] = useState("");
   const [attachmentFile, setAttachmentFile] = useState<File | null>(null);
+  const attachmentInputRef = useRef<HTMLInputElement>(null);
+  const [attachmentError, setAttachmentError] = useState<string | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<DeleteTarget | null>(null);
   const [sectionError, setSectionError] = useState<string | null>(null);
   const canUpdate = permissions.includes(PROJECTS_PERMISSIONS.update);
@@ -135,11 +145,19 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
   };
 
   const transitionMutation = useMutation({
-    mutationFn: async () =>
-      projectService.transitionProject(projectId, {
+    mutationFn: async () => {
+      if (!transitionToStatus) {
+        throw new Error(
+          "Selecciona el estado al que deseas mover el proyecto.",
+        );
+      }
+
+      return projectService.transitionProject(projectId, {
+        metadata: null,
         reason: trimToNull(transitionReason),
-        toStatus: transitionToStatus as never,
-      }),
+        toStatus: transitionToStatus,
+      });
+    },
     onSuccess: async () => {
       setTransitionReason("");
       setTransitionToStatus("");
@@ -227,6 +245,10 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
       setAttachmentDescription("");
       setAttachmentFile(null);
       setAttachmentType("OTHER");
+      setAttachmentError(null);
+      if (attachmentInputRef.current) {
+        attachmentInputRef.current.value = "";
+      }
       await invalidateProject();
     },
   });
@@ -254,7 +276,9 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
   if (projectQuery.isLoading || !projectQuery.data) {
     return (
       <section className={sectionClassName}>
-        <p className="text-sm text-stone-500">Cargando detalle del proyecto...</p>
+        <p className="text-sm text-stone-500">
+          Cargando detalle del proyecto...
+        </p>
       </section>
     );
   }
@@ -266,7 +290,7 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
       <section className={sectionClassName}>
         <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
           <div className="space-y-3">
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
+            <p className="text-xs font-semibold tracking-[0.24em] text-[color:var(--color-primary)] uppercase">
               Ciclo del proyecto
             </p>
             <h1 className="text-3xl font-semibold tracking-tight text-stone-950">
@@ -286,7 +310,10 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
           </div>
 
           <div className="flex flex-wrap gap-3">
-            <Link className={secondaryButtonClassName} href={PROJECTS_ROUTES.list}>
+            <Link
+              className={secondaryButtonClassName}
+              href={PROJECTS_ROUTES.list}
+            >
               <ArrowLeft className="mr-2 h-4 w-4" />
               Volver a proyectos
             </Link>
@@ -304,7 +331,10 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
               </Link>
             ) : null}
             {canUpdate ? (
-              <Link className={primaryButtonClassName} href={PROJECTS_ROUTES.edit(project.id)}>
+              <Link
+                className={primaryButtonClassName}
+                href={PROJECTS_ROUTES.edit(project.id)}
+              >
                 <Pencil className="mr-2 h-4 w-4" />
                 Editar proyecto
               </Link>
@@ -332,11 +362,11 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
       {canUpdate && project.availableTransitions.length > 0 ? (
         <section className={sectionClassName}>
           <div className="mb-5">
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-              Status Transition
+            <p className="text-xs font-semibold tracking-[0.24em] text-[color:var(--color-primary)] uppercase">
+              Cambio de estado
             </p>
             <h2 className="mt-2 text-2xl font-semibold tracking-tight text-stone-950">
-              Move the project forward
+              Avanza el proyecto
             </h2>
           </div>
 
@@ -344,7 +374,7 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
             <select
               className={fieldClassName}
               onChange={(event) => {
-                setTransitionToStatus(event.target.value);
+                setTransitionToStatus(event.target.value as ProjectStatus | "");
               }}
               value={transitionToStatus}
             >
@@ -376,7 +406,7 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
               }}
               type="button"
             >
-              Update status
+              Actualizar estado
             </button>
           </div>
 
@@ -390,40 +420,40 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
 
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
         <article className={sectionClassName}>
-          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-            Expected Delivery
+          <p className="text-xs font-semibold tracking-[0.24em] text-[color:var(--color-primary)] uppercase">
+            Entrega estimada
           </p>
           <p className="mt-3 text-lg font-semibold text-stone-950">
             {formatDateOnlyValue(project.expectedDeliveryDate)}
           </p>
         </article>
         <article className={sectionClassName}>
-          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-            Measurements
+          <p className="text-xs font-semibold tracking-[0.24em] text-[color:var(--color-primary)] uppercase">
+            Mediciones
           </p>
           <p className="mt-3 text-3xl font-semibold text-stone-950">
             {project.summary.measurementCount}
           </p>
         </article>
         <article className={sectionClassName}>
-          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-            Notes
+          <p className="text-xs font-semibold tracking-[0.24em] text-[color:var(--color-primary)] uppercase">
+            Notas
           </p>
           <p className="mt-3 text-3xl font-semibold text-stone-950">
             {project.summary.noteCount}
           </p>
         </article>
         <article className={sectionClassName}>
-          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-            Attachments
+          <p className="text-xs font-semibold tracking-[0.24em] text-[color:var(--color-primary)] uppercase">
+            Archivos adjuntos
           </p>
           <p className="mt-3 text-3xl font-semibold text-stone-950">
             {project.summary.attachmentCount}
           </p>
         </article>
         <article className={sectionClassName}>
-          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-            Last Status Change
+          <p className="text-xs font-semibold tracking-[0.24em] text-[color:var(--color-primary)] uppercase">
+            Último cambio de estado
           </p>
           <p className="mt-3 text-lg font-semibold text-stone-950">
             {formatDateValue(project.summary.lastStatusChangeAt)}
@@ -434,39 +464,41 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
       <section className="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
         <section className="space-y-6">
           <section className={sectionClassName}>
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-              Site Information
+            <p className="text-xs font-semibold tracking-[0.24em] text-[color:var(--color-primary)] uppercase">
+              Información del sitio
             </p>
             <h2 className="mt-2 text-2xl font-semibold tracking-tight text-stone-950">
-              Address and field context
+              Dirección y contexto de campo
             </h2>
 
             <dl className="mt-5 grid gap-4 sm:grid-cols-2">
               <div className="rounded-md border border-stone-200/90 bg-white/80 px-4 py-4">
-                <dt className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-                  Site address
+                <dt className="text-xs font-semibold tracking-[0.18em] text-stone-500 uppercase">
+                  Dirección de obra
                 </dt>
                 <dd className="mt-2 font-medium text-stone-900">
                   {project.siteAddress || "Sin configurar"}
                 </dd>
               </div>
               <div className="rounded-md border border-stone-200/90 bg-white/80 px-4 py-4">
-                <dt className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-                  City
+                <dt className="text-xs font-semibold tracking-[0.18em] text-stone-500 uppercase">
+                  Ciudad
                 </dt>
-                <dd className="mt-2 font-medium text-stone-900">{project.city || "Sin configurar"}</dd>
+                <dd className="mt-2 font-medium text-stone-900">
+                  {project.city || "Sin configurar"}
+                </dd>
               </div>
               <div className="rounded-md border border-stone-200/90 bg-white/80 px-4 py-4">
-                <dt className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-                  Responsible user
+                <dt className="text-xs font-semibold tracking-[0.18em] text-stone-500 uppercase">
+                  Responsable operativo
                 </dt>
                 <dd className="mt-2 font-medium text-stone-900">
                   {project.responsibleUser?.name || "Sin asignar"}
                 </dd>
               </div>
               <div className="rounded-md border border-stone-200/90 bg-white/80 px-4 py-4">
-                <dt className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-                  Sales user
+                <dt className="text-xs font-semibold tracking-[0.18em] text-stone-500 uppercase">
+                  Responsable comercial
                 </dt>
                 <dd className="mt-2 font-medium text-stone-900">
                   {project.salesUser?.name || "Sin asignar"}
@@ -478,11 +510,11 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
           <section className={sectionClassName}>
             <div className="mb-5 flex items-center justify-between gap-3">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-                  Measurements
+                <p className="text-xs font-semibold tracking-[0.24em] text-[color:var(--color-primary)] uppercase">
+                  Mediciones
                 </p>
                 <h2 className="mt-2 text-2xl font-semibold tracking-tight text-stone-950">
-                  Dimension capture
+                  Registro de dimensiones
                 </h2>
               </div>
             </div>
@@ -500,7 +532,8 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
                           Medición · Cantidad {measurement.quantity}
                         </p>
                         <p className="mt-1 text-sm text-stone-600">
-                          {measurement.locationDescription || "Sin descripción de ubicación"}
+                          {measurement.locationDescription ||
+                            "Sin descripción de ubicación"}
                         </p>
                       </div>
                       {canUpdate ? (
@@ -510,19 +543,30 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
                             onClick={() => {
                               setEditingMeasurementId(measurement.id);
                               setMeasurementForm({
-                                depthMm: measurement.depthMm === null ? "" : String(measurement.depthMm),
+                                depthMm:
+                                  measurement.depthMm === null
+                                    ? ""
+                                    : String(measurement.depthMm),
                                 heightMm:
-                                  measurement.heightMm === null ? "" : String(measurement.heightMm),
-                                locationDescription: measurement.locationDescription ?? "",
-                                measurementDate: measurement.measurementDate?.slice(0, 10) ?? "",
+                                  measurement.heightMm === null
+                                    ? ""
+                                    : String(measurement.heightMm),
+                                locationDescription:
+                                  measurement.locationDescription ?? "",
+                                measurementDate:
+                                  measurement.measurementDate?.slice(0, 10) ??
+                                  "",
                                 notes: measurement.notes ?? "",
                                 quantity: measurement.quantity,
-                                widthMm: measurement.widthMm === null ? "" : String(measurement.widthMm),
+                                widthMm:
+                                  measurement.widthMm === null
+                                    ? ""
+                                    : String(measurement.widthMm),
                               });
                             }}
                             type="button"
                           >
-                            Edit
+                            Editar
                           </button>
                           <button
                             className={secondaryButtonClassName}
@@ -530,12 +574,13 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
                               setDeleteTarget({
                                 id: measurement.id,
                                 kind: "measurement",
-                                label: measurement.locationDescription || "medición",
+                                label:
+                                  measurement.locationDescription || "medición",
                               });
                             }}
                             type="button"
                           >
-                            Delete
+                            Eliminar
                           </button>
                         </div>
                       ) : null}
@@ -543,7 +588,9 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
 
                     <div className="mt-4 grid gap-3 md:grid-cols-3">
                       <div className="rounded-md bg-stone-50/80 px-3 py-3">
-                        <p className="text-xs uppercase tracking-[0.18em] text-stone-500">Ancho</p>
+                        <p className="text-xs tracking-[0.18em] text-stone-500 uppercase">
+                          Ancho
+                        </p>
                         <p className="mt-2 font-semibold text-stone-950">
                           {formatDimensionMm(measurement.widthMm)}
                         </p>
@@ -552,7 +599,9 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
                         </p>
                       </div>
                       <div className="rounded-md bg-stone-50/80 px-3 py-3">
-                        <p className="text-xs uppercase tracking-[0.18em] text-stone-500">Alto</p>
+                        <p className="text-xs tracking-[0.18em] text-stone-500 uppercase">
+                          Alto
+                        </p>
                         <p className="mt-2 font-semibold text-stone-950">
                           {formatDimensionMm(measurement.heightMm)}
                         </p>
@@ -561,7 +610,9 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
                         </p>
                       </div>
                       <div className="rounded-md bg-stone-50/80 px-3 py-3">
-                        <p className="text-xs uppercase tracking-[0.18em] text-stone-500">Profundidad</p>
+                        <p className="text-xs tracking-[0.18em] text-stone-500 uppercase">
+                          Profundidad
+                        </p>
                         <p className="mt-2 font-semibold text-stone-950">
                           {formatDimensionMm(measurement.depthMm)}
                         </p>
@@ -600,7 +651,9 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
               >
                 <div className="flex items-center justify-between gap-3">
                   <p className="font-semibold text-stone-950">
-                    {editingMeasurementId ? "Editar medición" : "Agregar medición"}
+                    {editingMeasurementId
+                      ? "Editar medición"
+                      : "Agregar medición"}
                   </p>
                   {editingMeasurementId ? (
                     <button
@@ -612,7 +665,7 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
                       }}
                       type="button"
                     >
-                      Cancel edit
+                      Cancelar edición
                     </button>
                   ) : null}
                 </div>
@@ -626,7 +679,7 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
                         locationDescription: event.target.value,
                       }));
                     }}
-                  placeholder="Descripción de ubicación"
+                    placeholder="Descripción de ubicación"
                     value={measurementForm.locationDescription}
                   />
                   <input
@@ -702,23 +755,26 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
                 <button
                   className={primaryButtonClassName}
                   disabled={
-                    createMeasurementMutation.isPending || updateMeasurementMutation.isPending
+                    createMeasurementMutation.isPending ||
+                    updateMeasurementMutation.isPending
                   }
                   type="submit"
                 >
                   <Plus className="mr-2 h-4 w-4" />
-                  {editingMeasurementId ? "Guardar medición" : "Agregar medición"}
+                  {editingMeasurementId
+                    ? "Guardar medición"
+                    : "Agregar medición"}
                 </button>
               </form>
             ) : null}
           </section>
 
           <section className={sectionClassName}>
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-              Notes
+            <p className="text-xs font-semibold tracking-[0.24em] text-[color:var(--color-primary)] uppercase">
+              Notas
             </p>
             <h2 className="mt-2 text-2xl font-semibold tracking-tight text-stone-950">
-              Coordination log
+              Registro de coordinación
             </h2>
 
             <div className="mt-5 space-y-4">
@@ -733,8 +789,9 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
                         <p className="font-semibold text-stone-950">
                           {note.user?.name || "Nota del sistema"}
                         </p>
-                        <p className="mt-1 text-xs uppercase tracking-[0.18em] text-stone-500">
-                          {note.visibility.replace("_", " ")} · {formatDateValue(note.createdAt)}
+                        <p className="mt-1 text-xs tracking-[0.18em] text-stone-500 uppercase">
+                          {note.visibility.replace("_", " ")} ·{" "}
+                          {formatDateValue(note.createdAt)}
                         </p>
                       </div>
                       {canUpdate ? (
@@ -750,7 +807,7 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
                             }}
                             type="button"
                           >
-                            Edit
+                            Editar
                           </button>
                           <button
                             className={secondaryButtonClassName}
@@ -763,12 +820,14 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
                             }}
                             type="button"
                           >
-                            Delete
+                            Eliminar
                           </button>
                         </div>
                       ) : null}
                     </div>
-                    <p className="mt-3 text-sm leading-7 text-stone-700">{note.note}</p>
+                    <p className="mt-3 text-sm leading-7 text-stone-700">
+                      {note.note}
+                    </p>
                   </article>
                 ))
               ) : (
@@ -811,7 +870,7 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
                       }}
                       type="button"
                     >
-                      Cancel edit
+                      Cancelar edición
                     </button>
                   ) : null}
                 </div>
@@ -821,7 +880,9 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
                   onChange={(event) => {
                     setNoteForm((current) => ({
                       ...current,
-                      visibility: event.target.value as "INTERNAL" | "CLIENT_VISIBLE",
+                      visibility: event.target.value as
+                        | "INTERNAL"
+                        | "CLIENT_VISIBLE",
                     }));
                   }}
                   value={noteForm.visibility}
@@ -841,13 +902,15 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
                       note: event.target.value,
                     }));
                   }}
-                      placeholder="Nota"
+                  placeholder="Nota"
                   value={noteForm.note}
                 />
 
                 <button
                   className={primaryButtonClassName}
-                  disabled={createNoteMutation.isPending || updateNoteMutation.isPending}
+                  disabled={
+                    createNoteMutation.isPending || updateNoteMutation.isPending
+                  }
                   type="submit"
                 >
                   <Plus className="mr-2 h-4 w-4" />
@@ -860,11 +923,11 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
 
         <section className="space-y-6">
           <section className={sectionClassName}>
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-              Attachments
+            <p className="text-xs font-semibold tracking-[0.24em] text-[color:var(--color-primary)] uppercase">
+              Archivos adjuntos
             </p>
             <h2 className="mt-2 text-2xl font-semibold tracking-tight text-stone-950">
-              Photos, plans, and contracts
+              Fotos, planos y contratos
             </h2>
 
             <div className="mt-5 space-y-4">
@@ -900,13 +963,15 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
                           }}
                           type="button"
                         >
-                          Delete
+                          Eliminar
                         </button>
                       ) : null}
                     </div>
 
                     <div className="mt-4 flex flex-wrap items-center gap-3">
-                      <ProjectAttachmentTypeBadge attachmentType={attachment.attachmentType} />
+                      <ProjectAttachmentTypeBadge
+                        attachmentType={attachment.attachmentType}
+                      />
                       <span className="text-sm text-stone-500">
                         {formatDateValue(attachment.createdAt)}
                       </span>
@@ -926,12 +991,12 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
                 className="mt-6 space-y-4 rounded-md border border-dashed border-stone-300 bg-white/75 px-4 py-4"
                 onSubmit={async (event) => {
                   event.preventDefault();
-                  setSectionError(null);
+                  setAttachmentError(null);
 
                   try {
                     await createAttachmentMutation.mutateAsync();
                   } catch (error) {
-                    setSectionError(getApiErrorMessage(error));
+                    setAttachmentError(getApiErrorMessage(error));
                   }
                 }}
               >
@@ -961,26 +1026,39 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
                   />
                 </div>
                 <input
+                  accept="image/*,.pdf,.doc,.docx,.xls,.xlsx"
                   className={fieldClassName}
+                  ref={attachmentInputRef}
                   onChange={(event) => {
+                    setAttachmentError(null);
                     setAttachmentFile(event.target.files?.[0] ?? null);
                   }}
                   type="file"
                 />
+                {attachmentFile ? (
+                  <p className="text-sm text-stone-600">
+                    Archivo seleccionado: <span className="font-medium text-stone-900">{attachmentFile.name}</span>
+                  </p>
+                ) : null}
+                {attachmentError ? (
+                  <div className="rounded-md border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800">
+                    {attachmentError}
+                  </div>
+                ) : null}
                 <button
                   className={primaryButtonClassName}
-                  disabled={createAttachmentMutation.isPending}
+                  disabled={!attachmentFile || createAttachmentMutation.isPending}
                   type="submit"
                 >
                   <Paperclip className="mr-2 h-4 w-4" />
-                  Cargar archivo adjunto
+                  {createAttachmentMutation.isPending ? "Cargando…" : "Cargar archivo adjunto"}
                 </button>
               </form>
             ) : null}
           </section>
 
           <section className={sectionClassName}>
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
+            <p className="text-xs font-semibold tracking-[0.24em] text-[color:var(--color-primary)] uppercase">
               Historial de estados
             </p>
             <h2 className="mt-2 text-2xl font-semibold tracking-tight text-stone-950">
@@ -997,17 +1075,22 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
                     <div className="flex flex-wrap items-start justify-between gap-3">
                       <div>
                         <p className="font-semibold text-stone-950">
-                          {entry.fromStatus ? PROJECT_STATUS_LABELS[entry.fromStatus] : "Creado"}{" "}
+                          {entry.fromStatus
+                            ? PROJECT_STATUS_LABELS[entry.fromStatus]
+                            : "Creado"}{" "}
                           → {PROJECT_STATUS_LABELS[entry.toStatus]}
                         </p>
                         <p className="mt-1 text-sm text-stone-600">
-                          {entry.changedByUser?.name || "Sistema"} · {formatDateValue(entry.createdAt)}
+                          {entry.changedByUser?.name || "Sistema"} ·{" "}
+                          {formatDateValue(entry.createdAt)}
                         </p>
                       </div>
                       <ProjectStatusBadge status={entry.toStatus} />
                     </div>
                     {entry.reason ? (
-                      <p className="mt-3 text-sm leading-6 text-stone-700">{entry.reason}</p>
+                      <p className="mt-3 text-sm leading-6 text-stone-700">
+                        {entry.reason}
+                      </p>
                     ) : null}
                   </article>
                 ))
@@ -1021,56 +1104,73 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
           </section>
 
           <section className={sectionClassName}>
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-              Future Modules
+            <p className="text-xs font-semibold tracking-[0.24em] text-[color:var(--color-primary)] uppercase">
+              Accesos del proyecto
             </p>
             <div className="mt-4 grid gap-3">
               {[
                 {
-                  description: "Espacio reservado. Las cotizaciones siguen fuera del alcance de este modulo.",
+                  description: "Consulta y administra las cotizaciones comerciales.",
+                  href: "/admin/quotations",
                   icon: ClipboardList,
+                  permission: "quotations.read",
                   title: "Cotizaciones",
                 },
                 {
-                  description: "Espacio reservado. Los requerimientos de materiales se vincularan aqui mas adelante.",
+                  description: "Crea y revisa solicitudes de materiales para compras.",
+                  href: "/purchasing/requests",
                   icon: Ruler,
+                  permission: "purchasing.read",
                   title: "Requerimientos de materiales",
                 },
                 {
-                  description: "Espacio reservado. Los planes de corte siguen deshabilitados por ahora.",
+                  description: "Revisa optimizaciones y planes de corte disponibles.",
+                  href: "/cutting/plans",
                   icon: Flag,
+                  permission: "cutting.read",
                   title: "Plan de corte",
                 },
                 {
-                  description: "Espacio reservado. Los flujos de compras aun no estan implementados.",
+                  description: "Gestiona solicitudes, comparativos, órdenes y recepciones.",
+                  href: "/purchasing",
                   icon: FileStack,
+                  permission: "purchasing.read",
                   title: "Compras",
                 },
                 {
-                  description: "Espacio reservado. La ejecucion de produccion llegara mas adelante.",
+                  description: "Consulta la planificación y ejecución de producción.",
+                  href: "/production",
                   icon: CalendarClock,
+                  permission: "production.read",
                   title: "Produccion",
                 },
                 {
-                  description: "Espacio reservado. La programacion de instalaciones esta diferida.",
+                  description: "Programa y da seguimiento a las instalaciones en campo.",
+                  href: "/admin/installation",
                   icon: FileImage,
+                  permission: "installations.view",
                   title: "Instalacion",
                 },
               ].map((item) => (
-                <div
+                <Link
                   key={item.title}
-                  className="rounded-md border border-dashed border-stone-300 bg-stone-50/80 px-4 py-4"
+                  className="rounded-md border border-stone-200 bg-white/80 px-4 py-4 transition hover:border-[color:var(--color-primary)] hover:bg-blue-50/40"
+                  href={item.href}
                 >
                   <div className="flex items-start gap-3">
                     <div className="rounded-[1rem] bg-white p-3 text-[color:var(--color-primary)]">
                       <item.icon className="h-4 w-4" />
                     </div>
                     <div>
-                      <p className="font-semibold text-stone-950">{item.title}</p>
-                      <p className="mt-1 text-sm leading-6 text-stone-600">{item.description}</p>
+                      <p className="font-semibold text-stone-950">
+                        {item.title}
+                      </p>
+                      <p className="mt-1 text-sm leading-6 text-stone-600">
+                        {item.description}
+                      </p>
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </section>
@@ -1103,18 +1203,27 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
             }
 
             if (deleteTarget.kind === "note") {
-              await projectService.deleteProjectNote(project.id, deleteTarget.id);
+              await projectService.deleteProjectNote(
+                project.id,
+                deleteTarget.id,
+              );
               await invalidateProject();
               return;
             }
 
             if (deleteTarget.kind === "measurement") {
-              await projectService.deleteProjectMeasurement(project.id, deleteTarget.id);
+              await projectService.deleteProjectMeasurement(
+                project.id,
+                deleteTarget.id,
+              );
               await invalidateProject();
               return;
             }
 
-            await projectService.deleteProjectAttachment(project.id, deleteTarget.id);
+            await projectService.deleteProjectAttachment(
+              project.id,
+              deleteTarget.id,
+            );
             await invalidateProject();
           };
 

@@ -21,16 +21,19 @@ const optionalNumberField = ({ label }: { label: string }) =>
   z
     .string()
     .trim()
-    .refine((value) => {
-      if (value.length === 0) {
-        return true;
-      }
+    .refine(
+      (value) => {
+        if (value.length === 0) {
+          return true;
+        }
 
-      const parsedValue = Number(value);
-      return Number.isFinite(parsedValue);
-    }, {
-      message: `${label} debe ser un numero valido.`,
-    })
+        const parsedValue = Number(value);
+        return Number.isFinite(parsedValue);
+      },
+      {
+        message: `${label} debe ser un numero valido.`,
+      },
+    )
     .default("");
 
 export const projectFormSchema = z.object({
@@ -61,21 +64,23 @@ export const projectFormSchema = z.object({
   responsibleUserId: z.string().trim().default(""),
   salesUserId: z.string().trim().default(""),
   siteAddress: z.string().trim().max(255).default(""),
-  status: z.enum([
-    "LEAD",
-    "MEASUREMENT_PENDING",
-    "QUOTATION_PENDING",
-    "QUOTED",
-    "APPROVED",
-    "PURCHASE_PENDING",
-    "PRODUCTION_PENDING",
-    "IN_PRODUCTION",
-    "INSTALLATION_PENDING",
-    "IN_INSTALLATION",
-    "COMPLETED",
-    "CANCELLED",
-    "ON_HOLD",
-  ]).default("LEAD"),
+  status: z
+    .enum([
+      "LEAD",
+      "MEASUREMENT_PENDING",
+      "QUOTATION_PENDING",
+      "QUOTED",
+      "APPROVED",
+      "PURCHASE_PENDING",
+      "PRODUCTION_PENDING",
+      "IN_PRODUCTION",
+      "INSTALLATION_PENDING",
+      "IN_INSTALLATION",
+      "COMPLETED",
+      "CANCELLED",
+      "ON_HOLD",
+    ])
+    .default("LEAD"),
   title: z.string().trim().min(1, "El titulo es obligatorio.").max(191),
 });
 
@@ -151,8 +156,10 @@ export const mapRecordToFormValues = (
     clientId: project.client.id,
     description: project.description ?? "",
     expectedDeliveryDate: project.expectedDeliveryDate?.slice(0, 10) ?? "",
-    expectedInstallationDate: project.expectedInstallationDate?.slice(0, 10) ?? "",
-    expectedMeasurementDate: project.expectedMeasurementDate?.slice(0, 10) ?? "",
+    expectedInstallationDate:
+      project.expectedInstallationDate?.slice(0, 10) ?? "",
+    expectedMeasurementDate:
+      project.expectedMeasurementDate?.slice(0, 10) ?? "",
     latitude: project.latitude === null ? "" : String(project.latitude),
     longitude: project.longitude === null ? "" : String(project.longitude),
     notes: project.notes ?? "",
@@ -235,6 +242,14 @@ export const useProjects = () => {
       staleTime: 60_000,
     });
 
+  const useClientDetails = (clientId: string) =>
+    useQuery({
+      enabled: Boolean(clientId),
+      queryFn: () => clientService.getClientById(clientId),
+      queryKey: CLIENTS_QUERY_KEYS.detail(clientId),
+      staleTime: 60_000,
+    });
+
   const useCreateProject = () =>
     useMutation({
       mutationFn: async (values: ProjectFormValues) => {
@@ -292,6 +307,7 @@ export const useProjects = () => {
 
   return {
     mapRecordToFormValues,
+    useClientDetails,
     useClientOptions,
     useCreateProject,
     useDeleteProject,

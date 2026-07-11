@@ -110,7 +110,7 @@ export function ProductTemplateDetail({
             }}
             type="button"
           >
-            Retry
+            Reintentar
           </button>
         }
         description={
@@ -146,7 +146,7 @@ export function ProductTemplateDetail({
               href={PRODUCT_TEMPLATES_ROUTES.list}
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to templates
+              Volver a plantillas
             </Link>
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
@@ -172,7 +172,7 @@ export function ProductTemplateDetail({
                 className={secondaryButtonClassName}
                 href={PRODUCT_TEMPLATES_ROUTES.versionSimulate(template.currentVersion.id)}
               >
-                Simulate current version
+                Simular versión actual
               </Link>
             ) : null}
             {canManage ? (
@@ -182,7 +182,7 @@ export function ProductTemplateDetail({
                   href={PRODUCT_TEMPLATES_ROUTES.edit(template.id)}
                 >
                   <Pencil className="mr-2 h-4 w-4" />
-                  Edit template
+                Editar plantilla
                 </Link>
                 <button
                   className={secondaryButtonClassName}
@@ -206,7 +206,7 @@ export function ProductTemplateDetail({
                   type="button"
                 >
                   <Trash2 className="mr-2 h-4 w-4" />
-                  Delete
+                Eliminar
                 </button>
               </>
             ) : null}
@@ -290,20 +290,20 @@ export function ProductTemplateDetail({
                       className={secondaryButtonClassName}
                       href={PRODUCT_TEMPLATES_ROUTES.versionView(version.id)}
                     >
-                      View version
+                      Ver versión
                     </Link>
                     <Link
                       className={secondaryButtonClassName}
                       href={PRODUCT_TEMPLATES_ROUTES.versionSimulate(version.id)}
                     >
-                      Simulate
+                      Simular
                     </Link>
                     {canManage ? (
                       <Link
                         className={secondaryButtonClassName}
                         href={PRODUCT_TEMPLATES_ROUTES.versionRules(version.id)}
                       >
-                        Edit rules
+                        Editar reglas
                       </Link>
                     ) : null}
                   </div>
@@ -318,7 +318,7 @@ export function ProductTemplateDetail({
         <section className={sectionClassName}>
           <div className="mb-6 space-y-1">
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-              Create Version
+              Crear versión
             </p>
             <h2 className="text-2xl font-semibold tracking-tight text-stone-950">
               Open a new draft
@@ -429,7 +429,7 @@ export function ProductTemplateDetail({
                 type="submit"
               >
                 <Plus className="mr-2 h-4 w-4" />
-                Create draft version
+                Crear versión borrador
               </button>
             </div>
           </form>

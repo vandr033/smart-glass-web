@@ -404,16 +404,17 @@ export function AdminShell({
                   </div>
 
                   <div className="hidden items-center gap-3 xl:flex">
-                    <button
+                    <Link
                       className="inline-flex items-center gap-3 rounded-md border border-[color:var(--color-border)] bg-[var(--color-surface)] px-3.5 py-2.5 text-left shadow-sm"
-                      type="button"
+                      href="/admin/inventory/warehouses"
+                      title="Administrar almacenes"
                     >
                       <Building2 className="h-4 w-4 text-[color:var(--color-primary)]" />
                       <span className="text-sm">
                         <span className="mr-1 text-[color:var(--color-text-muted)]">Sucursal:</span>
                         <span className="font-semibold text-[color:var(--color-text)]">Santa Cruz</span>
                       </span>
-                    </button>
+                    </Link>
                     <TopbarSearch
                       className="w-[20rem]"
                       onChange={setTopbarSearch}
@@ -438,16 +439,17 @@ export function AdminShell({
 
                 <div className="flex flex-col gap-3 xl:hidden">
                   <div className="flex flex-wrap items-center gap-2">
-                    <button
+                    <Link
                       className="inline-flex items-center gap-2 rounded-md border border-[color:var(--color-border)] bg-[var(--color-surface)] px-3 py-2.5 text-sm shadow-sm"
-                      type="button"
+                      href="/admin/inventory/warehouses"
+                      title="Administrar almacenes"
                     >
                       <Building2 className="h-4 w-4 text-[color:var(--color-primary)]" />
                       <span>
                         <span className="mr-1 text-[color:var(--color-text-muted)]">Sucursal:</span>
                         <span className="font-semibold text-[color:var(--color-text)]">Santa Cruz</span>
                       </span>
-                    </button>
+                    </Link>
                     <button
                       aria-label="Ayuda"
                       className="inline-flex rounded-md border border-[color:var(--color-border)] bg-[var(--color-surface)] p-2.5 text-[color:var(--color-primary)] shadow-sm"

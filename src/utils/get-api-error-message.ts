@@ -13,6 +13,10 @@ const EXACT_MESSAGE_TRANSLATIONS: Record<string, string> = {
   "Supplier not found.": "Proveedor no encontrado.",
   "User not found.": "Usuario no encontrado.",
   "Warehouse not found.": "Almacen no encontrado.",
+  "Invalid input: expected nonoptional, received undefined":
+    "Falta información requerida para actualizar el estado del proyecto.",
+  "Reason is required when moving a project to cancelled or on hold.":
+    "Indica un motivo para poner el proyecto en espera o cancelarlo.",
 };
 
 const translateValidationMessage = (message: string): string => {
@@ -27,12 +31,16 @@ const translateValidationMessage = (message: string): string => {
     return `${requiredMatch[1]} es obligatorio.`;
   }
 
-  const validNumberMatch = normalizedMessage.match(/^(.+?) must be a valid number\.$/i);
+  const validNumberMatch = normalizedMessage.match(
+    /^(.+?) must be a valid number\.$/i,
+  );
   if (validNumberMatch) {
     return `${validNumberMatch[1]} debe ser un numero valido.`;
   }
 
-  const wholeNumberMatch = normalizedMessage.match(/^(.+?) must be a whole number\.$/i);
+  const wholeNumberMatch = normalizedMessage.match(
+    /^(.+?) must be a whole number\.$/i,
+  );
   if (wholeNumberMatch) {
     return `${wholeNumberMatch[1]} debe ser un numero entero.`;
   }
@@ -60,7 +68,9 @@ const translateValidationMessage = (message: string): string => {
   }
 
   if (
-    /permission(?:Keys|Names): .*ERP foundation catalog/i.test(normalizedMessage) ||
+    /permission(?:Keys|Names): .*ERP foundation catalog/i.test(
+      normalizedMessage,
+    ) ||
     /no longer supported by this ERP version/i.test(normalizedMessage)
   ) {
     return "Algunos permisos seleccionados ya no son compatibles con esta version del ERP.";
@@ -79,7 +89,9 @@ const translateValidationMessage = (message: string): string => {
 
 export const getApiErrorMessage = (error: unknown): string => {
   if (axios.isAxiosError<ApiErrorResponse>(error)) {
-    return translateValidationMessage(error.response?.data?.message ?? error.message);
+    return translateValidationMessage(
+      error.response?.data?.message ?? error.message,
+    );
   }
 
   if (error instanceof Error) {

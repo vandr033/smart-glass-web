@@ -114,7 +114,7 @@ export function ProductTemplateVersionDetail({
             }}
             type="button"
           >
-            Retry
+            Reintentar
           </button>
         }
         description={versionQuery.error?.message ?? "No se pudieron cargar los datos de la versión."}
@@ -135,7 +135,7 @@ export function ProductTemplateVersionDetail({
               href={PRODUCT_TEMPLATES_ROUTES.view(version.templateId)}
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to template
+              Volver a plantilla
             </Link>
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
@@ -157,7 +157,7 @@ export function ProductTemplateVersionDetail({
               href={PRODUCT_TEMPLATES_ROUTES.versionSimulate(version.id)}
             >
               <Play className="mr-2 h-4 w-4" />
-              Simulate
+                Simular
             </Link>
             {canManage ? (
               <>
@@ -166,7 +166,7 @@ export function ProductTemplateVersionDetail({
                   href={PRODUCT_TEMPLATES_ROUTES.versionRules(version.id)}
                 >
                   <FileCode2 className="mr-2 h-4 w-4" />
-                  Edit rules
+                  Editar reglas
                 </Link>
                 <button
                   className={primaryButtonClassName}
@@ -197,7 +197,7 @@ export function ProductTemplateVersionDetail({
                   type="button"
                 >
                   <CheckCircle2 className="mr-2 h-4 w-4" />
-                  Activate
+                  Activar
                 </button>
               </>
             ) : null}
@@ -372,7 +372,7 @@ export function ProductTemplateVersionDetail({
                 disabled={updateMutation.isPending}
                 type="submit"
               >
-                Save version settings
+                Guardar configuración de versión
               </button>
             </div>
           </form>
@@ -400,7 +400,7 @@ export function ProductTemplateVersionDetail({
           </div>
 
           <div className="rounded-lg border border-stone-200 bg-white px-5 py-5">
-            <p className="text-sm font-semibold text-stone-900">Rules summary</p>
+            <p className="text-sm font-semibold text-stone-900">Resumen de reglas</p>
             <div className="mt-4 space-y-3">
               {version.materialRules.map((rule) => (
                 <div key={rule.id} className="rounded-md border border-stone-200 px-4 py-3">
