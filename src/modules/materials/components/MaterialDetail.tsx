@@ -126,7 +126,7 @@ export function MaterialDetail({ materialId }: MaterialDetailProps) {
               href={MATERIALS_ROUTES.list}
             >
               <ArrowLeft className="h-4 w-4" />
-              Back to materials
+              Volver a materiales
             </Link>
             {canEdit ? (
               <Link

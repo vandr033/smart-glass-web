@@ -161,17 +161,16 @@ export function ProductTemplateForm(props: ProductTemplateFormProps) {
                 Crear plantilla
               </p>
               <h2 className="text-2xl font-semibold tracking-tight text-stone-950">
-                Start a reusable product blueprint
+                Crea una nueva plantilla de producto
               </h2>
               <p className="max-w-3xl text-sm leading-7 text-stone-700">
-                Define the commercial identity of the template and seed an initial version so the
-                rule editor and simulator have a safe place to start from.
+                Define la identidad de la plantilla y los valores predeterminados de la versión inicial. Las reglas, entradas y el comportamiento de simulación permanecen en el espacio de trabajo de la versión.
               </p>
             </div>
 
             <Link className={secondaryButtonClassName} href={PRODUCT_TEMPLATES_ROUTES.list}>
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Back
+              Atras
             </Link>
           </div>
         </section>
@@ -179,14 +178,14 @@ export function ProductTemplateForm(props: ProductTemplateFormProps) {
         <section className={sectionClassName}>
           <div className="mb-6 space-y-1">
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-              1. Template Identity
+              1. Información general
             </p>
-            <h3 className="text-xl font-semibold text-stone-950">General information</h3>
+            <h3 className="text-xl font-semibold text-stone-950">Información general</h3>
           </div>
 
           <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
             <label className={labelClassName}>
-              <span className="text-sm font-medium text-stone-700">Code</span>
+              <span className="text-sm font-medium text-stone-700">Código</span>
               <input className={fieldClassName} disabled={isBusy} {...form.register("code")} />
               {getFieldError("code") ? (
                 <span className="text-sm text-rose-700">{getFieldError("code")}</span>
@@ -251,7 +250,7 @@ export function ProductTemplateForm(props: ProductTemplateFormProps) {
               />
             </label>
             <label className={labelClassName}>
-              <span className="text-sm font-medium text-stone-700">Default margin %</span>
+              <span className="text-sm font-medium text-stone-700">Margen por defecto %</span>
               <input
                 className={fieldClassName}
                 disabled={isBusy}
@@ -260,7 +259,7 @@ export function ProductTemplateForm(props: ProductTemplateFormProps) {
               />
             </label>
             <label className={labelClassName}>
-              <span className="text-sm font-medium text-stone-700">Default waste %</span>
+              <span className="text-sm font-medium text-stone-700">Perdida por defecto %</span>
               <input
                 className={fieldClassName}
                 disabled={isBusy}
@@ -302,7 +301,7 @@ export function ProductTemplateForm(props: ProductTemplateFormProps) {
             Cancelar
           </Link>
           <button className={primaryButtonClassName} disabled={isBusy} type="submit">
-            Create template
+            Crear plantilla
           </button>
         </div>
       </form>
@@ -348,8 +347,8 @@ export function ProductTemplateForm(props: ProductTemplateFormProps) {
               Actualiza la estructura comercial
             </h2>
             <p className="max-w-3xl text-sm leading-7 text-stone-700">
-              Template rules, inputs, and simulation behavior stay in the version workspace. This
-              form only updates the reusable template identity and lifecycle status.
+              Las reglas, entradas y el comportamiento de simulación se configuran dentro de la
+              versión. Este formulario solo actualiza la identidad de la plantilla y su estado.
             </p>
           </div>
 
@@ -358,7 +357,7 @@ export function ProductTemplateForm(props: ProductTemplateFormProps) {
             href={PRODUCT_TEMPLATES_ROUTES.view(props.templateId)}
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Back
+            Atras
           </Link>
         </div>
       </section>
@@ -366,7 +365,7 @@ export function ProductTemplateForm(props: ProductTemplateFormProps) {
       <section className={sectionClassName}>
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
           <label className={labelClassName}>
-            <span className="text-sm font-medium text-stone-700">Code</span>
+            <span className="text-sm font-medium text-stone-700">Código</span>
             <input className={fieldClassName} disabled={isBusy} {...form.register("code")} />
             {getFieldError("code") ? (
               <span className="text-sm text-rose-700">{getFieldError("code")}</span>

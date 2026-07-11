@@ -118,14 +118,14 @@ export default function PurchasingRequestDetailPage({
         actions={
           <>
             <Link className={secondaryButtonClassName} href={PURCHASING_ROUTES.requests}>
-              Back to Requests
+              Volver a Pedidos
             </Link>
             {canCompare ? (
               <Link
                 className={secondaryButtonClassName}
                 href={PURCHASING_ROUTES.requestCompare(request.id)}
               >
-                Compare Suppliers
+               Comparar Proovedores
               </Link>
             ) : null}
             {canCreatePo && request.status === "APPROVED" ? (
@@ -133,7 +133,7 @@ export default function PurchasingRequestDetailPage({
                 className={secondaryButtonClassName}
                 href={`${PURCHASING_ROUTES.ordersNew}?purchaseRequestId=${request.id}`}
               >
-                Create Manual PO
+                Crear Orden de Compra
               </Link>
             ) : null}
           </>

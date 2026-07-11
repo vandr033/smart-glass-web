@@ -93,7 +93,7 @@ export default function CuttingOptimizationDetailPage({
               className="inline-flex items-center rounded-md border border-stone-300 bg-white px-4 py-2.5 text-sm font-semibold text-stone-700 transition hover:border-stone-400 hover:text-stone-950"
               href={CUTTING_ROUTES.optimizations}
             >
-              Back to Runs
+              Volver a corridas
             </Link>
             <button
               className="inline-flex items-center rounded-md border border-stone-300 bg-white px-4 py-2.5 text-sm font-semibold text-stone-700 transition hover:border-stone-400 hover:text-stone-950 disabled:cursor-not-allowed disabled:opacity-60"

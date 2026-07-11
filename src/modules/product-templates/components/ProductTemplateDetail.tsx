@@ -249,10 +249,10 @@ export function ProductTemplateDetail({
         <div className="mb-5 flex items-center justify-between gap-4">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-              Versions
+              Versiones
             </p>
             <h2 className="mt-2 text-2xl font-semibold tracking-tight text-stone-950">
-              Template history
+              Historial de versiones
             </h2>
           </div>
         </div>
@@ -260,7 +260,7 @@ export function ProductTemplateDetail({
         {versions.length === 0 ? (
           <EmptyState
             description="Crea la primera versión para definir entradas, fórmulas y comportamiento de simulación."
-            title="No versions exist yet"
+            title="Aún no hay versiones"
           />
         ) : (
           <div className="space-y-3">
@@ -275,7 +275,7 @@ export function ProductTemplateDetail({
                       V{version.versionNumber} · {version.name}
                     </p>
                     <p className="mt-1 text-sm text-stone-600">
-                      {PRODUCT_TEMPLATE_VERSION_STATUS_LABELS[version.status]} · Updated{" "}
+                      {PRODUCT_TEMPLATE_VERSION_STATUS_LABELS[version.status]} · Actualizada{" "}
                       {formatDateTime(version.updatedAt)}
                     </p>
                     {version.description ? (
@@ -321,7 +321,7 @@ export function ProductTemplateDetail({
               Crear versión
             </p>
             <h2 className="text-2xl font-semibold tracking-tight text-stone-950">
-              Open a new draft
+              Crear una nueva versión
             </h2>
           </div>
 
@@ -439,14 +439,15 @@ export function ProductTemplateDetail({
       <section className={sectionClassName}>
         <div className="space-y-2">
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-            Future Usage
+            Uso actual
           </p>
           <h2 className="text-2xl font-semibold tracking-tight text-stone-950">
-            Downstream placeholders
+            Integraciones disponibles
           </h2>
           <p className="max-w-3xl text-sm leading-7 text-stone-700">
-            This module stops at reusable configuration and simulation. Full quotation assembly,
-            purchasing, optimization, and production consumption remain intentionally deferred.
+            La plantilla se puede configurar, simular y utilizar desde el cotizador. Las compras,
+            la optimización de cortes y la producción reciben los materiales calculados a través
+            de la cotización.
           </p>
         </div>
       </section>

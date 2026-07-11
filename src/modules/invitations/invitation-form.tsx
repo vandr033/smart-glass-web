@@ -91,15 +91,18 @@ export function InvitationForm() {
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="space-y-2">
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-              Create Invitation
+              Crear Invitacion
             </p>
             <h2 className="text-2xl font-semibold tracking-tight text-stone-950">
-              Invite a teammate
-            </h2>
+              Invitar a un nuevo usuario
+          </h2>
             <p className="max-w-3xl text-sm leading-7 text-stone-700">
-              New invitations expire automatically after seven days, generate a
-              fresh secure token, and send the onboarding email immediately.
+              Las invitaciones nuevas expiran automáticamente después de siete
+              días, genera un token seguro nuevo y envía el correo de
+              incorporación inmediatamente.
             </p>
+
+
           </div>
 
           <div className="flex flex-wrap gap-3">
@@ -108,7 +111,7 @@ export function InvitationForm() {
               href="/invitations"
             >
               <ArrowLeft className="h-4 w-4" />
-              Back to invitations
+              Volver a invitaciones
             </Link>
             <button
               className="inline-flex items-center gap-2 rounded-md bg-[var(--color-primary)] px-4 py-3 text-sm font-semibold text-[color:var(--color-primary-contrast)] transition hover:bg-[var(--color-primary-hover)] disabled:cursor-not-allowed disabled:opacity-60"

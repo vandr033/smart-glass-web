@@ -25,6 +25,8 @@ import type {
 
 import {
   PRODUCT_TEMPLATE_INPUT_TYPE_LABELS,
+  PRODUCT_TEMPLATE_LABOR_TYPE_LABELS,
+  PRODUCT_TEMPLATE_MATERIAL_RULE_TYPE_LABELS,
   PRODUCT_TEMPLATE_QUERY_KEYS,
   PRODUCT_TEMPLATES_ROUTES,
 } from "../constants";
@@ -171,8 +173,8 @@ export function ProductTemplateSimulation({
             }}
             value={String(Boolean(value))}
           >
-            <option value="true">True</option>
-            <option value="false">False</option>
+            <option value="true">Sí</option>
+            <option value="false">No</option>
           </select>
         );
 
@@ -287,8 +289,10 @@ export function ProductTemplateSimulation({
                 V{version.versionNumber} · {version.name}
               </h1>
               <p className="mt-2 max-w-3xl text-sm leading-7 text-stone-700">
-                This preview runs the safe formula engine, estimates current material costs when
-                available, and stores a reusable simulation record without creating a quotation.
+                Esta simulación ejecuta las fórmulas configuradas, estima los costos actuales de
+                los materiales cuando hay precios disponibles y guarda el resultado sin crear una
+                cotización. Para obtener la distribución óptima de las láminas y los retazos,
+                agrega el producto a una cotización y ejecuta la optimización de corte.
               </p>
             </div>
           </div>
@@ -305,7 +309,7 @@ export function ProductTemplateSimulation({
             type="button"
           >
             <RefreshCcw className="mr-2 h-4 w-4" />
-            Refresh
+            Actualizar
           </button>
         </div>
       </section>
@@ -316,7 +320,7 @@ export function ProductTemplateSimulation({
             Entradas
           </p>
           <h2 className="text-2xl font-semibold tracking-tight text-stone-950">
-            Dynamic form
+            Formulario de entradas
           </h2>
         </div>
 
@@ -384,7 +388,7 @@ export function ProductTemplateSimulation({
                 </p>
               </div>
               <div className="rounded-lg border border-stone-200 bg-white px-5 py-4">
-                <p className="text-xs uppercase tracking-[0.22em] text-stone-500">Suggested sale</p>
+                <p className="text-xs uppercase tracking-[0.22em] text-stone-500">Precio de venta sugerido</p>
                 <p className="mt-3 text-lg font-semibold text-stone-950">
                   {formatCurrencyValue(simulation.resultJson.suggestedSalePrice)}
                 </p>
@@ -394,14 +398,14 @@ export function ProductTemplateSimulation({
 
           <section className={tableWrapperClassName}>
             <div className="border-b border-stone-200/80 px-5 py-4">
-              <h2 className="text-xl font-semibold text-stone-950">Material breakdown</h2>
+              <h2 className="text-xl font-semibold text-stone-950">Desglose de materiales</h2>
             </div>
             <div className="overflow-x-auto">
               <table className="min-w-full text-left text-sm">
                 <thead className="bg-stone-50 text-xs uppercase tracking-[0.22em] text-stone-500">
                   <tr>
                     <th className="px-5 py-4 font-semibold">Material</th>
-                    <th className="px-5 py-4 font-semibold">Rule</th>
+                    <th className="px-5 py-4 font-semibold">Regla</th>
                     <th className="px-5 py-4 font-semibold">Cantidad</th>
                     <th className="px-5 py-4 font-semibold">Costo unitario</th>
                     <th className="px-5 py-4 font-semibold">Costo</th>
@@ -416,7 +420,9 @@ export function ProductTemplateSimulation({
                           {item.materialCode}
                         </p>
                       </td>
-                      <td className="px-5 py-4 text-stone-700">{item.ruleType}</td>
+                      <td className="px-5 py-4 text-stone-700">
+                        {PRODUCT_TEMPLATE_MATERIAL_RULE_TYPE_LABELS[item.ruleType]}
+                      </td>
                       <td className="px-5 py-4 text-stone-700">
                         {item.requiredQuantity} {item.unit}
                       </td>
@@ -437,40 +443,40 @@ export function ProductTemplateSimulation({
 
           <section className="grid gap-6 lg:grid-cols-2">
             <div className={sectionClassName}>
-              <h2 className="text-xl font-semibold text-stone-950">Linear cuts</h2>
+              <h2 className="text-xl font-semibold text-stone-950">Cortes lineales</h2>
               {simulation.resultJson.cuts.linear.length > 0 ? (
                 <div className="mt-4 space-y-3">
                   {simulation.resultJson.cuts.linear.map((item) => (
                     <div key={`${item.label}-${item.materialId}`} className="rounded-lg border border-stone-200 bg-white px-5 py-4">
                       <p className="font-medium text-stone-950">{item.label}</p>
                       <p className="mt-1 text-sm text-stone-600">
-                        {item.quantity} pieces · {item.requiredLengthMm} mm each · Waste{" "}
+                        {item.quantity} piezas · {item.requiredLengthMm} mm cada una · Desperdicio{" "}
                         {item.wastePercent}%
                       </p>
                     </div>
                   ))}
                 </div>
               ) : (
-                <p className="mt-4 text-sm text-stone-600">No linear cut output in this run.</p>
+                <p className="mt-4 text-sm text-stone-600">Esta simulación no generó cortes lineales.</p>
               )}
             </div>
 
             <div className={sectionClassName}>
-              <h2 className="text-xl font-semibold text-stone-950">Sheet cuts</h2>
+              <h2 className="text-xl font-semibold text-stone-950">Cortes de lámina</h2>
               {simulation.resultJson.cuts.sheets.length > 0 ? (
                 <div className="mt-4 space-y-3">
                   {simulation.resultJson.cuts.sheets.map((item) => (
                     <div key={`${item.label}-${item.materialId}`} className="rounded-lg border border-stone-200 bg-white px-5 py-4">
                       <p className="font-medium text-stone-950">{item.label}</p>
                       <p className="mt-1 text-sm text-stone-600">
-                        {item.quantity} pieces · {item.requiredWidthMm} × {item.requiredHeightMm} mm
-                        {item.thicknessMm ? ` · ${item.thicknessMm} mm` : ""} · Waste {item.wastePercent}%
+                        {item.quantity} piezas · {item.requiredWidthMm} × {item.requiredHeightMm} mm
+                        {item.thicknessMm ? ` · ${item.thicknessMm} mm` : ""} · Desperdicio {item.wastePercent}%
                       </p>
                     </div>
                   ))}
                 </div>
               ) : (
-                <p className="mt-4 text-sm text-stone-600">No sheet cut output in this run.</p>
+                <p className="mt-4 text-sm text-stone-600">Esta simulación no generó cortes de lámina.</p>
               )}
             </div>
           </section>
@@ -483,20 +489,20 @@ export function ProductTemplateSimulation({
                   <div key={item.label} className="rounded-lg border border-stone-200 bg-white px-5 py-4">
                     <p className="font-medium text-stone-950">{item.label}</p>
                     <p className="mt-1 text-sm text-stone-600">
-                      {item.laborType} · {item.quantity} × {formatCurrencyValue(item.unitCost)} ={" "}
+                      {PRODUCT_TEMPLATE_LABOR_TYPE_LABELS[item.laborType]} · {item.quantity} × {formatCurrencyValue(item.unitCost)} ={" "}
                       {formatCurrencyValue(item.totalCost)}
                     </p>
                   </div>
                 ))}
               </div>
             ) : (
-              <p className="mt-4 text-sm text-stone-600">No labor rules contributed to this run.</p>
+              <p className="mt-4 text-sm text-stone-600">Ninguna regla de mano de obra aportó datos a esta simulación.</p>
             )}
           </section>
 
           {simulation.resultJson.warnings.length > 0 ? (
             <section className={sectionClassName}>
-              <h2 className="text-xl font-semibold text-stone-950">Warnings</h2>
+              <h2 className="text-xl font-semibold text-stone-950">Advertencias</h2>
               <ul className="mt-4 space-y-2 text-sm text-stone-700">
                 {simulation.resultJson.warnings.map((warning) => (
                   <li key={warning}>• {warning}</li>
@@ -509,20 +515,20 @@ export function ProductTemplateSimulation({
 
       {canViewHistory ? (
         <section className={sectionClassName}>
-          <h2 className="text-xl font-semibold text-stone-950">Recent simulations</h2>
+          <h2 className="text-xl font-semibold text-stone-950">Simulaciones recientes</h2>
           {history.length > 0 ? (
             <div className="mt-4 space-y-3">
               {history.map((item) => (
                 <div key={item.id} className="rounded-lg border border-stone-200 bg-white px-5 py-4">
                   <p className="font-medium text-stone-950">{formatDateTime(item.createdAt)}</p>
                   <p className="mt-1 text-sm text-stone-600">
-                    Suggested sale: {formatCurrencyValue(item.resultJson.suggestedSalePrice)}
+                    Precio de venta sugerido: {formatCurrencyValue(item.resultJson.suggestedSalePrice)}
                   </p>
                 </div>
               ))}
             </div>
           ) : (
-            <p className="mt-4 text-sm text-stone-600">No saved simulation history yet.</p>
+            <p className="mt-4 text-sm text-stone-600">Aún no hay simulaciones guardadas.</p>
           )}
         </section>
       ) : null}

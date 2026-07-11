@@ -210,7 +210,7 @@ export default function ProductTemplatesListPage({
           action={
             canManage ? (
               <Link className={primaryButtonClassName} href={PRODUCT_TEMPLATES_ROUTES.create}>
-                Create plantilla
+                Crear plantilla
               </Link>
             ) : null
           }

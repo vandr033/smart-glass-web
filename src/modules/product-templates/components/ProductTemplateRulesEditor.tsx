@@ -270,14 +270,14 @@ export function ProductTemplateRulesEditor({
             </Link>
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-                Rule Builder
+                Editor de reglas
               </p>
               <h1 className="mt-2 text-3xl font-semibold tracking-tight text-stone-950">
                 V{version.versionNumber} · {version.name}
               </h1>
               <p className="mt-2 max-w-3xl text-sm leading-7 text-stone-700">
-                Define inputs, material rules, accessory rules, and labor rules. Formula editors
-                accept JSON only, and the backend validates everything before activation.
+                Define las entradas, reglas de materiales, accesorios y mano de obra. Las fórmulas
+                se escriben en formato JSON y se validan antes de activar la versión.
               </p>
             </div>
           </div>
@@ -322,7 +322,7 @@ export function ProductTemplateRulesEditor({
                 Entradas
               </p>
               <h2 className="mt-2 text-2xl font-semibold tracking-tight text-stone-950">
-                Dynamic form fields
+                Campos dinámicos
               </h2>
             </div>
             <button
@@ -353,12 +353,12 @@ export function ProductTemplateRulesEditor({
                     type="button"
                   >
                     <Trash2 className="mr-2 h-4 w-4" />
-                    Remove
+                    Quitar
                   </button>
                 </div>
                 <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-                  <input className={fieldClassName} placeholder="Key" {...form.register(`inputs.${index}.key`)} />
-                  <input className={fieldClassName} placeholder="Label" {...form.register(`inputs.${index}.label`)} />
+                  <input className={fieldClassName} placeholder="Clave técnica" {...form.register(`inputs.${index}.key`)} />
+                  <input className={fieldClassName} placeholder="Nombre visible" {...form.register(`inputs.${index}.label`)} />
                   <select className={fieldClassName} {...form.register(`inputs.${index}.inputType`)}>
                     {PRODUCT_TEMPLATE_INPUT_TYPE_OPTIONS.map((option) => (
                       <option key={option.value} value={option.value}>
@@ -379,19 +379,19 @@ export function ProductTemplateRulesEditor({
                   />
                   <textarea
                     className="md:col-span-2 xl:col-span-2 rounded-md border border-stone-200 bg-stone-50/80 px-4 py-3 font-mono text-xs text-stone-900 outline-none transition focus:border-stone-400 focus:bg-white"
-                    placeholder="Default value JSON"
+                    placeholder="Valor predeterminado en JSON"
                     rows={5}
                     {...form.register(`inputs.${index}.defaultValueJsonText`)}
                   />
                   <textarea
                     className="md:col-span-2 xl:col-span-2 rounded-md border border-stone-200 bg-stone-50/80 px-4 py-3 font-mono text-xs text-stone-900 outline-none transition focus:border-stone-400 focus:bg-white"
-                    placeholder="Options JSON"
+                    placeholder="Opciones en JSON"
                     rows={5}
                     {...form.register(`inputs.${index}.optionsJsonText`)}
                   />
                   <textarea
                     className="md:col-span-2 xl:col-span-4 rounded-md border border-stone-200 bg-stone-50/80 px-4 py-3 font-mono text-xs text-stone-900 outline-none transition focus:border-stone-400 focus:bg-white"
-                    placeholder="Validation JSON"
+                    placeholder="Validación en JSON"
                     rows={5}
                     {...form.register(`inputs.${index}.validationJsonText`)}
                   />
@@ -408,7 +408,7 @@ export function ProductTemplateRulesEditor({
                 Reglas de materiales
               </p>
               <h2 className="mt-2 text-2xl font-semibold tracking-tight text-stone-950">
-                Core bill-of-material rules
+                Reglas principales de materiales
               </h2>
             </div>
             <button
@@ -430,7 +430,7 @@ export function ProductTemplateRulesEditor({
             {materialRulesFieldArray.fields.map((field, index) => (
               <div key={field.id} className="rounded-lg border border-stone-200 bg-white p-5">
                 <div className="mb-4 flex items-center justify-between">
-                  <p className="text-sm font-semibold text-stone-900">Material rule {index + 1}</p>
+                  <p className="text-sm font-semibold text-stone-900">Regla de material {index + 1}</p>
                   <button
                     className={secondaryButtonClassName}
                     onClick={() => {
@@ -439,11 +439,11 @@ export function ProductTemplateRulesEditor({
                     type="button"
                   >
                     <Trash2 className="mr-2 h-4 w-4" />
-                    Remove
+                    Quitar
                   </button>
                 </div>
                 <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-                  <input className={fieldClassName} placeholder="Label" {...form.register(`materialRules.${index}.label`)} />
+                  <input className={fieldClassName} placeholder="Nombre de la regla" {...form.register(`materialRules.${index}.label`)} />
                   <select className={fieldClassName} {...form.register(`materialRules.${index}.ruleType`)}>
                     {PRODUCT_TEMPLATE_MATERIAL_RULE_TYPE_OPTIONS.map((option) => (
                       <option key={option.value} value={option.value}>
@@ -461,17 +461,17 @@ export function ProductTemplateRulesEditor({
                   </select>
                   <input
                     className={fieldClassName}
-                    placeholder="Waste %"
+                    placeholder="Desperdicio %"
                     type="number"
                     {...form.register(`materialRules.${index}.wastePercent`)}
                   />
                   <label className="flex items-center gap-2 text-sm text-stone-700">
                     <input type="checkbox" {...form.register(`materialRules.${index}.allowRemnantUse`)} />
-                    Allow remnants
+                    Permitir retazos
                   </label>
                   <label className="flex items-center gap-2 text-sm text-stone-700">
                     <input type="checkbox" {...form.register(`materialRules.${index}.allowRotation`)} />
-                    Allow rotation
+                    Permitir rotación
                   </label>
                   <label className="flex items-center gap-2 text-sm text-stone-700">
                     <input type="checkbox" {...form.register(`materialRules.${index}.isActive`)} />
@@ -485,7 +485,7 @@ export function ProductTemplateRulesEditor({
                   />
                   <textarea
                     className="md:col-span-2 xl:col-span-4 rounded-md border border-stone-200 bg-stone-50/80 px-4 py-3 font-mono text-xs text-stone-900 outline-none transition focus:border-stone-400 focus:bg-white"
-                    placeholder="Formula JSON"
+                    placeholder="Fórmula en JSON"
                     rows={10}
                     {...form.register(`materialRules.${index}.formulaJsonText`)}
                   />
@@ -524,7 +524,7 @@ export function ProductTemplateRulesEditor({
             {accessoryRulesFieldArray.fields.map((field, index) => (
               <div key={field.id} className="rounded-lg border border-stone-200 bg-white p-5">
                 <div className="mb-4 flex items-center justify-between">
-                  <p className="text-sm font-semibold text-stone-900">Accessory rule {index + 1}</p>
+                  <p className="text-sm font-semibold text-stone-900">Regla de accesorio {index + 1}</p>
                   <button
                     className={secondaryButtonClassName}
                     onClick={() => {
@@ -533,11 +533,11 @@ export function ProductTemplateRulesEditor({
                     type="button"
                   >
                     <Trash2 className="mr-2 h-4 w-4" />
-                    Remove
+                    Quitar
                   </button>
                 </div>
                 <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-                  <input className={fieldClassName} placeholder="Label" {...form.register(`accessoryRules.${index}.label`)} />
+                  <input className={fieldClassName} placeholder="Nombre del accesorio" {...form.register(`accessoryRules.${index}.label`)} />
                   <select className={fieldClassName} {...form.register(`accessoryRules.${index}.materialId`)}>
                     <option value="">Seleccione un material</option>
                     {materials.map((material) => (
@@ -579,7 +579,7 @@ export function ProductTemplateRulesEditor({
                 Reglas de mano de obra
               </p>
               <h2 className="mt-2 text-2xl font-semibold tracking-tight text-stone-950">
-                Fabrication and installation
+                Fabricación e instalación
               </h2>
             </div>
             <button
@@ -610,11 +610,11 @@ export function ProductTemplateRulesEditor({
                     type="button"
                   >
                     <Trash2 className="mr-2 h-4 w-4" />
-                    Remove
+                    Quitar
                   </button>
                 </div>
                 <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-                  <input className={fieldClassName} placeholder="Label" {...form.register(`laborRules.${index}.label`)} />
+                  <input className={fieldClassName} placeholder="Nombre de la actividad" {...form.register(`laborRules.${index}.label`)} />
                   <select className={fieldClassName} {...form.register(`laborRules.${index}.laborType`)}>
                     {PRODUCT_TEMPLATE_LABOR_TYPE_OPTIONS.map((option) => (
                       <option key={option.value} value={option.value}>
@@ -640,7 +640,7 @@ export function ProductTemplateRulesEditor({
                   />
                   <textarea
                     className="md:col-span-2 xl:col-span-3 rounded-md border border-stone-200 bg-stone-50/80 px-4 py-3 font-mono text-xs text-stone-900 outline-none transition focus:border-stone-400 focus:bg-white"
-                    placeholder="Formula JSON"
+                    placeholder="Fórmula en JSON"
                     rows={8}
                     {...form.register(`laborRules.${index}.formulaJsonText`)}
                   />

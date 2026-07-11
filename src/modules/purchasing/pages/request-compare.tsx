@@ -100,7 +100,7 @@ export default function PurchasingRequestComparePage({
               className={secondaryButtonClassName}
               href={PURCHASING_ROUTES.requestDetail(request.id)}
             >
-              Back to Request
+              Volver a Pedidos
             </Link>
             <Link className={secondaryButtonClassName} href={PURCHASING_ROUTES.comparisons}>
               Comparison History

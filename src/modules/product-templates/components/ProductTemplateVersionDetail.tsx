@@ -145,8 +145,8 @@ export function ProductTemplateVersionDetail({
                 V{version.versionNumber} · {version.name}
               </h1>
               <p className="mt-2 text-sm text-stone-600">
-                {PRODUCT_TEMPLATE_STATUS_LABELS[version.template.status]} template ·{" "}
-                {PRODUCT_TEMPLATE_VERSION_STATUS_LABELS[version.status]} version
+                {PRODUCT_TEMPLATE_STATUS_LABELS[version.template.status]} ·{" "}
+                {PRODUCT_TEMPLATE_VERSION_STATUS_LABELS[version.status]} · versión
               </p>
             </div>
           </div>
@@ -218,13 +218,13 @@ export function ProductTemplateVersionDetail({
             <p className="mt-3 text-lg font-semibold text-stone-950">{version.inputs.length}</p>
           </div>
           <div className="rounded-lg border border-stone-200 bg-white px-5 py-4">
-            <p className="text-xs uppercase tracking-[0.22em] text-stone-500">Material rules</p>
+            <p className="text-xs uppercase tracking-[0.22em] text-stone-500">Reglas de materiales</p>
             <p className="mt-3 text-lg font-semibold text-stone-950">
               {version.materialRules.length}
             </p>
           </div>
           <div className="rounded-lg border border-stone-200 bg-white px-5 py-4">
-            <p className="text-xs uppercase tracking-[0.22em] text-stone-500">Activated</p>
+            <p className="text-xs uppercase tracking-[0.22em] text-stone-500">Activada</p>
             <p className="mt-3 text-lg font-semibold text-stone-950">
               {formatDateTime(version.activatedAt)}
             </p>
@@ -235,10 +235,10 @@ export function ProductTemplateVersionDetail({
       <section className={sectionClassName}>
         <div className="mb-6 space-y-1">
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-            Validation
+            Validación
           </p>
           <h2 className="text-2xl font-semibold tracking-tight text-stone-950">
-            Readiness check
+            Revisión de preparación
           </h2>
         </div>
 
@@ -254,7 +254,7 @@ export function ProductTemplateVersionDetail({
             </p>
           </div>
           <div className="rounded-lg border border-stone-200 bg-white px-5 py-4">
-            <p className="text-sm font-semibold text-stone-900">Warnings</p>
+            <p className="text-sm font-semibold text-stone-900">Advertencias</p>
             {version.validation.warnings.length > 0 ? (
               <ul className="mt-3 space-y-2 text-sm text-stone-700">
                 {version.validation.warnings.map((warning) => (
@@ -262,14 +262,14 @@ export function ProductTemplateVersionDetail({
                 ))}
               </ul>
             ) : (
-              <p className="mt-3 text-sm text-stone-600">No warnings right now.</p>
+              <p className="mt-3 text-sm text-stone-600">No hay advertencias por ahora.</p>
             )}
           </div>
         </div>
 
         {version.validation.errors.length > 0 ? (
           <div className="mt-4 rounded-lg border border-rose-200 bg-rose-50 px-5 py-4">
-            <p className="text-sm font-semibold text-rose-900">Validation errors</p>
+            <p className="text-sm font-semibold text-rose-900">Errores de validación</p>
             <ul className="mt-3 space-y-2 text-sm text-rose-800">
               {version.validation.errors.map((error) => (
                 <li key={error}>• {error}</li>
@@ -286,7 +286,7 @@ export function ProductTemplateVersionDetail({
               Configuración de versión
             </p>
             <h2 className="text-2xl font-semibold tracking-tight text-stone-950">
-              General information
+              Información general
             </h2>
           </div>
 
@@ -390,7 +390,7 @@ export function ProductTemplateVersionDetail({
                     {input.label} · {PRODUCT_TEMPLATE_INPUT_TYPE_LABELS[input.inputType]}
                   </p>
                   <p className="mt-1 text-sm text-stone-600">
-                    Key: {input.key}
+                    Clave: {input.key}
                     {input.unit ? ` · ${input.unit}` : ""}
                     {input.isRequired ? " · Obligatorio" : " · Opcional"}
                   </p>
@@ -412,7 +412,7 @@ export function ProductTemplateVersionDetail({
               ))}
               {version.accessoryRules.map((rule) => (
                 <div key={rule.id} className="rounded-md border border-stone-200 px-4 py-3">
-                  <p className="font-medium text-stone-950">Accessory · {rule.label}</p>
+                  <p className="font-medium text-stone-950">Accesorio · {rule.label}</p>
                   <p className="mt-1 text-sm text-stone-600">{rule.material.name}</p>
                 </div>
               ))}
