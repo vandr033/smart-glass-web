@@ -85,7 +85,7 @@ export function SystemSettingsManager() {
           </button>
         }
         description={settingsQuery.error.message}
-        title="System settings could not be loaded"
+        title="No se pudo cargar la configuración del sistema"
       />
     );
   }
@@ -179,7 +179,7 @@ export function SystemSettingsManager() {
       {editingState ? (
         <div className="fixed inset-0 z-50">
           <button
-            aria-label="Close setting editor"
+            aria-label="Cerrar editor de configuración"
             className="absolute inset-0 bg-[rgba(24,18,12,0.45)]"
             onClick={() => {
               setEditingState(null);

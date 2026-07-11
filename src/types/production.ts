@@ -8,7 +8,7 @@ export type ProductionJobStatus =
   | "COMPLETED"
   | "CANCELLED";
 
-export type ProductionJobPriority = "LOW" | "NORMAL" | "HIGH" | "URGENT";
+export type ProductionJobPriority = "LOW" | "NORMAL" | "HIGH" | "URGENT" | "CRITICAL";
 export type ProductionJobItemStatus =
   | "PENDING"
   | "IN_PROGRESS"
@@ -25,6 +25,7 @@ export type ProductionTaskType =
 export type ProductionTaskStatus =
   | "PENDING"
   | "IN_PROGRESS"
+  | "PAUSED"
   | "COMPLETED"
   | "BLOCKED"
   | "CANCELLED";
@@ -43,6 +44,35 @@ export type QualityCheckStatus =
   | "PASSED"
   | "FAILED"
   | "REWORK_REQUIRED";
+
+export type ProductionWorkflowStatus =
+  | "DRAFT"
+  | "PENDING_PLANNING"
+  | "SCHEDULED"
+  | "MATERIALS_PREPARATION"
+  | "READY_TO_START"
+  | "IN_PROGRESS"
+  | "PAUSED"
+  | "BLOCKED"
+  | "PENDING_QUALITY"
+  | "COMPLETED"
+  | "CANCELLED";
+export type ProductionWorkCenterType =
+  | "GLASS_CUTTING"
+  | "POLISHING"
+  | "DRILLING"
+  | "SANDBLASTING"
+  | "LAMINATION"
+  | "EXTERNAL_TEMPERING"
+  | "ALUMINUM_CUTTING"
+  | "PROFILE_MACHINING"
+  | "ASSEMBLY"
+  | "SEALING"
+  | "QUALITY_CONTROL"
+  | "PACKING"
+  | "DISPATCH_PREPARATION"
+  | "OTHER";
+export type ProductionWorkCenterStatus = "AVAILABLE" | "OCCUPIED" | "SATURATED" | "MAINTENANCE" | "INACTIVE";
 
 export type ProductionUserSummary = {
   email: string;
@@ -225,6 +255,90 @@ export type ProductionJobListItem = {
   taskCount: number;
   updatedAt: string;
   wasteReport: ProductionWasteReportRecord | null;
+};
+
+export type ProductionBoardJob = {
+  id: string;
+  code: string;
+  workflowStatus: ProductionWorkflowStatus;
+  priority: ProductionJobPriority;
+  project: { id: string; code: string; title: string; clientName: string } | null;
+  product: string | null;
+  quantity: number;
+  assignedToUser: ProductionUserSummary;
+  currentWorkCenter: { id: string; code: string; name: string; type: ProductionWorkCenterType } | null;
+  plannedStartDate: string | null;
+  plannedEndDate: string | null;
+  estimatedMinutes: number;
+  consumedMinutes: number;
+  progressPercent: number;
+  materialStatus: "WITHOUT_RESERVATION" | "PARTIAL" | "RESERVED" | "READY" | "SHORTAGE";
+  qualityStatus: "NOT_REQUIRED" | "PENDING" | "IN_REVIEW" | "APPROVED" | "REJECTED";
+  openBlockCount: number;
+  overdue: boolean;
+  version: number;
+  tasks: Array<{
+    id: string;
+    title: string;
+    status: ProductionTaskStatus;
+    taskType: ProductionTaskType;
+    estimatedMinutes: number;
+    scheduledStart: string | null;
+    scheduledEnd: string | null;
+    assignedToUser: ProductionUserSummary;
+    workCenter: { id: string; code: string; name: string; type: ProductionWorkCenterType } | null;
+  }>;
+};
+
+export type ProductionBoardResponse = {
+  generatedAt: string;
+  filters: { dateFrom: string | null; dateTo: string | null; search: string; priority: ProductionJobPriority | null };
+  metrics: {
+    pendingOrders: number;
+    inProgressOrders: number;
+    overdueOrders: number;
+    blockedOrders: number;
+    pendingQualityTasks: number;
+    capacityUtilizationPercent: number;
+    estimatedWasteAreaM2: number;
+    actualWasteAreaM2: number;
+  };
+  columns: Array<{ key: ProductionWorkflowStatus; label: string; jobs: ProductionBoardJob[] }>;
+};
+
+export type ProductionWorkCenterRecord = {
+  id: string;
+  code: string;
+  name: string;
+  description: string | null;
+  type: ProductionWorkCenterType;
+  status: ProductionWorkCenterStatus;
+  active: boolean;
+  capacityDailyMinutes: number;
+  scheduleStart: string | null;
+  scheduleEnd: string | null;
+  workstationCount: number;
+  utilizationPercent: number;
+  scheduledMinutes: number;
+  availableMinutes: number;
+};
+
+export type ProductionBlockRecord = {
+  id: string;
+  productionJobId: string | null;
+  productionTaskId: string | null;
+  type: string;
+  severity: "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
+  status: "OPEN" | "UNDER_REVIEW" | "IN_PROGRESS" | "RESOLVED" | "DISMISSED";
+  description: string;
+  resolution: string | null;
+  estimatedImpactMinutes: number | null;
+  createdAt: string;
+  resolvedAt: string | null;
+  job: { id: string; code: string } | null;
+  task: { id: string; title: string } | null;
+  createdBy: ProductionUserSummary;
+  assignedTo: ProductionUserSummary;
 };
 
 export type ProductionJobDetailRecord = ProductionJobListItem & {

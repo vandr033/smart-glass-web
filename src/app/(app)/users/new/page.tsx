@@ -8,9 +8,9 @@ export default async function NewUserPage() {
   return (
     <main className="space-y-6">
       <PageHeader
-        description="Create a new user with validated credentials, role assignments, and active status from the shared module workflow."
-        eyebrow="Create User"
-        title="New User"
+        description="Cree un usuario con credenciales validadas, roles asignados y estado activo desde el flujo administrativo."
+        eyebrow="Crear usuario"
+        title="Nuevo usuario"
       />
 
       <UserForm mode="create" />

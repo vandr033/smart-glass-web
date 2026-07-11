@@ -131,7 +131,7 @@ export function NotificationCenter({
     <div className="space-y-6">
       <section className="grid gap-4 md:grid-cols-3">
         <StatCard
-          description="New notifications stay highlighted across the bell, dropdown, and inbox page."
+          description="Las notificaciones nuevas se mantienen destacadas en la campana, el menú y la bandeja."
           icon={Bell}
           label="Unread"
           tone="accent"
@@ -239,7 +239,7 @@ export function NotificationCenter({
           ) : notifications.length === 0 ? (
             <div className="mt-6">
               <EmptyState
-                description="New notification events will appear here automatically. You can also clear filters or create a notification manually."
+                description="Los nuevos avisos aparecerán aquí automáticamente. También puede quitar filtros o crear un aviso manualmente."
                 icon={Inbox}
                 title="No notifications match this view"
               />

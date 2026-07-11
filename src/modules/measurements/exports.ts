@@ -15,7 +15,6 @@ import {
   TECHNICAL_OBSERVATION_TYPE_LABELS,
 } from "./constants";
 import {
-  formatMeasurementDate,
   formatMeasurementDateTime,
   formatMeasurementWindow,
 } from "./ui";

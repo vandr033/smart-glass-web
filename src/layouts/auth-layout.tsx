@@ -11,14 +11,14 @@ export function AuthLayout({ children }: AuthLayoutProps) {
         <section className="flex flex-col justify-between rounded-lg border border-stone-900/10 bg-[var(--color-primary)] px-8 py-10 text-stone-50 shadow-[0_30px_90px_rgba(15,47,91,0.18)]">
           <div className="space-y-5">
             <p className="inline-flex rounded-full border border-white/15 bg-white/8 px-4 py-1 text-xs font-semibold uppercase tracking-[0.28em] text-blue-100">
-              Smart Glass Bolivia
+              Vidriera Sebitas ERP
             </p>
             <h1 className="max-w-md text-4xl font-semibold tracking-tight sm:text-5xl">
               Soluciones en vidrio inteligente para Bolivia.
             </h1>
             <p className="max-w-lg text-base leading-7 text-stone-300">
-              Gestion integral de operaciones comerciales, produccion, compras e
-              inventario para Smart Glass Bolivia.
+              Gestión integral de operaciones comerciales, producción, compras e
+              inventario para Vidriera Sebitas.
             </p>
           </div>
 
@@ -27,7 +27,7 @@ export function AuthLayout({ children }: AuthLayoutProps) {
               Control de proyectos, cotizaciones y clientes en una sola plataforma.
             </div>
             <div className="rounded-lg border border-white/10 bg-white/6 p-4">
-              Seguimiento de inventario, compras y produccion en tiempo real.
+              Seguimiento de inventario, compras y producción en tiempo real.
             </div>
           </div>
         </section>

@@ -32,7 +32,9 @@ export default function ProductionJobWastePage({
 }: ProductionJobWastePageProps) {
   const queryClient = useQueryClient();
   const { permissions } = usePermissions();
-  const canReportWaste = permissions.includes(PRODUCTION_PERMISSIONS.reportWaste);
+  const canReportWaste = permissions.includes(
+    PRODUCTION_PERMISSIONS.reportWaste,
+  );
 
   const jobQuery = useQuery({
     queryFn: () => productionService.getJobById(jobId),
@@ -63,7 +65,7 @@ export default function ProductionJobWastePage({
   });
 
   if (jobQuery.isPending || wasteQuery.isPending) {
-    return <LoadingState title="Loading waste analysis" />;
+    return <LoadingState title="Cargando análisis de desperdicios" />;
   }
 
   if (jobQuery.isError || wasteQuery.isError) {
@@ -93,27 +95,37 @@ export default function ProductionJobWastePage({
       <PageHeader
         actions={
           <>
-            <Link className={secondaryButtonClassName} href={PRODUCTION_ROUTES.jobDetail(job.id)}>
-              Job Overview
+            <Link
+              className={secondaryButtonClassName}
+              href={PRODUCTION_ROUTES.jobDetail(job.id)}
+            >
+              Resumen de la orden
             </Link>
-            <Link className={secondaryButtonClassName} href={PRODUCTION_ROUTES.jobTasks(job.id)}>
-              Tasks
+            <Link
+              className={secondaryButtonClassName}
+              href={PRODUCTION_ROUTES.jobTasks(job.id)}
+            >
+              Tareas
             </Link>
             <Link
               className={secondaryButtonClassName}
               href={PRODUCTION_ROUTES.jobQuality(job.id)}
             >
-              Quality
+              Calidad
             </Link>
             <button
               className={primaryButtonClassName}
-              disabled={calculateMutation.isPending || !canReportWaste || !job.cuttingPlan}
+              disabled={
+                calculateMutation.isPending ||
+                !canReportWaste ||
+                !job.cuttingPlan
+              }
               onClick={() => {
                 void calculateMutation.mutateAsync();
               }}
               type="button"
             >
-              Recalculate Waste
+              Recalcular desperdicio
             </button>
           </>
         }
@@ -131,7 +143,7 @@ export default function ProductionJobWastePage({
       {!job.cuttingPlan ? (
         <EmptyState
           description="This job is not linked to a cutting plan, so theoretical waste cannot be compared against an optimization source."
-          title="No cutting plan linked"
+          title="No hay un plan de corte vinculado"
         />
       ) : null}
 
@@ -139,8 +151,8 @@ export default function ProductionJobWastePage({
         <>
           <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             <div className="rounded-lg border border-stone-200 bg-white px-5 py-5 shadow-[0_20px_50px_rgba(15,47,91,0.08)]">
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-                Theoretical Waste
+              <p className="text-xs font-semibold tracking-[0.18em] text-stone-500 uppercase">
+                Desperdicio teórico
               </p>
               <p className="mt-3 text-2xl font-semibold text-stone-950">
                 {formatProductionArea(report.theoreticalWasteAreaM2)}
@@ -150,8 +162,8 @@ export default function ProductionJobWastePage({
               </p>
             </div>
             <div className="rounded-lg border border-stone-200 bg-white px-5 py-5 shadow-[0_20px_50px_rgba(15,47,91,0.08)]">
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-                Actual Waste
+              <p className="text-xs font-semibold tracking-[0.18em] text-stone-500 uppercase">
+                Desperdicio real
               </p>
               <p className="mt-3 text-2xl font-semibold text-stone-950">
                 {formatProductionArea(report.actualWasteAreaM2)}
@@ -161,7 +173,7 @@ export default function ProductionJobWastePage({
               </p>
             </div>
             <div className="rounded-lg border border-stone-200 bg-white px-5 py-5 shadow-[0_20px_50px_rgba(15,47,91,0.08)]">
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+              <p className="text-xs font-semibold tracking-[0.18em] text-stone-500 uppercase">
                 Variance Area
               </p>
               <p className="mt-3 text-2xl font-semibold text-stone-950">
@@ -169,7 +181,7 @@ export default function ProductionJobWastePage({
               </p>
             </div>
             <div className="rounded-lg border border-stone-200 bg-white px-5 py-5 shadow-[0_20px_50px_rgba(15,47,91,0.08)]">
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+              <p className="text-xs font-semibold tracking-[0.18em] text-stone-500 uppercase">
                 Variance Percent
               </p>
               <p className="mt-3 text-2xl font-semibold text-stone-950">
@@ -181,70 +193,76 @@ export default function ProductionJobWastePage({
           <section className="rounded-lg border border-stone-200 bg-white px-5 py-5 shadow-[0_20px_50px_rgba(15,47,91,0.08)]">
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-                  Waste Report
+                <p className="text-xs font-semibold tracking-[0.18em] text-stone-500 uppercase">
+                  Reporte de desperdicio
                 </p>
                 <h2 className="mt-2 text-xl font-semibold text-stone-950">
-                  Current comparison snapshot
+                  Comparación actual
                 </h2>
               </div>
               <p className="text-sm text-stone-600">
-                Updated {formatDateValue(report.updatedAt)}
+                Actualizado el {formatDateValue(report.updatedAt)}
               </p>
             </div>
 
             <div className="mt-5 grid gap-4 xl:grid-cols-2">
               <div className="rounded-[1.15rem] border border-stone-200 bg-stone-50 px-4 py-4">
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-stone-500">
-                  Source Cutting Plan
+                <p className="text-xs font-semibold tracking-[0.16em] text-stone-500 uppercase">
+                  Plan de corte origen
                 </p>
                 <p className="mt-2 text-lg font-semibold text-stone-950">
                   {report.cuttingPlan?.code ?? "Unavailable"}
                 </p>
                 <p className="mt-1 text-sm text-stone-600">
                   {report.cuttingPlan?.sheetCount ?? 0} sheet(s) ·{" "}
-                  {formatProductionPercent(report.cuttingPlan?.wastePercent ?? 0)}
+                  {formatProductionPercent(
+                    report.cuttingPlan?.wastePercent ?? 0,
+                  )}
                 </p>
               </div>
 
               <div className="rounded-[1.15rem] border border-stone-200 bg-stone-50 px-4 py-4">
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-stone-500">
-                  Actual Data Status
+                <p className="text-xs font-semibold tracking-[0.16em] text-stone-500 uppercase">
+                  Estado del dato real
                 </p>
                 <p className="mt-2 text-lg font-semibold text-stone-950">
-                  {report.hasActualWasteData ? "Actual waste recorded" : "Estimate only"}
+                  {report.hasActualWasteData
+                    ? "Desperdicio real registrado"
+                    : "Solo estimación"}
                 </p>
                 <p className="mt-1 text-sm text-stone-600">
-                  Record actual waste area from the task execution page when floor measurements are
-                  available.
+                  Record actual waste area from the task execution page when
+                  floor measurements are available.
                 </p>
               </div>
             </div>
 
             {report.notes ? (
               <div className="mt-5 rounded-[1rem] border border-stone-200 bg-stone-50 px-4 py-4">
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-                  Notes
+                <p className="text-xs font-semibold tracking-[0.18em] text-stone-500 uppercase">
+                  Notas
                 </p>
-                <p className="mt-2 text-sm leading-6 text-stone-700">{report.notes}</p>
+                <p className="mt-2 text-sm leading-6 text-stone-700">
+                  {report.notes}
+                </p>
               </div>
             ) : null}
           </section>
         </>
       ) : (
         <EmptyState
-          description="Calculate waste to generate the initial comparison between optimization assumptions and what production has recorded so far."
-          title="No waste report yet"
+          description="Calcula el desperdicio para comparar los supuestos de optimización con lo registrado en producción."
+          title="Aún no hay reporte de desperdicio"
         />
       )}
 
       <section className="rounded-lg border border-stone-200 bg-white px-5 py-5 shadow-[0_20px_50px_rgba(15,47,91,0.08)]">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-            Waste and Scrap Entries
+          <p className="text-xs font-semibold tracking-[0.18em] text-stone-500 uppercase">
+            Desperdicios y scrap registrados
           </p>
           <h2 className="mt-2 text-xl font-semibold text-stone-950">
-            Consumption records that affect waste
+            Consumos que afectan el desperdicio
           </h2>
         </div>
 
@@ -257,7 +275,8 @@ export default function ProductionJobWastePage({
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
                   <p className="text-sm font-semibold text-stone-950">
-                    {entry.consumptionType} · {entry.material?.name ?? "Manual material"}
+                    {entry.consumptionType} ·{" "}
+                    {entry.material?.name ?? "Manual material"}
                   </p>
                   <p className="mt-1 text-xs text-stone-600">
                     {entry.quantity} {entry.unit} · {entry.sourceType} ·{" "}
@@ -270,15 +289,17 @@ export default function ProductionJobWastePage({
               </div>
 
               {entry.notes ? (
-                <p className="mt-3 text-sm leading-6 text-stone-700">{entry.notes}</p>
+                <p className="mt-3 text-sm leading-6 text-stone-700">
+                  {entry.notes}
+                </p>
               ) : null}
             </div>
           ))}
 
           {wasteEntries.length === 0 ? (
             <EmptyState
-              description="Waste and scrap entries recorded from the task execution page will appear here."
-              title="No waste or scrap entries yet"
+              description="Los registros de desperdicio y scrap aparecerán aquí desde la ejecución de tareas."
+              title="Aún no hay desperdicios ni scrap"
             />
           ) : null}
         </div>

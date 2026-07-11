@@ -106,7 +106,7 @@ export function NotificationComposer() {
               {...form.register("userId")}
               disabled={createMutation.isPending || recipientsQuery.isLoading}
             >
-              <option value="">Select a user</option>
+              <option value="">Seleccione un usuario</option>
               {recipients.map((user) => (
                 <option key={user.id} value={user.id}>
                   {user.name} ({user.email})
@@ -186,7 +186,7 @@ export function NotificationComposer() {
           type="submit"
         >
           <Send className="h-4 w-4" />
-          {createMutation.isPending ? "Sending..." : "Create notification"}
+          {createMutation.isPending ? "Enviando…" : "Crear notificación"}
         </button>
       </form>
     </section>

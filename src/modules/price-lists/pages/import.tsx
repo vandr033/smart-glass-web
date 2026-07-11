@@ -113,7 +113,7 @@ export default function ImportPriceListPage() {
           <div className="space-y-5">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-                Upload Settings
+                Configuración de carga
               </p>
               <h2 className="mt-2 text-2xl font-semibold tracking-tight text-stone-950">
                 Bring in the supplier file exactly once
@@ -135,7 +135,7 @@ export default function ImportPriceListPage() {
                   }}
                   value={supplierId}
                 >
-                  <option value="">Select a supplier</option>
+                  <option value="">Seleccione un proveedor</option>
                   {(suppliersQuery.data ?? []).map((supplier) => (
                     <option key={supplier.id} value={supplier.id}>
                       {supplier.legalName}

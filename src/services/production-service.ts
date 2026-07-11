@@ -10,6 +10,9 @@ import type {
   ProductionJobListItem,
   ProductionJobPriority,
   ProductionJobStatus,
+  ProductionBoardResponse,
+  ProductionBlockRecord,
+  ProductionWorkCenterRecord,
   ProductionTaskRecord,
   ProductionWasteReportRecord,
   QualityCheckRecord,
@@ -40,6 +43,90 @@ type PaginatedResult<T> = {
 };
 
 export const productionService = {
+  async getBoard(params: { dateFrom?: string; dateTo?: string; priority?: ProductionJobPriority; search?: string } = {}): Promise<ProductionBoardResponse> {
+    const queryString = toQueryString(params);
+    const response = await apiClient.get<ApiSuccessResponse<ProductionBoardResponse>>(
+      queryString ? `/production/tablero?${queryString}` : "/production/tablero",
+    );
+    return response.data.data;
+  },
+
+  async listWorkCenters(): Promise<ProductionWorkCenterRecord[]> {
+    const response = await apiClient.get<ApiSuccessResponse<ProductionWorkCenterRecord[]>>(
+      "/production/centros-trabajo",
+    );
+    return response.data.data;
+  },
+
+  async getCalendar(params: { dateFrom?: string; dateTo?: string; priority?: ProductionJobPriority; search?: string } = {}) {
+    const queryString = toQueryString(params);
+    const response = await apiClient.get<ApiSuccessResponse<Array<Record<string, unknown>>>>(
+      queryString ? `/production/calendario?${queryString}` : "/production/calendario",
+    );
+    return response.data.data;
+  },
+
+  async listBlocks(status?: string): Promise<ProductionBlockRecord[]> {
+    const query = status ? `?status=${encodeURIComponent(status)}` : "";
+    const response = await apiClient.get<ApiSuccessResponse<ProductionBlockRecord[]>>(
+      `/production/bloqueos${query}`,
+    );
+    return response.data.data;
+  },
+
+  async transitionJob(jobId: string, toStatus: string, expectedVersion?: number, reason?: string | null) {
+    const response = await apiClient.post<ApiSuccessResponse<ProductionBoardResponse["columns"][number]["jobs"][number]>>(
+      `/production/ordenes/${jobId}/transicion`,
+      { toStatus, expectedVersion, reason },
+    );
+    return response.data.data;
+  },
+
+  async scheduleJob(jobId: string, input: { plannedStartDate: string | null; plannedEndDate: string | null; currentWorkCenterId?: string | null; expectedVersion?: number; reason?: string | null }) {
+    const response = await apiClient.post<ApiSuccessResponse<ProductionBoardResponse["columns"][number]["jobs"][number]>>(
+      `/production/ordenes/${jobId}/programar`,
+      input,
+    );
+    return response.data.data;
+  },
+
+  async assignTask(taskId: string, input: { assignedToUserId: string | null; currentWorkCenterId: string | null; expectedVersion?: number }) {
+    const response = await apiClient.post<ApiSuccessResponse<ProductionTaskRecord>>(
+      `/production/tareas/${taskId}/asignar`,
+      input,
+    );
+    return response.data.data;
+  },
+
+  async transitionTask(taskId: string, action: "iniciar" | "pausar" | "reanudar" | "bloquear" | "desbloquear" | "enviar-control" | "completar", toStatus: string, reason?: string | null) {
+    const response = await apiClient.post<ApiSuccessResponse<ProductionTaskRecord>>(
+      `/production/tareas/${taskId}/${action}`,
+      { toStatus, reason },
+    );
+    return response.data.data;
+  },
+
+  async createBlock(input: { productionJobId?: string | null; productionTaskId?: string | null; type: string; severity: string; description: string; estimatedImpactMinutes?: number | null }) {
+    const response = await apiClient.post<ApiSuccessResponse<ProductionBlockRecord>>(
+      "/production/bloqueos",
+      input,
+    );
+    return response.data.data;
+  },
+
+  async resolveBlock(blockId: string, resolution: string) {
+    const response = await apiClient.post<ApiSuccessResponse<ProductionBlockRecord>>(
+      `/production/bloqueos/${blockId}/resolver`,
+      { resolution },
+    );
+    return response.data.data;
+  },
+
+  async exportBoard(): Promise<Blob> {
+    const response = await apiClient.get<Blob>("/production/exportar", { responseType: "blob" });
+    return response.data;
+  },
+
   async listJobs(params: {
     assignedToUserId?: string;
     dateFrom?: string;

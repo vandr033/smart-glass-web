@@ -263,9 +263,3 @@ export type ChangeQuotationStatusInput = {
   notes?: string | null;
   toStatus: QuotationStatus;
 };
-
-export type QuotationPdfExportTodo = {
-  message: string;
-  quotationId: string;
-  route: string;
-};

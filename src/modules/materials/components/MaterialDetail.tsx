@@ -80,7 +80,7 @@ export function MaterialDetail({ materialId }: MaterialDetailProps) {
   if (materialQuery.isLoading || !materialQuery.data) {
     return (
       <section className={sectionClassName}>
-        <p className="text-sm text-stone-500">Loading material details...</p>
+        <p className="text-sm text-stone-500">Cargando detalle del material…</p>
       </section>
     );
   }

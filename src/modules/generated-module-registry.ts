@@ -4,6 +4,10 @@ export const generatedPermissionResources = [
     label: "Instalaciones",
   },
   {
+    key: "postventa",
+    label: "Postventa",
+  },
+  {
     key: "products",
     label: "Productos",
   },
@@ -19,6 +23,12 @@ export const generatedSidebarItems = [
     label: "Instalaciones",
     permission: "installations.view",
     route: "/admin/installation",
+  },
+  {
+    icon: "ShieldCheck",
+    label: "Postventa",
+    permission: "postventa.ver",
+    route: "/admin/postventa",
   },
   {
     icon: "Package",

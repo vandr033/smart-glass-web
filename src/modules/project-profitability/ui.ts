@@ -101,6 +101,27 @@ export const getCostoCategoriaBadge = (categoria: CostoProyectoCategoria) => {
     };
   }
 
+  if (categoria === "GARANTIAS") {
+    return {
+      className: "bg-emerald-100 text-emerald-800",
+      label,
+    };
+  }
+
+  if (categoria === "RECLAMOS") {
+    return {
+      className: "bg-rose-100 text-rose-800",
+      label,
+    };
+  }
+
+  if (categoria === "REPOSICIONES") {
+    return {
+      className: "bg-amber-100 text-amber-800",
+      label,
+    };
+  }
+
   return {
     className: "bg-stone-100 text-stone-800",
     label,

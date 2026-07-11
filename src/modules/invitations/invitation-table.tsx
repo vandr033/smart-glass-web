@@ -35,7 +35,7 @@ const invitationColumns: ColumnDef<InvitationTableRow>[] = [
         </p>
       </div>
     ),
-    header: "Email",
+    header: "Correo electrónico",
   },
   {
     accessorKey: "role.name",
@@ -48,7 +48,7 @@ const invitationColumns: ColumnDef<InvitationTableRow>[] = [
       </div>
     ),
     enableSorting: false,
-    header: "Role",
+    header: "Rol",
   },
   {
     accessorKey: "createdBy.name",
@@ -73,7 +73,7 @@ const invitationColumns: ColumnDef<InvitationTableRow>[] = [
       </span>
     ),
     enableSorting: false,
-    header: "Status",
+    header: "Estado",
   },
   {
     accessorKey: "expiresAt",
@@ -105,12 +105,12 @@ export function InvitationTable() {
     csv: {
       columns: [
         {
-          header: "Email",
+          header: "Correo electrónico",
           key: "email",
           value: (row) => row.email,
         },
         {
-          header: "Role",
+          header: "Rol",
           key: "role",
           value: (row) => row.role.name,
         },
@@ -120,7 +120,7 @@ export function InvitationTable() {
           value: (row) => row.createdBy.name,
         },
         {
-          header: "Status",
+          header: "Estado",
           key: "status",
           value: (row) => row.status,
         },
@@ -144,13 +144,13 @@ export function InvitationTable() {
     emptyState: {
       description:
         "Try broadening the search, clearing the status filter, or creating a new invitation.",
-      title: "No invitations matched the current table view",
+      title: "No hay invitaciones para la vista actual",
     },
     enableSelection: false,
     filters: [
       {
         id: "status",
-        label: "Status",
+        label: "Estado",
         options: [
           {
             label: "Pending",

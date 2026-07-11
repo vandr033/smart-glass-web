@@ -7,7 +7,6 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   AlertTriangle,
   Camera,
-  CheckCircle2,
   ClipboardCheck,
   FileSpreadsheet,
   FileText,
@@ -48,7 +47,6 @@ import { measurementService } from "@/services/measurement-service";
 import { userService } from "@/services/user-service";
 import type {
   MeasurementEvidenceInput,
-  MeasurementEvidenceRecord,
   MeasurementOpeningInput,
   MeasurementOpeningRecord,
   MeasurementVisitRecord,
@@ -61,7 +59,6 @@ import {
   MEASUREMENT_ELEMENT_OPTIONS,
   MEASUREMENT_EVIDENCE_TYPE_OPTIONS,
   MEASUREMENT_OPENING_STATUS_LABELS,
-  MEASUREMENT_PRIORITY_LABELS,
   MEASUREMENT_STATUS_LABELS,
   MEASUREMENT_VISIT_RESULT_LABELS,
   MEASUREMENTS_LABELS,
@@ -69,7 +66,6 @@ import {
   MEASUREMENTS_QUERY_KEYS,
   MEASUREMENTS_ROUTES,
   TECHNICAL_OBSERVATION_SEVERITY_OPTIONS,
-  TECHNICAL_OBSERVATION_STATUS_LABELS,
   TECHNICAL_OBSERVATION_STATUS_OPTIONS,
   TECHNICAL_OBSERVATION_TYPE_LABELS,
   TECHNICAL_OBSERVATION_TYPE_OPTIONS,
@@ -1680,6 +1676,8 @@ export default function MeasurementsDetailPage({
                       {item.description || "Sin descripcion"}
                     </p>
                     {item.mimeType?.startsWith("image/") ? (
+                      // Evidence files are user-provided URLs and are intentionally rendered as-is.
+                      // eslint-disable-next-line @next/next/no-img-element
                       <img
                         alt={item.fileName}
                         className="mt-3 h-48 w-full rounded-[1rem] border border-stone-200 object-cover"

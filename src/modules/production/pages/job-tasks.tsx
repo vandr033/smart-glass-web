@@ -50,7 +50,11 @@ const TASK_STATUS_OPTIONS: ProductionTaskStatus[] = [
   "CANCELLED",
 ];
 
-const CONSUMPTION_TYPE_OPTIONS: MaterialConsumptionType[] = ["ACTUAL", "WASTE", "SCRAP"];
+const CONSUMPTION_TYPE_OPTIONS: MaterialConsumptionType[] = [
+  "ACTUAL",
+  "WASTE",
+  "SCRAP",
+];
 const SOURCE_TYPE_OPTIONS: MaterialConsumptionSourceType[] = [
   "MANUAL",
   "INVENTORY_STOCK",
@@ -79,7 +83,9 @@ export default function ProductionJobTasksPage({
   const queryClient = useQueryClient();
   const { permissions } = usePermissions();
   const canUpdate = permissions.includes(PRODUCTION_PERMISSIONS.update);
-  const canConsume = permissions.includes(PRODUCTION_PERMISSIONS.consumeMaterial);
+  const canConsume = permissions.includes(
+    PRODUCTION_PERMISSIONS.consumeMaterial,
+  );
 
   const [replaceExistingTasks, setReplaceExistingTasks] = useState(false);
   const [selectedTaskId, setSelectedTaskId] = useState("");
@@ -95,9 +101,9 @@ export default function ProductionJobTasksPage({
       }
     >
   >({});
-  const [materialSelectionByTask, setMaterialSelectionByTask] = useState<Record<string, string>>(
-    {},
-  );
+  const [materialSelectionByTask, setMaterialSelectionByTask] = useState<
+    Record<string, string>
+  >({});
 
   const [consumptionType, setConsumptionType] =
     useState<MaterialConsumptionType>("ACTUAL");
@@ -137,7 +143,10 @@ export default function ProductionJobTasksPage({
   });
 
   const materialOptions = (() => {
-    const uniqueMaterials = new Map<string, { code: string; id: string; name: string }>();
+    const uniqueMaterials = new Map<
+      string,
+      { code: string; id: string; name: string }
+    >();
 
     for (const item of jobQuery.data?.items ?? []) {
       if (item.material) {
@@ -157,17 +166,17 @@ export default function ProductionJobTasksPage({
   const selectedTask =
     jobQuery.data?.tasks.find((task) => task.id === activeTaskId) ?? null;
   const selectedTaskItem = selectedTask?.productionJobItemId
-    ? (jobQuery.data?.items.find((item) => item.id === selectedTask.productionJobItemId) ?? null)
+    ? (jobQuery.data?.items.find(
+        (item) => item.id === selectedTask.productionJobItemId,
+      ) ?? null)
     : null;
-  const taskDraft =
-    (activeTaskId ? taskDrafts[activeTaskId] : undefined) ??
-    {
-      assignedToUserId: selectedTask?.assignedToUser?.id ?? "",
-      description: selectedTask?.description ?? "",
-      sortOrder: String(selectedTask?.sortOrder ?? 0),
-      status: selectedTask?.status ?? "PENDING",
-      title: selectedTask?.title ?? "",
-    };
+  const taskDraft = (activeTaskId ? taskDrafts[activeTaskId] : undefined) ?? {
+    assignedToUserId: selectedTask?.assignedToUser?.id ?? "",
+    description: selectedTask?.description ?? "",
+    sortOrder: String(selectedTask?.sortOrder ?? 0),
+    status: selectedTask?.status ?? "PENDING",
+    title: selectedTask?.title ?? "",
+  };
   const activeMaterialId =
     (activeTaskId ? materialSelectionByTask[activeTaskId] : undefined) ??
     selectedTaskItem?.material?.id ??
@@ -230,7 +239,8 @@ export default function ProductionJobTasksPage({
   };
 
   const generateTasksMutation = useMutation({
-    mutationFn: () => productionService.generateTasks(jobId, replaceExistingTasks),
+    mutationFn: () =>
+      productionService.generateTasks(jobId, replaceExistingTasks),
     onSuccess: refreshProductionData,
   });
   const updateTaskMutation = useMutation({
@@ -295,7 +305,7 @@ export default function ProductionJobTasksPage({
   });
 
   if (jobQuery.isPending || usersQuery.isPending || warehousesQuery.isPending) {
-    return <LoadingState title="Loading production tasks" />;
+    return <LoadingState title="Cargando tareas de producción" />;
   }
 
   if (jobQuery.isError || usersQuery.isError || warehousesQuery.isError) {
@@ -316,7 +326,8 @@ export default function ProductionJobTasksPage({
   const selectedStock =
     stocksQuery.data?.find((stock) => stock.id === inventoryStockId) ?? null;
   const selectedRemnant =
-    remnantsQuery.data?.find((remnant) => remnant.id === remnantPieceId) ?? null;
+    remnantsQuery.data?.find((remnant) => remnant.id === remnantPieceId) ??
+    null;
   const activeError =
     generateTasksMutation.error ??
     updateTaskMutation.error ??
@@ -329,17 +340,23 @@ export default function ProductionJobTasksPage({
       <PageHeader
         actions={
           <>
-            <Link className={secondaryButtonClassName} href={PRODUCTION_ROUTES.jobDetail(job.id)}>
-              Job Overview
+            <Link
+              className={secondaryButtonClassName}
+              href={PRODUCTION_ROUTES.jobDetail(job.id)}
+            >
+              Resumen de la orden
             </Link>
             <Link
               className={secondaryButtonClassName}
               href={PRODUCTION_ROUTES.jobQuality(job.id)}
             >
-              Quality
+              Calidad
             </Link>
-            <Link className={secondaryButtonClassName} href={PRODUCTION_ROUTES.jobWaste(job.id)}>
-              Waste
+            <Link
+              className={secondaryButtonClassName}
+              href={PRODUCTION_ROUTES.jobWaste(job.id)}
+            >
+              Desperdicios
             </Link>
           </>
         }
@@ -351,11 +368,11 @@ export default function ProductionJobTasksPage({
       <section className="rounded-lg border border-stone-200 bg-white px-5 py-5 shadow-[0_20px_50px_rgba(15,47,91,0.08)]">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-              Task Queue
+            <p className="text-xs font-semibold tracking-[0.18em] text-stone-500 uppercase">
+              Cola de tareas
             </p>
             <h2 className="mt-2 text-xl font-semibold text-stone-950">
-              Generate or refresh task sequencing
+              Generar o actualizar la secuencia de tareas
             </h2>
           </div>
 
@@ -368,7 +385,7 @@ export default function ProductionJobTasksPage({
                 }}
                 type="checkbox"
               />
-              Replace existing tasks
+              Reemplazar tareas existentes
             </label>
             <button
               className={primaryButtonClassName}
@@ -378,7 +395,7 @@ export default function ProductionJobTasksPage({
               }}
               type="button"
             >
-              Generate Tasks
+              Generar tareas
             </button>
           </div>
         </div>
@@ -392,14 +409,14 @@ export default function ProductionJobTasksPage({
 
       {job.tasks.length === 0 ? (
         <EmptyState
-          description="Generate the task queue first, then return here to update sequence, start work, or record material consumption."
-          title="No production tasks yet"
+          description="Genera primero la cola de tareas para actualizar la secuencia, iniciar trabajo o registrar consumos."
+          title="Aún no hay tareas de producción"
         />
       ) : (
         <>
           <section className="rounded-lg border border-stone-200 bg-white px-5 py-5 shadow-[0_20px_50px_rgba(15,47,91,0.08)]">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+              <p className="text-xs font-semibold tracking-[0.18em] text-stone-500 uppercase">
                 Selected Task
               </p>
               <h2 className="mt-2 text-xl font-semibold text-stone-950">
@@ -426,7 +443,9 @@ export default function ProductionJobTasksPage({
               </label>
 
               <label className="space-y-2 md:col-span-2">
-                <span className="text-sm font-medium text-stone-700">Title</span>
+                <span className="text-sm font-medium text-stone-700">
+                  Title
+                </span>
                 <input
                   className={fieldClassName}
                   onChange={(event) => {
@@ -443,7 +462,9 @@ export default function ProductionJobTasksPage({
               </label>
 
               <label className="space-y-2">
-                <span className="text-sm font-medium text-stone-700">Status</span>
+                <span className="text-sm font-medium text-stone-700">
+                  Status
+                </span>
                 <select
                   className={fieldClassName}
                   onChange={(event) => {
@@ -466,7 +487,9 @@ export default function ProductionJobTasksPage({
               </label>
 
               <label className="space-y-2">
-                <span className="text-sm font-medium text-stone-700">Sort order</span>
+                <span className="text-sm font-medium text-stone-700">
+                  Sort order
+                </span>
                 <input
                   className={fieldClassName}
                   min="0"
@@ -485,7 +508,9 @@ export default function ProductionJobTasksPage({
               </label>
 
               <label className="space-y-2 md:col-span-2 xl:col-span-4">
-                <span className="text-sm font-medium text-stone-700">Assigned user</span>
+                <span className="text-sm font-medium text-stone-700">
+                  Assigned user
+                </span>
                 <select
                   className={fieldClassName}
                   onChange={(event) => {
@@ -509,7 +534,9 @@ export default function ProductionJobTasksPage({
               </label>
 
               <label className="space-y-2 md:col-span-2 xl:col-span-4">
-                <span className="text-sm font-medium text-stone-700">Description</span>
+                <span className="text-sm font-medium text-stone-700">
+                  Description
+                </span>
                 <textarea
                   className={textAreaClassName}
                   onChange={(event) => {
@@ -529,7 +556,12 @@ export default function ProductionJobTasksPage({
             <div className="mt-5 flex flex-wrap gap-3">
               <button
                 className={primaryButtonClassName}
-                disabled={updateTaskMutation.isPending || !canUpdate || !taskDraft.title.trim() || !activeTaskId}
+                disabled={
+                  updateTaskMutation.isPending ||
+                  !canUpdate ||
+                  !taskDraft.title.trim() ||
+                  !activeTaskId
+                }
                 onClick={() => {
                   void updateTaskMutation.mutateAsync();
                 }}
@@ -539,7 +571,9 @@ export default function ProductionJobTasksPage({
               </button>
               <button
                 className={secondaryButtonClassName}
-                disabled={startTaskMutation.isPending || !canUpdate || !activeTaskId}
+                disabled={
+                  startTaskMutation.isPending || !canUpdate || !activeTaskId
+                }
                 onClick={() => {
                   void startTaskMutation.mutateAsync();
                 }}
@@ -549,7 +583,9 @@ export default function ProductionJobTasksPage({
               </button>
               <button
                 className={secondaryButtonClassName}
-                disabled={completeTaskMutation.isPending || !canUpdate || !activeTaskId}
+                disabled={
+                  completeTaskMutation.isPending || !canUpdate || !activeTaskId
+                }
                 onClick={() => {
                   void completeTaskMutation.mutateAsync();
                 }}
@@ -563,7 +599,7 @@ export default function ProductionJobTasksPage({
           <section className="rounded-lg border border-stone-200 bg-white px-5 py-5 shadow-[0_20px_50px_rgba(15,47,91,0.08)]">
             <div className="flex items-center justify-between gap-3">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+                <p className="text-xs font-semibold tracking-[0.18em] text-stone-500 uppercase">
                   Floor Queue
                 </p>
                 <h2 className="mt-2 text-xl font-semibold text-stone-950">
@@ -614,7 +650,7 @@ export default function ProductionJobTasksPage({
 
           <section className="rounded-lg border border-stone-200 bg-white px-5 py-5 shadow-[0_20px_50px_rgba(15,47,91,0.08)]">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+              <p className="text-xs font-semibold tracking-[0.18em] text-stone-500 uppercase">
                 Material Consumption
               </p>
               <h2 className="mt-2 text-xl font-semibold text-stone-950">
@@ -624,7 +660,9 @@ export default function ProductionJobTasksPage({
 
             <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
               <label className="space-y-2 md:col-span-2">
-                <span className="text-sm font-medium text-stone-700">Material</span>
+                <span className="text-sm font-medium text-stone-700">
+                  Material
+                </span>
                 <select
                   className={fieldClassName}
                   onChange={(event) => {
@@ -647,11 +685,15 @@ export default function ProductionJobTasksPage({
               </label>
 
               <label className="space-y-2">
-                <span className="text-sm font-medium text-stone-700">Consumption type</span>
+                <span className="text-sm font-medium text-stone-700">
+                  Consumption type
+                </span>
                 <select
                   className={fieldClassName}
                   onChange={(event) => {
-                    setConsumptionType(event.target.value as MaterialConsumptionType);
+                    setConsumptionType(
+                      event.target.value as MaterialConsumptionType,
+                    );
                   }}
                   value={consumptionType}
                 >
@@ -664,11 +706,14 @@ export default function ProductionJobTasksPage({
               </label>
 
               <label className="space-y-2">
-                <span className="text-sm font-medium text-stone-700">Source type</span>
+                <span className="text-sm font-medium text-stone-700">
+                  Source type
+                </span>
                 <select
                   className={fieldClassName}
                   onChange={(event) => {
-                    const nextSourceType = event.target.value as MaterialConsumptionSourceType;
+                    const nextSourceType = event.target
+                      .value as MaterialConsumptionSourceType;
                     setSourceType(nextSourceType);
 
                     if (nextSourceType !== "INVENTORY_STOCK") {
@@ -691,13 +736,17 @@ export default function ProductionJobTasksPage({
 
               {sourceType === "INVENTORY_STOCK" ? (
                 <label className="space-y-2 md:col-span-2 xl:col-span-4">
-                  <span className="text-sm font-medium text-stone-700">Inventory stock</span>
+                  <span className="text-sm font-medium text-stone-700">
+                    Inventory stock
+                  </span>
                   <select
                     className={fieldClassName}
                     onChange={(event) => {
                       const nextStockId = event.target.value;
                       const nextStock =
-                        stocksQuery.data?.find((stock) => stock.id === nextStockId) ?? null;
+                        stocksQuery.data?.find(
+                          (stock) => stock.id === nextStockId,
+                        ) ?? null;
 
                       setInventoryStockId(nextStockId);
                       setUnit(nextStock?.unit ?? unit);
@@ -707,7 +756,8 @@ export default function ProductionJobTasksPage({
                     <option value="">Select stock</option>
                     {(stocksQuery.data ?? []).map((stock) => (
                       <option key={stock.id} value={stock.id}>
-                        {stock.warehouse.code} · Qty {stock.availableQuantity} {stock.unit}
+                        {stock.warehouse.code} · Qty {stock.availableQuantity}{" "}
+                        {stock.unit}
                         {stock.locationCode ? ` · ${stock.locationCode}` : ""}
                       </option>
                     ))}
@@ -717,14 +767,17 @@ export default function ProductionJobTasksPage({
 
               {sourceType === "REMNANT" ? (
                 <label className="space-y-2 md:col-span-2 xl:col-span-4">
-                  <span className="text-sm font-medium text-stone-700">Remnant piece</span>
+                  <span className="text-sm font-medium text-stone-700">
+                    Remnant piece
+                  </span>
                   <select
                     className={fieldClassName}
                     onChange={(event) => {
                       const nextRemnantId = event.target.value;
                       const nextRemnant =
-                        remnantsQuery.data?.find((remnant) => remnant.id === nextRemnantId) ??
-                        null;
+                        remnantsQuery.data?.find(
+                          (remnant) => remnant.id === nextRemnantId,
+                        ) ?? null;
 
                       setRemnantPieceId(nextRemnantId);
                       setUnit(nextRemnant?.unit ?? unit);
@@ -735,7 +788,9 @@ export default function ProductionJobTasksPage({
                     {(remnantsQuery.data ?? []).map((remnant) => (
                       <option key={remnant.id} value={remnant.id}>
                         {remnant.code} · Qty {remnant.quantity} {remnant.unit}
-                        {remnant.usableAreaM2 !== null ? ` · ${remnant.usableAreaM2} m2` : ""}
+                        {remnant.usableAreaM2 !== null
+                          ? ` · ${remnant.usableAreaM2} m2`
+                          : ""}
                       </option>
                     ))}
                   </select>
@@ -743,7 +798,9 @@ export default function ProductionJobTasksPage({
               ) : null}
 
               <label className="space-y-2">
-                <span className="text-sm font-medium text-stone-700">Quantity</span>
+                <span className="text-sm font-medium text-stone-700">
+                  Quantity
+                </span>
                 <input
                   className={fieldClassName}
                   min="0.01"
@@ -774,7 +831,9 @@ export default function ProductionJobTasksPage({
               </label>
 
               <label className="space-y-2">
-                <span className="text-sm font-medium text-stone-700">Actual waste area</span>
+                <span className="text-sm font-medium text-stone-700">
+                  Actual waste area
+                </span>
                 <input
                   className={fieldClassName}
                   min="0"
@@ -789,7 +848,9 @@ export default function ProductionJobTasksPage({
               </label>
 
               <label className="space-y-2">
-                <span className="text-sm font-medium text-stone-700">Scrap quantity</span>
+                <span className="text-sm font-medium text-stone-700">
+                  Scrap quantity
+                </span>
                 <input
                   className={fieldClassName}
                   min="0"
@@ -803,7 +864,9 @@ export default function ProductionJobTasksPage({
               </label>
 
               <label className="space-y-2">
-                <span className="text-sm font-medium text-stone-700">Scrap unit</span>
+                <span className="text-sm font-medium text-stone-700">
+                  Scrap unit
+                </span>
                 <select
                   className={fieldClassName}
                   onChange={(event) => {
@@ -820,7 +883,9 @@ export default function ProductionJobTasksPage({
               </label>
 
               <label className="space-y-2 md:col-span-2 xl:col-span-4">
-                <span className="text-sm font-medium text-stone-700">Notes</span>
+                <span className="text-sm font-medium text-stone-700">
+                  Notes
+                </span>
                 <textarea
                   className={textAreaClassName}
                   onChange={(event) => {
@@ -847,7 +912,9 @@ export default function ProductionJobTasksPage({
               {createRemnantOutput ? (
                 <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
                   <label className="space-y-2">
-                    <span className="text-sm font-medium text-stone-700">Remnant code</span>
+                    <span className="text-sm font-medium text-stone-700">
+                      Remnant code
+                    </span>
                     <input
                       className={fieldClassName}
                       onChange={(event) => {
@@ -858,7 +925,9 @@ export default function ProductionJobTasksPage({
                   </label>
 
                   <label className="space-y-2">
-                    <span className="text-sm font-medium text-stone-700">Warehouse</span>
+                    <span className="text-sm font-medium text-stone-700">
+                      Warehouse
+                    </span>
                     <select
                       className={fieldClassName}
                       onChange={(event) => {
@@ -876,7 +945,9 @@ export default function ProductionJobTasksPage({
                   </label>
 
                   <label className="space-y-2">
-                    <span className="text-sm font-medium text-stone-700">Quantity</span>
+                    <span className="text-sm font-medium text-stone-700">
+                      Quantity
+                    </span>
                     <input
                       className={fieldClassName}
                       min="0.01"
@@ -890,7 +961,9 @@ export default function ProductionJobTasksPage({
                   </label>
 
                   <label className="space-y-2">
-                    <span className="text-sm font-medium text-stone-700">Width (mm)</span>
+                    <span className="text-sm font-medium text-stone-700">
+                      Width (mm)
+                    </span>
                     <input
                       className={fieldClassName}
                       min="0"
@@ -904,7 +977,9 @@ export default function ProductionJobTasksPage({
                   </label>
 
                   <label className="space-y-2">
-                    <span className="text-sm font-medium text-stone-700">Length (mm)</span>
+                    <span className="text-sm font-medium text-stone-700">
+                      Length (mm)
+                    </span>
                     <input
                       className={fieldClassName}
                       min="0"
@@ -918,7 +993,9 @@ export default function ProductionJobTasksPage({
                   </label>
 
                   <label className="space-y-2">
-                    <span className="text-sm font-medium text-stone-700">Thickness (mm)</span>
+                    <span className="text-sm font-medium text-stone-700">
+                      Thickness (mm)
+                    </span>
                     <input
                       className={fieldClassName}
                       min="0"
@@ -932,7 +1009,9 @@ export default function ProductionJobTasksPage({
                   </label>
 
                   <label className="space-y-2 md:col-span-2 xl:col-span-4">
-                    <span className="text-sm font-medium text-stone-700">Remnant notes</span>
+                    <span className="text-sm font-medium text-stone-700">
+                      Remnant notes
+                    </span>
                     <textarea
                       className={textAreaClassName}
                       onChange={(event) => {
@@ -948,7 +1027,9 @@ export default function ProductionJobTasksPage({
             <div className="mt-5 flex flex-wrap gap-3">
               <button
                 className={primaryButtonClassName}
-                disabled={consumeMutation.isPending || !canConsume || !activeTaskId}
+                disabled={
+                  consumeMutation.isPending || !canConsume || !activeTaskId
+                }
                 onClick={() => {
                   void consumeMutation.mutateAsync();
                 }}
@@ -958,7 +1039,7 @@ export default function ProductionJobTasksPage({
               </button>
             </div>
 
-            {(selectedStock || selectedRemnant) ? (
+            {selectedStock || selectedRemnant ? (
               <div className="mt-5 rounded-[1rem] border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-900">
                 {selectedStock
                   ? `Using stock from ${selectedStock.warehouse.name} with ${selectedStock.availableQuantity} ${selectedStock.unit} available.`
@@ -969,7 +1050,7 @@ export default function ProductionJobTasksPage({
 
           <section className="rounded-lg border border-stone-200 bg-white px-5 py-5 shadow-[0_20px_50px_rgba(15,47,91,0.08)]">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+              <p className="text-xs font-semibold tracking-[0.18em] text-stone-500 uppercase">
                 Consumption History
               </p>
               <h2 className="mt-2 text-xl font-semibold text-stone-950">
@@ -986,12 +1067,12 @@ export default function ProductionJobTasksPage({
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div>
                       <p className="text-sm font-semibold text-stone-950">
-                        {consumption.material?.name ?? "Manual material"} · {consumption.quantity}{" "}
-                        {consumption.unit}
+                        {consumption.material?.name ?? "Manual material"} ·{" "}
+                        {consumption.quantity} {consumption.unit}
                       </p>
                       <p className="mt-1 text-xs text-stone-600">
-                        {consumption.consumptionType} · {consumption.sourceType} ·{" "}
-                        {formatDateValue(consumption.consumedAt)}
+                        {consumption.consumptionType} · {consumption.sourceType}{" "}
+                        · {formatDateValue(consumption.consumedAt)}
                       </p>
                     </div>
                     <p className="text-xs font-medium text-stone-500">

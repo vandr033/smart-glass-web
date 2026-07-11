@@ -12,9 +12,9 @@ export default function EditProductPage({
   return (
     <main className="space-y-6">
       <PageHeader
-        description="Update products details using the same schema contract and RBAC safeguards as the create flow."
-        eyebrow="Edit Product"
-        title="Edit Product"
+        description="Actualice los datos del producto con las mismas validaciones y salvaguardas de permisos del alta."
+        eyebrow="Editar producto"
+        title="Editar producto"
       />
 
       <ProductForm mode="edit" productId={productId} />

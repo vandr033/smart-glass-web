@@ -6,9 +6,9 @@ export default function CreateClientPage() {
   return (
     <main className="space-y-6">
       <PageHeader
-        description="Create a client record with the billing, identification, and contact context needed before projects move into measurement and quotation."
-        eyebrow="Create Client"
-        title="New Client"
+        description="Cree el registro del cliente con sus datos de facturación, identificación y contacto antes de iniciar mediciones y cotizaciones."
+        eyebrow="Crear cliente"
+        title="Nuevo cliente"
       />
 
       <ClientForm mode="create" />

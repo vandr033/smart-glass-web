@@ -34,11 +34,11 @@ export default function ProductViewPage({
             }}
             type="button"
           >
-            Retry
+            Reintentar
           </button>
         }
         description={productQuery.error.message}
-        title="Product details could not be loaded"
+        title="No se pudo cargar el detalle del producto"
       />
     );
   }
@@ -46,7 +46,7 @@ export default function ProductViewPage({
   if (productQuery.isLoading || !productQuery.data) {
     return (
       <section className={sectionClassName}>
-        <p className="text-sm text-stone-500">Loading product details...</p>
+        <p className="text-sm text-stone-500">Cargando detalle del producto…</p>
       </section>
     );
   }
@@ -61,33 +61,33 @@ export default function ProductViewPage({
             className="inline-flex items-center rounded-md bg-[var(--color-primary)] px-4 py-3 text-sm font-semibold text-[color:var(--color-primary-contrast)] transition hover:bg-[var(--color-primary-hover)]"
             href={PRODUCTS_ROUTES.edit(record.id)}
           >
-            Edit product
+            Editar producto
           </Link>
         }
         description="Review product metadata from the shared module scaffold without leaving the permission-aware admin workspace."
-        eyebrow="Product Record"
-        title="Product Details"
+        eyebrow="Registro de producto"
+        title="Detalle del producto"
       />
 
       <section className={sectionClassName}>
         <dl className="grid gap-6 sm:grid-cols-2">
           <div className="space-y-2">
             <dt className="text-xs font-semibold uppercase tracking-[0.24em] text-stone-500">
-              Name
+              Nombre
             </dt>
             <dd className="text-lg font-semibold text-stone-950">{record.name}</dd>
           </div>
           <div className="space-y-2">
             <dt className="text-xs font-semibold uppercase tracking-[0.24em] text-stone-500">
-              Status
+              Estado
             </dt>
             <dd className="text-sm text-stone-700">
-              {record.isActive ? "Active" : "Inactive"}
+              {record.isActive ? "Activo" : "Inactivo"}
             </dd>
           </div>
           <div className="space-y-2 sm:col-span-2">
             <dt className="text-xs font-semibold uppercase tracking-[0.24em] text-stone-500">
-              Description
+              Descripción
             </dt>
             <dd className="text-sm leading-7 text-stone-700">
               {record.description || "No description provided."}

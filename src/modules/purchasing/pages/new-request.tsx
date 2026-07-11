@@ -152,7 +152,7 @@ export default function NewPurchaseRequestPage() {
     quotationsQuery.isPending ||
     cuttingPlansQuery.isPending
   ) {
-    return <LoadingState title="Preparing purchase request form" />;
+    return <LoadingState title="Preparando formulario de solicitud de compra" />;
   }
 
   if (
@@ -168,9 +168,9 @@ export default function NewPurchaseRequestPage() {
           suppliersQuery.error?.message ||
           quotationsQuery.error?.message ||
           cuttingPlansQuery.error?.message ||
-          "Purchasing form dependencies could not be loaded."
+          "No se pudieron cargar los datos necesarios del formulario de compras."
         }
-        title="Purchase request form is unavailable"
+        title="Formulario de solicitud de compra no disponible"
       />
     );
   }
@@ -190,14 +190,14 @@ export default function NewPurchaseRequestPage() {
     <main className="space-y-6">
       <PageHeader
         description="Create procurement demand manually or derive it from approved quotations, purchase-required cutting plans, and inventory shortage reviews."
-        eyebrow="Purchasing"
-        title="New Purchase Request"
+        eyebrow="Compras"
+        title="Nueva solicitud de compra"
       />
 
       <section className={sectionClassName}>
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           <label className="space-y-2">
-            <span className="text-sm font-medium text-stone-700">Creation mode</span>
+            <span className="text-sm font-medium text-stone-700">Modo de creación</span>
             <select
               className={fieldClassName}
               onChange={(event) => {

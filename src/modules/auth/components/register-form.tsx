@@ -47,13 +47,13 @@ export function RegisterForm() {
 
   return (
     <AuthShell
-      description="Create an email and password account. We’ll send a verification link before sign-in is allowed."
-      footer={<AuthLinkRow href="/login" label="Already have an account?" linkLabel="Sign in" />}
-      title="Create your account"
+      description="Cree una cuenta con correo y contraseña. Enviaremos un enlace de verificación antes de permitir el acceso."
+      footer={<AuthLinkRow href="/login" label="¿Ya tiene una cuenta?" linkLabel="Iniciar sesión" />}
+      title="Cree su cuenta"
     >
       {submittedEmail ? (
         <AuthBanner tone="success">
-          Verification sent to {submittedEmail}. Open the email to activate your account.
+          Enviamos la verificación a {submittedEmail}. Abra el correo para activar su cuenta.
         </AuthBanner>
       ) : null}
       {registerMutation.error ? (
@@ -64,15 +64,15 @@ export function RegisterForm() {
         <AuthInput
           autoComplete="name"
           error={form.formState.errors.name?.message}
-          label="Full name"
-          placeholder="System Administrator"
+          label="Nombre completo"
+          placeholder="Administrador del sistema"
           type="text"
           {...form.register("name")}
         />
         <AuthInput
           autoComplete="email"
           error={form.formState.errors.email?.message}
-          label="Email"
+          label="Correo electrónico"
           placeholder="you@company.com"
           type="email"
           {...form.register("email")}
@@ -80,14 +80,14 @@ export function RegisterForm() {
         <AuthInput
           autoComplete="new-password"
           error={form.formState.errors.password?.message}
-          label="Password"
-          placeholder="Create a strong password"
+          label="Contraseña"
+          placeholder="Cree una contraseña segura"
           type="password"
           {...form.register("password")}
         />
 
         <button className={buttonClass} disabled={registerMutation.isPending} type="submit">
-          {registerMutation.isPending ? "Creating account..." : "Register"}
+          {registerMutation.isPending ? "Creando cuenta…" : "Registrarse"}
         </button>
       </form>
     </AuthShell>

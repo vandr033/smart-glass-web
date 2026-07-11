@@ -94,7 +94,7 @@ export function UserDetail({ userId }: UserDetailProps) {
           </button>
         }
         description={userQuery.error.message}
-        title="This user record could not be loaded"
+        title="No se pudo cargar el registro del usuario"
       />
     );
   }
@@ -152,7 +152,7 @@ export function UserDetail({ userId }: UserDetailProps) {
                       : "bg-stone-200 text-stone-700"
                   }`}
                 >
-                  {user.isActive ? "Active" : "Inactive"}
+                  {user.isActive ? "Activo" : "Inactivo"}
                 </span>
                 <span
                   className={`rounded-full px-3 py-1.5 text-xs font-semibold ${
@@ -161,7 +161,7 @@ export function UserDetail({ userId }: UserDetailProps) {
                       : "bg-stone-200 text-stone-700"
                   }`}
                 >
-                  {user.emailVerified ? "Email verified" : "Email unverified"}
+                  {user.emailVerified ? "Correo verificado" : "Correo no verificado"}
                 </span>
               </div>
             </div>
@@ -253,7 +253,7 @@ export function UserDetail({ userId }: UserDetailProps) {
               type="button"
             >
               <Power className="h-4 w-4" />
-              {user.isActive ? "Disable user" : "Enable user"}
+              {user.isActive ? "Desactivar usuario" : "Activar usuario"}
             </button>
             <button
               className="inline-flex items-center gap-2 rounded-md bg-[var(--color-error)] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-rose-800"

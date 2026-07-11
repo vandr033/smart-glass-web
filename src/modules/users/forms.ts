@@ -4,8 +4,8 @@ export const userCreateSchema = z.object({
   email: z.email(),
   isActive: z.boolean(),
   name: z.string().trim().min(2, "Name must be at least 2 characters."),
-  password: z.string().min(8, "Password must be at least 8 characters."),
-  roleIds: z.array(z.string()).min(1, "Select at least one role."),
+  password: z.string().min(8, "La contraseña debe tener al menos 8 caracteres."),
+  roleIds: z.array(z.string()).min(1, "Seleccione al menos un rol."),
 });
 
 export const userUpdateSchema = userCreateSchema.omit({
@@ -20,12 +20,12 @@ export const profileUpdateSchema = z.object({
 
 export const profilePasswordSchema = z
   .object({
-    confirmPassword: z.string().min(8, "Confirm your new password."),
-    currentPassword: z.string().min(8, "Current password must be at least 8 characters."),
-    newPassword: z.string().min(8, "New password must be at least 8 characters."),
+    confirmPassword: z.string().min(8, "Confirme su nueva contraseña."),
+    currentPassword: z.string().min(8, "La contraseña actual debe tener al menos 8 caracteres."),
+    newPassword: z.string().min(8, "La nueva contraseña debe tener al menos 8 caracteres."),
   })
   .refine((values) => values.newPassword === values.confirmPassword, {
-    message: "Passwords do not match.",
+    message: "Las contraseñas no coinciden.",
     path: ["confirmPassword"],
   });
 

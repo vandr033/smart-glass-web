@@ -93,8 +93,8 @@ export const getCuttingPlanStatusBadge = (
 
 export const getSheetSourceLabel = (source: CuttingPlanSheetSource): string => {
   return {
-    INVENTORY_SHEET: "Inventory Sheet",
-    PURCHASE_REQUIRED: "Purchase Required",
+    INVENTORY_SHEET: "Lámina de inventario",
+    PURCHASE_REQUIRED: "Compra requerida",
     REMNANT: "Remnant",
     VIRTUAL: "Virtual",
   }[source];

@@ -26,7 +26,7 @@ export const CUTTING_QUERY_KEYS = {
 
 export const CUTTING_MODE_LABELS = {
   COMMERCIAL_ESTIMATION: "Commercial Estimation",
-  OPERATIONAL_PURCHASE: "Operational Purchase",
+  OPERATIONAL_PURCHASE: "Compra operativa",
 } as const;
 
 export const CUTTING_RUN_STATUS_LABELS = {

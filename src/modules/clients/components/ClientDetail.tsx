@@ -31,6 +31,7 @@ import {
   sectionClassName,
   textAreaClassName,
 } from "@/modules/commercial/ui";
+import { POSTVENTA_ROUTES } from "@/modules/postventa/constants";
 import { PROJECTS_ROUTES, PROJECT_STATUS_LABELS } from "@/modules/projects/constants";
 import { clientService } from "@/services/client-service";
 import { getApiErrorMessage } from "@/utils";
@@ -111,6 +112,7 @@ export function ClientDetail({ clientId }: ClientDetailProps) {
   const [sectionError, setSectionError] = useState<string | null>(null);
   const canEdit = permissions.includes(CLIENTS_PERMISSIONS.update);
   const canDelete = permissions.includes(CLIENTS_PERMISSIONS.delete);
+  const canCreatePostventa = permissions.includes("postventa.crear");
 
   const invalidateClient = async () => {
     await Promise.all([
@@ -276,6 +278,18 @@ export function ClientDetail({ clientId }: ClientDetailProps) {
               <ArrowLeft className="mr-2 h-4 w-4" />
               Volver a clientes
             </Link>
+            {canCreatePostventa ? (
+              <Link
+                className={secondaryButtonClassName}
+                href={POSTVENTA_ROUTES.registrarDesde({
+                  clientId: client.id,
+                  origen: "cliente",
+                })}
+              >
+                <Plus className="mr-2 h-4 w-4" />
+                Registrar postventa
+              </Link>
+            ) : null}
             {canEdit ? (
               <Link className={primaryButtonClassName} href={CLIENTS_ROUTES.edit(client.id)}>
                 <Pencil className="mr-2 h-4 w-4" />

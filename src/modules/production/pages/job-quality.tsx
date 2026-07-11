@@ -65,8 +65,12 @@ export default function ProductionJobQualityPage({
           parsedEvidence = JSON.parse(evidenceJson) as Record<string, unknown>;
           setJsonError(null);
         } catch {
-          setJsonError("Evidence JSON must be valid JSON before it can be recorded.");
-          throw new Error("Evidence JSON must be valid JSON before it can be recorded.");
+          setJsonError(
+            "La evidencia debe contener un JSON válido antes de registrarse.",
+          );
+          throw new Error(
+            "La evidencia debe contener un JSON válido antes de registrarse.",
+          );
         }
       }
 
@@ -98,7 +102,7 @@ export default function ProductionJobQualityPage({
   });
 
   if (jobQuery.isPending || checksQuery.isPending) {
-    return <LoadingState title="Loading quality workspace" />;
+    return <LoadingState title="Cargando control de calidad" />;
   }
 
   if (jobQuery.isError || checksQuery.isError) {
@@ -107,7 +111,7 @@ export default function ProductionJobQualityPage({
         description={
           jobQuery.error?.message ??
           checksQuery.error?.message ??
-          "Quality workspace could not be loaded."
+          "No fue posible cargar el control de calidad."
         }
         title="La calidad de produccion no esta disponible"
       />
@@ -121,21 +125,32 @@ export default function ProductionJobQualityPage({
     ["FAILED", "REWORK_REQUIRED"].includes(check.status),
   );
   const pendingChecks = checks.filter((check) => check.status === "PENDING");
-  const activeError = recordMutation.error ? getApiErrorMessage(recordMutation.error) : jsonError;
+  const activeError = recordMutation.error
+    ? getApiErrorMessage(recordMutation.error)
+    : jsonError;
 
   return (
     <main className="space-y-6">
       <PageHeader
         actions={
           <>
-            <Link className={secondaryButtonClassName} href={PRODUCTION_ROUTES.jobDetail(job.id)}>
+            <Link
+              className={secondaryButtonClassName}
+              href={PRODUCTION_ROUTES.jobDetail(job.id)}
+            >
               Resumen del trabajo
             </Link>
-            <Link className={secondaryButtonClassName} href={PRODUCTION_ROUTES.jobTasks(job.id)}>
-              Tasks
+            <Link
+              className={secondaryButtonClassName}
+              href={PRODUCTION_ROUTES.jobTasks(job.id)}
+            >
+              Tareas
             </Link>
-            <Link className={secondaryButtonClassName} href={PRODUCTION_ROUTES.jobWaste(job.id)}>
-              Waste
+            <Link
+              className={secondaryButtonClassName}
+              href={PRODUCTION_ROUTES.jobWaste(job.id)}
+            >
+              Desperdicios
             </Link>
           </>
         }
@@ -146,34 +161,42 @@ export default function ProductionJobQualityPage({
 
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         <div className="rounded-lg border border-stone-200 bg-white px-5 py-5 shadow-[0_20px_50px_rgba(15,47,91,0.08)]">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-            Total Checks
+          <p className="text-xs font-semibold tracking-[0.18em] text-stone-500 uppercase">
+            Controles registrados
           </p>
-          <p className="mt-3 text-3xl font-semibold text-stone-950">{checks.length}</p>
+          <p className="mt-3 text-3xl font-semibold text-stone-950">
+            {checks.length}
+          </p>
         </div>
         <div className="rounded-lg border border-stone-200 bg-white px-5 py-5 shadow-[0_20px_50px_rgba(15,47,91,0.08)]">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+          <p className="text-xs font-semibold tracking-[0.18em] text-stone-500 uppercase">
             Passed
           </p>
-          <p className="mt-3 text-3xl font-semibold text-emerald-700">{passedChecks.length}</p>
+          <p className="mt-3 text-3xl font-semibold text-emerald-700">
+            {passedChecks.length}
+          </p>
         </div>
         <div className="rounded-lg border border-stone-200 bg-white px-5 py-5 shadow-[0_20px_50px_rgba(15,47,91,0.08)]">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+          <p className="text-xs font-semibold tracking-[0.18em] text-stone-500 uppercase">
             Failed or Rework
           </p>
-          <p className="mt-3 text-3xl font-semibold text-rose-700">{failedChecks.length}</p>
+          <p className="mt-3 text-3xl font-semibold text-rose-700">
+            {failedChecks.length}
+          </p>
         </div>
         <div className="rounded-lg border border-stone-200 bg-white px-5 py-5 shadow-[0_20px_50px_rgba(15,47,91,0.08)]">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+          <p className="text-xs font-semibold tracking-[0.18em] text-stone-500 uppercase">
             Pending
           </p>
-          <p className="mt-3 text-3xl font-semibold text-sky-700">{pendingChecks.length}</p>
+          <p className="mt-3 text-3xl font-semibold text-sky-700">
+            {pendingChecks.length}
+          </p>
         </div>
       </section>
 
       <section className="rounded-lg border border-stone-200 bg-white px-5 py-5 shadow-[0_20px_50px_rgba(15,47,91,0.08)]">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+          <p className="text-xs font-semibold tracking-[0.18em] text-stone-500 uppercase">
             New Check
           </p>
           <h2 className="mt-2 text-xl font-semibold text-stone-950">
@@ -191,11 +214,13 @@ export default function ProductionJobQualityPage({
               }}
               value={status}
             >
-              {Object.entries(QUALITY_CHECK_STATUS_LABELS).map(([value, label]) => (
-                <option key={value} value={value}>
-                  {label}
-                </option>
-              ))}
+              {Object.entries(QUALITY_CHECK_STATUS_LABELS).map(
+                ([value, label]) => (
+                  <option key={value} value={value}>
+                    {label}
+                  </option>
+                ),
+              )}
             </select>
           </label>
 
@@ -230,7 +255,9 @@ export default function ProductionJobQualityPage({
           </label>
 
           <label className="space-y-2 md:col-span-2 xl:col-span-4">
-            <span className="text-sm font-medium text-stone-700">Evidence JSON</span>
+            <span className="text-sm font-medium text-stone-700">
+              Evidence JSON
+            </span>
             <textarea
               className={textAreaClassName}
               onChange={(event) => {
@@ -264,7 +291,7 @@ export default function ProductionJobQualityPage({
 
       <section className="rounded-lg border border-stone-200 bg-white px-5 py-5 shadow-[0_20px_50px_rgba(15,47,91,0.08)]">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+          <p className="text-xs font-semibold tracking-[0.18em] text-stone-500 uppercase">
             History
           </p>
           <h2 className="mt-2 text-xl font-semibold text-stone-950">
@@ -276,7 +303,8 @@ export default function ProductionJobQualityPage({
           {checks.map((check) => {
             const badge = getQualityCheckStatusBadge(check.status);
             const linkedTask = check.productionTaskId
-              ? job.tasks.find((task) => task.id === check.productionTaskId) ?? null
+              ? (job.tasks.find((task) => task.id === check.productionTaskId) ??
+                null)
               : null;
 
             return (
@@ -287,7 +315,9 @@ export default function ProductionJobQualityPage({
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div>
                     <p className="text-sm font-semibold text-stone-950">
-                      {linkedTask ? linkedTask.title : "Job-level quality review"}
+                      {linkedTask
+                        ? linkedTask.title
+                        : "Job-level quality review"}
                     </p>
                     <p className="mt-1 text-xs text-stone-600">
                       {check.checkedByUser?.name ?? "Pending reviewer"} ·{" "}
@@ -302,7 +332,9 @@ export default function ProductionJobQualityPage({
                 </div>
 
                 {check.notes ? (
-                  <p className="mt-3 text-sm leading-6 text-stone-700">{check.notes}</p>
+                  <p className="mt-3 text-sm leading-6 text-stone-700">
+                    {check.notes}
+                  </p>
                 ) : null}
 
                 {check.evidenceJson ? (

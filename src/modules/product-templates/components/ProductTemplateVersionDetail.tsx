@@ -283,7 +283,7 @@ export function ProductTemplateVersionDetail({
         <section className={sectionClassName}>
           <div className="mb-6 space-y-1">
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-              Version Settings
+              Configuración de versión
             </p>
             <h2 className="text-2xl font-semibold tracking-tight text-stone-950">
               General information

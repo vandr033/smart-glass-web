@@ -10,9 +10,9 @@ export default function EditClientPage({ clientId }: EditClientPageProps) {
   return (
     <main className="space-y-6">
       <PageHeader
-        description="Update the client identity and contact context using the same audited workflow as creation."
-        eyebrow="Edit Client"
-        title="Edit Client"
+        description="Actualice la identidad y los contactos del cliente con el mismo flujo auditado de creación."
+        eyebrow="Editar cliente"
+        title="Editar cliente"
       />
 
       <ClientForm clientId={clientId} mode="edit" />

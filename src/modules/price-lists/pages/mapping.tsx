@@ -371,7 +371,7 @@ export default function PriceListMappingPage({
                               }}
                               value={selectedMaterialId}
                             >
-                              <option value="">Select internal material</option>
+                              <option value="">Seleccione un material interno</option>
                               {(materialsQuery.data ?? []).map((material) => (
                                 <option key={material.id} value={material.id}>
                                   {material.code} · {material.name}

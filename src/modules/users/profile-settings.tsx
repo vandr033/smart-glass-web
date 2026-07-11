@@ -163,7 +163,7 @@ export function ProfileSettings() {
   if (!profile) {
     return (
       <section className={panelClassName}>
-        <p className="text-sm text-[color:var(--color-text-muted)]">Loading profile...</p>
+        <p className="text-sm text-[color:var(--color-text-muted)]">Cargando perfil…</p>
       </section>
     );
   }

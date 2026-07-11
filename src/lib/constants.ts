@@ -13,9 +13,9 @@ export const APP_CONFIG = {
   appBaseUrl,
   authBaseUrl,
   backendBaseUrl: backendBase,
-  name: "Smart Glass Bolivia ERP",
+  name: "Vidriera Sebitas ERP",
   description:
-    "ERP industrial para operaciones comerciales, compras, produccion e inventario.",
+    "Sistema integral para la gestión comercial, inventario, producción e instalaciones de vidrio y aluminio.",
   apiBaseUrl,
   apiTimeoutMs: 10000,
 } as const;

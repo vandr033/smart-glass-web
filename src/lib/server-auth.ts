@@ -45,13 +45,13 @@ const fetchJson = async <T>(
   }
 
   if (!response.ok) {
-    let message = "Request failed.";
+    let message = "La solicitud no es válida.";
 
     try {
       const body = (await response.json()) as ApiErrorResponse;
       message = body.message ?? message;
     } catch {
-      message = response.statusText || message;
+      message = "Ocurrió un error al consultar la sesión.";
     }
 
     throw new Error(message);

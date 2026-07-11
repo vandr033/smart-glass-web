@@ -73,7 +73,7 @@ export function InvitationForm() {
           </button>
         }
         description={rolesQuery.error.message}
-        title="Role options could not be loaded"
+        title="No se pudieron cargar los roles"
       />
     );
   }
@@ -156,7 +156,7 @@ export function InvitationForm() {
                 id="roleId"
                 {...form.register("roleId")}
               >
-                <option value="">Select a role</option>
+                <option value="">Seleccione un rol</option>
                 {(rolesQuery.data ?? []).map((role) => (
                   <option key={role.id} value={role.id}>
                     {role.name}

@@ -14,6 +14,8 @@ export type CostoProyectoCategoria =
   | "COMPRAS"
   | "TRANSPORTE"
   | "GARANTIAS"
+  | "RECLAMOS"
+  | "REPOSICIONES"
   | "OTROS";
 
 export type CostoProyectoOrigen =
@@ -24,6 +26,7 @@ export type CostoProyectoOrigen =
   | "PRODUCCION"
   | "INSTALACION"
   | "GARANTIA"
+  | "POSTVENTA"
   | "OPTIMIZACION"
   | "DERIVADO"
   | "OTRO";
@@ -104,7 +107,8 @@ export type EventoRentabilidadRecord = {
     | "PRODUCCION"
     | "INSTALACION"
     | "COMPRA"
-    | "RECEPCION";
+    | "RECEPCION"
+    | "POSTVENTA";
 };
 
 export type AlertaRentabilidadRecord = {

@@ -13,7 +13,6 @@ import type {
   QuotationDetailRecord,
   QuotationListItem,
   QuotationMutationInput,
-  QuotationPdfExportTodo,
   QuotationStatus,
   QuotationVersionRecord,
   SubmitQuotationApprovalInput,
@@ -286,11 +285,33 @@ export const quotationService = {
     return response.data.data;
   },
 
-  async exportPdf(quotationId: string): Promise<QuotationPdfExportTodo> {
-    const response = await apiClient.post<ApiSuccessResponse<QuotationPdfExportTodo>>(
-      `/quotations/${quotationId}/export-pdf`,
+  async downloadPdf(
+    quotationId: string,
+    variant: "commercial" | "internal",
+    versionNumber?: number,
+  ): Promise<void> {
+    const query = versionNumber ? `?version=${versionNumber}` : "";
+    const response = await apiClient.get<Blob>(
+      `/quotations/${quotationId}/pdf/${variant}${query}`,
+      {
+        headers: { Accept: "application/pdf" },
+        responseType: "blob",
+      },
     );
 
-    return response.data.data;
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const disposition = response.headers["content-disposition"] as string | undefined;
+    const fileName = disposition?.match(/filename="([^"]+)"/)?.[1] ??
+      `Cotizacion-${quotationId}-${variant}.pdf`;
+    const url = window.URL.createObjectURL(response.data);
+    const anchor = window.document.createElement("a");
+
+    anchor.href = url;
+    anchor.download = fileName;
+    anchor.click();
+    window.setTimeout(() => window.URL.revokeObjectURL(url), 1000);
   },
 };

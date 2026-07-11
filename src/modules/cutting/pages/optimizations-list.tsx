@@ -34,7 +34,7 @@ export default function CuttingOptimizationsListPage() {
   if (optimizationsQuery.isPending) {
     return (
       <LoadingState
-        title="Preparing optimization list"
+      title="Preparando lista de optimizaciones"
       />
     );
   }
@@ -43,7 +43,7 @@ export default function CuttingOptimizationsListPage() {
     return (
       <ErrorState
         description={optimizationsQuery.error.message}
-        title="Optimization runs could not be loaded"
+        title="No se pudieron cargar las optimizaciones"
       />
     );
   }
@@ -61,7 +61,7 @@ export default function CuttingOptimizationsListPage() {
       <section className="rounded-lg border border-stone-200 bg-white px-5 py-4">
         <label className="grid gap-2">
           <span className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-            Search
+            Buscar
           </span>
           <input
             className="rounded-md border border-stone-200 px-4 py-3 text-sm text-stone-900 outline-none transition focus:border-stone-400"
@@ -102,19 +102,19 @@ export default function CuttingOptimizationsListPage() {
 
                 <div className="grid min-w-[15rem] gap-2 text-right">
                   <p className="text-sm text-stone-600">
-                    Required area:{" "}
+                    Área requerida:{" "}
                     <span className="font-semibold text-stone-950">
                       {formatCuttingArea(run.totalRequiredAreaM2)}
                     </span>
                   </p>
                   <p className="text-sm text-stone-600">
-                    Sheet area:{" "}
+                    Área de lámina:{" "}
                     <span className="font-semibold text-stone-950">
                       {formatCuttingArea(run.totalSheetAreaM2)}
                     </span>
                   </p>
                   <p className="text-sm text-stone-600">
-                    Waste:{" "}
+                    Desperdicio:{" "}
                     <span className="font-semibold text-stone-950">
                       {formatCuttingPercent(run.wastePercent)}
                     </span>
@@ -133,8 +133,8 @@ export default function CuttingOptimizationsListPage() {
 
         {runs.length === 0 ? (
           <EmptyState
-            description="Start from a quotation or post a manual optimization request to populate this workspace."
-            title="No cutting optimization runs yet"
+            description="Inicie desde una cotización o registre una optimización manual para llenar este espacio."
+            title="Todavía no hay optimizaciones de corte"
           />
         ) : null}
       </section>

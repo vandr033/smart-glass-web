@@ -54,16 +54,16 @@ export function LoginForm() {
       : searchParams.get("registered") === "1"
         ? "Account created. Check your inbox to verify your email."
         : searchParams.get("invited") === "1"
-          ? "Invitation accepted. Sign in with the password you just created."
+          ? "Invitación aceptada. Inicie sesión con la contraseña que acaba de crear."
         : searchParams.get("reset") === "1"
-          ? "Password updated. Sign in with your new password."
+          ? "Contraseña actualizada. Inicie sesión con su nueva contraseña."
           : null;
 
   const verificationError =
     searchParams.get("error") === "TOKEN_EXPIRED"
-      ? "Your verification link expired. Request a new one below."
+      ? "El enlace de verificación venció. Solicite uno nuevo a continuación."
       : searchParams.get("error") === "INVALID_TOKEN"
-        ? "That verification link is invalid. Request a new one below."
+      ? "El enlace de verificación no es válido. Solicite uno nuevo a continuación."
         : null;
 
   const loginMutation = useMutation({
@@ -112,7 +112,7 @@ export function LoginForm() {
 
   return (
     <AuthShell
-      description="Sign in with your email and password. Verification and session cookies are handled for you."
+      description="Inicie sesión con su correo y contraseña. La verificación y la sesión se gestionan de forma segura."
       footer={<AuthLinkRow href="/register" label="Need an account?" linkLabel="Register" />}
       title="Welcome back"
     >
@@ -128,7 +128,7 @@ export function LoginForm() {
         <AuthInput
           autoComplete="email"
           error={form.formState.errors.email?.message}
-          label="Email"
+          label="Correo electrónico"
           placeholder="you@company.com"
           type="email"
           {...form.register("email")}
@@ -136,7 +136,7 @@ export function LoginForm() {
         <AuthInput
           autoComplete="current-password"
           error={form.formState.errors.password?.message}
-          label="Password"
+          label="Contraseña"
           placeholder="Enter your password"
           type="password"
           revealable
@@ -152,12 +152,12 @@ export function LoginForm() {
             Resend verification email
           </button>
           <Link className="font-medium text-stone-700 transition hover:text-stone-950" href="/forgot-password">
-            Forgot password?
+            ¿Olvidó su contraseña?
           </Link>
         </div>
 
         <button className={buttonClass} disabled={loginMutation.isPending} type="submit">
-          {loginMutation.isPending ? "Signing in..." : "Sign in"}
+          {loginMutation.isPending ? "Iniciando sesión…" : "Iniciar sesión"}
         </button>
       </form>
     </AuthShell>

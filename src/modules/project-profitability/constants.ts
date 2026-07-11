@@ -40,6 +40,8 @@ export const COSTO_CATEGORIA_LABELS: Record<CostoProyectoCategoria, string> = {
   MATERIALES: "Materiales",
   OTROS: "Otros",
   PRODUCCION: "Produccion",
+  RECLAMOS: "Reclamos",
+  REPOSICIONES: "Reposiciones",
   TRANSPORTE: "Transporte",
 };
 
@@ -52,6 +54,7 @@ export const COSTO_ORIGEN_LABELS: Record<CostoProyectoOrigen, string> = {
   OPTIMIZACION: "Optimizacion",
   ORDEN_COMPRA: "Orden de compra",
   OTRO: "Otro",
+  POSTVENTA: "Postventa",
   PRODUCCION: "Produccion",
   RECEPCION: "Recepcion",
 };
@@ -70,6 +73,7 @@ export const EVENTO_RENTABILIDAD_LABELS = {
   COTIZACION_BASE: "Cotizacion base",
   DESPERDICIO: "Desperdicio",
   INSTALACION: "Instalacion",
+  POSTVENTA: "Postventa",
   PRODUCCION: "Produccion",
   RECEPCION: "Recepcion",
 } as const;

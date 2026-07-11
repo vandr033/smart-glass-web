@@ -30,6 +30,7 @@ import {
   sectionClassName,
   textAreaClassName,
 } from "@/modules/commercial/ui";
+import { POSTVENTA_ROUTES } from "@/modules/postventa/constants";
 import { installationService } from "@/services/installation-service";
 import { userService } from "@/services/user-service";
 import { getApiErrorMessage } from "@/utils";
@@ -66,7 +67,6 @@ import {
 } from "../constants";
 import {
   buildMapLink,
-  formatInstallationDate,
   formatInstallationDateTime,
   formatInstallationScheduleWindow,
   getInstallationIssueSeverityBadge,
@@ -90,6 +90,7 @@ export default function InstallationDetailPage({
   const canComplete = permissions.includes(INSTALLATION_PERMISSIONS.complete);
   const canExecute = permissions.includes(INSTALLATION_PERMISSIONS.execute);
   const canExport = permissions.includes(INSTALLATION_PERMISSIONS.export);
+  const canCreatePostventa = permissions.includes("postventa.crear");
   const canSchedule = permissions.includes(INSTALLATION_PERMISSIONS.schedule);
   const canUpdate = permissions.includes(INSTALLATION_PERMISSIONS.update);
 
@@ -321,6 +322,19 @@ export default function InstallationDetailPage({
             <Link className={secondaryButtonClassName} href={INSTALLATION_ROUTES.home}>
               Volver a instalaciones
             </Link>
+            {canCreatePostventa ? (
+              <Link
+                className={secondaryButtonClassName}
+                href={POSTVENTA_ROUTES.registrarDesde({
+                  installationId: order.id,
+                  origen: "instalacion",
+                  projectId: order.project?.id ?? undefined,
+                  quotationId: order.quotation?.id ?? undefined,
+                })}
+              >
+                Registrar postventa
+              </Link>
+            ) : null}
             {canExport ? (
               <ExportMenu
                 buttonClassName={secondaryButtonClassName}

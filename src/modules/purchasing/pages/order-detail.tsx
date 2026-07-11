@@ -107,14 +107,14 @@ export default function PurchasingOrderDetailPage({
   });
 
   if (orderQuery.isPending) {
-    return <LoadingState title="Loading purchase order" />;
+    return <LoadingState title="Cargando orden de compra" />;
   }
 
   if (orderQuery.isError) {
     return (
       <ErrorState
         description={orderQuery.error.message}
-        title="Purchase order could not be loaded"
+        title="No se pudo cargar la orden de compra"
       />
     );
   }
@@ -132,20 +132,20 @@ export default function PurchasingOrderDetailPage({
         actions={
           <>
             <Link className={secondaryButtonClassName} href={PURCHASING_ROUTES.orders}>
-              Back to Orders
+              Volver a órdenes
             </Link>
             {canReceive && !["CANCELLED", "RECEIVED"].includes(order.status) ? (
               <Link
                 className={primaryButtonClassName}
                 href={PURCHASING_ROUTES.orderReceive(order.id)}
               >
-                Receive Purchase Order
+                Recibir orden de compra
               </Link>
             ) : null}
           </>
         }
         description="Track supplier status changes, confirm delivery commitments, and move incoming stock into warehouse receiving once materials arrive."
-        eyebrow="Purchasing"
+        eyebrow="Compras"
         title={order.code}
       />
 
@@ -172,7 +172,7 @@ export default function PurchasingOrderDetailPage({
         <div className="mt-5 grid gap-4 md:grid-cols-4">
           <div className="rounded-[1.1rem] bg-stone-50 px-4 py-4">
             <p className="text-xs font-semibold uppercase tracking-[0.16em] text-stone-500">
-              Order date
+              Fecha de orden
             </p>
             <p className="mt-2 text-sm font-semibold text-stone-950">
               {formatDateOnlyValue(order.orderDate)}
@@ -180,7 +180,7 @@ export default function PurchasingOrderDetailPage({
           </div>
           <div className="rounded-[1.1rem] bg-stone-50 px-4 py-4">
             <p className="text-xs font-semibold uppercase tracking-[0.16em] text-stone-500">
-              Expected delivery
+              Entrega esperada
             </p>
             <p className="mt-2 text-sm font-semibold text-stone-950">
               {formatDateOnlyValue(order.expectedDeliveryDate)}

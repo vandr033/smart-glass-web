@@ -231,7 +231,7 @@ export function ProductTemplateDetail({
             </p>
           </div>
           <div className="rounded-lg border border-stone-200 bg-white px-5 py-4">
-            <p className="text-xs uppercase tracking-[0.22em] text-stone-500">Created</p>
+            <p className="text-xs uppercase tracking-[0.22em] text-stone-500">Creado</p>
             <p className="mt-3 text-lg font-semibold text-stone-950">
               {formatDateTime(template.createdAt)}
             </p>

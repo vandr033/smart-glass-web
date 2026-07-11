@@ -34,7 +34,7 @@ export function CuttingLayoutPreview({ sheet }: CuttingLayoutPreviewProps) {
       </div>
 
       <svg
-        aria-label="Cutting sheet layout"
+        aria-label="Diseño de lámina de corte"
         className="h-auto w-full rounded-[1rem] bg-stone-50"
         viewBox={`0 0 ${sheet.widthMm} ${sheet.heightMm}`}
       >

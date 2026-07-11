@@ -35,12 +35,12 @@ const userColumns: ColumnDef<UserTableRow>[] = [
         </p>
       </div>
     ),
-    header: "Name",
+    header: "Nombre",
   },
   {
     accessorKey: "email",
     cell: ({ row }) => <span className="text-stone-700">{row.original.email}</span>,
-    header: "Email",
+    header: "Correo electrónico",
   },
   {
     accessorKey: "roles",
@@ -48,7 +48,7 @@ const userColumns: ColumnDef<UserTableRow>[] = [
       <span className="text-stone-700">{row.original.roles.join(", ") || "None"}</span>
     ),
     enableSorting: false,
-    header: "Role",
+    header: "Rol",
   },
   {
     accessorKey: "isActive",
@@ -60,10 +60,10 @@ const userColumns: ColumnDef<UserTableRow>[] = [
             : "bg-stone-200 text-stone-700"
         }`}
       >
-        {row.original.isActive ? "Active" : "Inactive"}
+        {row.original.isActive ? "Activo" : "Inactivo"}
       </span>
     ),
-    header: "Status",
+    header: "Estado",
   },
   {
     accessorKey: "lastLoginAt",
@@ -72,7 +72,7 @@ const userColumns: ColumnDef<UserTableRow>[] = [
         {formatDate(row.original.lastLoginAt)}
       </span>
     ),
-    header: "Last Login",
+    header: "Último acceso",
   },
   {
     accessorKey: "createdAt",
@@ -107,7 +107,7 @@ export function UserTable() {
         icon: Trash2,
         id: "delete-selected",
         invalidateAfterSuccess: true,
-        label: "Delete selected",
+        label: "Eliminar seleccionados",
         onClick: async (rows) => {
           await userService.bulkDeleteUsers(rows.map((row) => row.id));
         },
@@ -119,12 +119,12 @@ export function UserTable() {
     csv: {
       columns: [
         {
-          header: "Name",
+          header: "Nombre",
           key: "name",
           value: (row) => row.name,
         },
         {
-          header: "Email",
+          header: "Correo electrónico",
           key: "email",
           value: (row) => row.email,
         },
@@ -134,12 +134,12 @@ export function UserTable() {
           value: (row) => row.roles.join(", "),
         },
         {
-          header: "Status",
+          header: "Estado",
           key: "status",
-          value: (row) => (row.isActive ? "Active" : "Inactive"),
+          value: (row) => (row.isActive ? "Activo" : "Inactivo"),
         },
         {
-          header: "Last Login",
+          header: "Último acceso",
           key: "lastLoginAt",
           value: (row) => row.lastLoginAt ?? "",
         },
@@ -157,20 +157,20 @@ export function UserTable() {
     },
     emptyState: {
       description:
-        "Try broadening the search, clearing filters, or creating a user record for this module.",
-      title: "No users matched the current table view",
+        "Amplíe la búsqueda, quite los filtros o cree un usuario para este módulo.",
+      title: "No hay usuarios para la vista actual",
     },
     filters: [
       {
         id: "isActive",
-        label: "Status",
+        label: "Estado",
         options: [
           {
-            label: "Active",
+            label: "Activo",
             value: "true",
           },
           {
-            label: "Inactive",
+            label: "Inactivo",
             value: "false",
           },
         ],
@@ -179,12 +179,12 @@ export function UserTable() {
       },
       {
         id: "roles",
-        label: "Role",
+        label: "Rol",
         options: (rolesQuery.data ?? []).map((role) => ({
           label: role.name,
           value: role.name,
         })),
-        placeholder: "All roles",
+        placeholder: "Todos los roles",
         type: "multi-select",
       },
     ],
@@ -195,29 +195,29 @@ export function UserTable() {
         href: (row) => `/users/${row.id}`,
         icon: Eye,
         id: "view",
-        label: "View",
+        label: "Ver",
         variant: "view",
       },
       {
         href: (row) => `/users/${row.id}/edit`,
         icon: Pencil,
         id: "edit",
-        label: "Edit",
+        label: "Editar",
         variant: "edit",
       },
       {
         confirmation: {
-          confirmLabel: "Save status",
+          confirmLabel: "Guardar estado",
           description: (rows) =>
             rows[0]?.isActive
-              ? `Disable ${rows[0]?.name ?? "this user"} and remove active access until an admin enables it again.`
-              : `Enable ${rows[0]?.name ?? "this user"} and restore active access immediately.`,
-          title: "Change user status?",
+              ? `Desactive a ${rows[0]?.name ?? "este usuario"} y quite su acceso hasta que un administrador lo reactive.`
+              : `Active a ${rows[0]?.name ?? "este usuario"} y restaure su acceso inmediatamente.`,
+          title: "¿Cambiar estado del usuario?",
         },
         icon: Power,
         id: "toggle-active",
         invalidateAfterSuccess: true,
-        label: "Toggle status",
+        label: "Cambiar estado",
         onClick: async (row) => {
           if (row.isActive) {
             await userService.disableUser(row.id);
@@ -239,7 +239,7 @@ export function UserTable() {
         icon: Trash2,
         id: "delete",
         invalidateAfterSuccess: true,
-        label: "Delete",
+        label: "Eliminar",
         onClick: async (row) => {
           await userService.deleteUser(row.id);
         },

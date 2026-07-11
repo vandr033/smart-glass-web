@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const invitationCreateSchema = z.object({
   email: z.email("Enter a valid email address."),
-  roleId: z.uuid("Select a valid role."),
+  roleId: z.uuid("Seleccione un rol válido."),
 });
 
 export const invitationAcceptSchema = z

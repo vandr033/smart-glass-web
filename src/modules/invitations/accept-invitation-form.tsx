@@ -142,7 +142,7 @@ export function AcceptInvitationForm() {
           autoComplete="new-password"
           error={form.formState.errors.password?.message}
           label="Password"
-          placeholder="Create a password"
+          placeholder="Cree una contraseña"
           type="password"
           {...form.register("password")}
         />
@@ -160,7 +160,7 @@ export function AcceptInvitationForm() {
           disabled={!previewQuery.data || acceptMutation.isPending || previewQuery.isLoading}
           type="submit"
         >
-          {acceptMutation.isPending ? "Creating account..." : "Create account"}
+          {acceptMutation.isPending ? "Creando cuenta…" : "Crear cuenta"}
         </button>
       </form>
 

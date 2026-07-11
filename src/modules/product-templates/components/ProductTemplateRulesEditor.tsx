@@ -452,7 +452,7 @@ export function ProductTemplateRulesEditor({
                     ))}
                   </select>
                   <select className={fieldClassName} {...form.register(`materialRules.${index}.materialId`)}>
-                    <option value="">Select material</option>
+                    <option value="">Seleccione un material</option>
                     {materials.map((material) => (
                       <option key={material.id} value={material.id}>
                         {material.name} ({material.code})
@@ -475,7 +475,7 @@ export function ProductTemplateRulesEditor({
                   </label>
                   <label className="flex items-center gap-2 text-sm text-stone-700">
                     <input type="checkbox" {...form.register(`materialRules.${index}.isActive`)} />
-                    Active
+                    Activo
                   </label>
                   <input
                     className={fieldClassName}
@@ -539,7 +539,7 @@ export function ProductTemplateRulesEditor({
                 <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
                   <input className={fieldClassName} placeholder="Label" {...form.register(`accessoryRules.${index}.label`)} />
                   <select className={fieldClassName} {...form.register(`accessoryRules.${index}.materialId`)}>
-                    <option value="">Select material</option>
+                    <option value="">Seleccione un material</option>
                     {materials.map((material) => (
                       <option key={material.id} value={material.id}>
                         {material.name} ({material.code})
@@ -552,7 +552,7 @@ export function ProductTemplateRulesEditor({
                   </label>
                   <label className="flex items-center gap-2 text-sm text-stone-700">
                     <input type="checkbox" {...form.register(`accessoryRules.${index}.isActive`)} />
-                    Active
+                    Activo
                   </label>
                   <input
                     className={fieldClassName}
@@ -630,7 +630,7 @@ export function ProductTemplateRulesEditor({
                   />
                   <label className="flex items-center gap-2 text-sm text-stone-700">
                     <input type="checkbox" {...form.register(`laborRules.${index}.isActive`)} />
-                    Active
+                    Activo
                   </label>
                   <input
                     className={fieldClassName}

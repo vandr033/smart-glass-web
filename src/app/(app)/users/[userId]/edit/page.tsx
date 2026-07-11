@@ -16,9 +16,9 @@ export default async function EditUserPage({ params }: EditUserPageProps) {
   return (
     <main className="space-y-6">
       <PageHeader
-        description="Update account details, assigned roles, and active status using the same validation contract as the create flow."
-        eyebrow="Edit User"
-        title="Edit User"
+        description="Actualice los datos de la cuenta, los roles asignados y el estado activo con las mismas validaciones del alta."
+        eyebrow="Editar usuario"
+        title="Editar usuario"
       />
 
       <UserForm mode="edit" userId={userId} />

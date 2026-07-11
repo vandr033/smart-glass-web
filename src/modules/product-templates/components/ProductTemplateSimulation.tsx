@@ -188,7 +188,7 @@ export function ProductTemplateSimulation({
             }}
             value={typeof value === "string" ? value : ""}
           >
-            <option value="">Select material</option>
+            <option value="">Seleccione un material</option>
             {materials.map((material) => (
               <option key={material.id} value={material.id}>
                 {material.name} ({material.code})
@@ -226,7 +226,7 @@ export function ProductTemplateSimulation({
             }}
             value={typeof value === "string" || typeof value === "number" ? String(value) : ""}
           >
-            <option value="">Select option</option>
+            <option value="">Seleccione una opción</option>
             {options.map((option, index) => {
               if (
                 option &&

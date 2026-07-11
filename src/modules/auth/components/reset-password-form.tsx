@@ -25,7 +25,7 @@ export function ResetPasswordForm() {
 
   const invalidMessage =
     searchParams.get("error") === "INVALID_TOKEN"
-      ? "This reset link is invalid or expired. Request a new one."
+      ? "Este enlace de restablecimiento no es válido o venció. Solicite uno nuevo."
       : token
         ? null
         : "A valid reset token is required to set a new password.";
@@ -59,7 +59,7 @@ export function ResetPasswordForm() {
   return (
     <AuthShell
       description="Choose a new password for your account once your reset token is validated."
-      footer={<AuthLinkRow href="/login" label="Back to your account?" linkLabel="Sign in" />}
+      footer={<AuthLinkRow href="/login" label="¿Volver a su cuenta?" linkLabel="Iniciar sesión" />}
       title="Reset password"
     >
       {invalidMessage ? <AuthBanner tone="info">{invalidMessage}</AuthBanner> : null}
@@ -71,8 +71,8 @@ export function ResetPasswordForm() {
         <AuthInput
           autoComplete="new-password"
           error={form.formState.errors.newPassword?.message}
-          label="New password"
-          placeholder="Create a new password"
+          label="Nueva contraseña"
+          placeholder="Cree una nueva contraseña"
           type="password"
           {...form.register("newPassword")}
         />

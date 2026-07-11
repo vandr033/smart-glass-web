@@ -13,7 +13,6 @@ import {
   INSTALLATION_TASK_STATUS_LABELS,
 } from "./constants";
 import {
-  formatInstallationDate,
   formatInstallationDateTime,
   formatInstallationScheduleWindow,
 } from "./ui";

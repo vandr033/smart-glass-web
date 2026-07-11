@@ -41,7 +41,7 @@ export default function CuttingHomePage() {
   if (optimizationsQuery.isPending || plansQuery.isPending) {
     return (
       <LoadingState
-        title="Preparing cutting workspace"
+        title="Preparando espacio de corte"
       />
     );
   }
@@ -52,9 +52,9 @@ export default function CuttingHomePage() {
         description={
           optimizationsQuery.error?.message ??
           plansQuery.error?.message ??
-          "Cutting workspace could not be loaded."
+          "No se pudo cargar el espacio de corte."
         }
-        title="Cutting workspace unavailable"
+        title="Espacio de corte no disponible"
       />
     );
   }
@@ -73,7 +73,7 @@ export default function CuttingHomePage() {
               className="inline-flex items-center rounded-md border border-stone-300 bg-white px-4 py-2.5 text-sm font-semibold text-stone-700 transition hover:border-stone-400 hover:text-stone-950"
               href={CUTTING_ROUTES.optimizations}
             >
-              View Optimizations
+              Ver optimizaciones
             </Link>
             <Link
               className="inline-flex items-center rounded-md bg-[var(--color-primary)] px-4 py-2.5 text-sm font-semibold text-[color:var(--color-primary-contrast)] transition hover:bg-[var(--color-primary-hover)]"
@@ -84,8 +84,8 @@ export default function CuttingHomePage() {
           </>
         }
         description="Review quotation-driven glass optimization runs, waste estimates, virtual sheet demand, and cutting plans ready for approval."
-        eyebrow="Operations"
-        title="Glass Cutting"
+        eyebrow="Operaciones"
+        title="Corte de vidrio"
       />
 
       <section className="grid gap-4 md:grid-cols-3">

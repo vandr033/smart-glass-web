@@ -33,7 +33,7 @@ export default function CuttingPlansListPage() {
   if (plansQuery.isPending) {
     return (
       <LoadingState
-        title="Preparing cutting plans"
+        title="Preparando planes de corte"
       />
     );
   }
@@ -42,7 +42,7 @@ export default function CuttingPlansListPage() {
     return (
       <ErrorState
         description={plansQuery.error.message}
-        title="Cutting plans could not be loaded"
+        title="No se pudieron cargar los planes de corte"
       />
     );
   }
@@ -60,7 +60,7 @@ export default function CuttingPlansListPage() {
       <section className="rounded-lg border border-stone-200 bg-white px-5 py-4">
         <label className="grid gap-2">
           <span className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-            Search
+            Buscar
           </span>
           <input
             className="rounded-md border border-stone-200 px-4 py-3 text-sm text-stone-900 outline-none transition focus:border-stone-400"
@@ -100,19 +100,19 @@ export default function CuttingPlansListPage() {
 
                 <div className="grid min-w-[15rem] gap-2 text-right">
                   <p className="text-sm text-stone-600">
-                    Required area:{" "}
+                    Área requerida:{" "}
                     <span className="font-semibold text-stone-950">
                       {formatCuttingArea(plan.totalRequiredAreaM2)}
                     </span>
                   </p>
                   <p className="text-sm text-stone-600">
-                    Waste area:{" "}
+                    Área de desperdicio:{" "}
                     <span className="font-semibold text-stone-950">
                       {formatCuttingArea(plan.totalWasteAreaM2)}
                     </span>
                   </p>
                   <p className="text-sm text-stone-600">
-                    Waste:{" "}
+                    Desperdicio:{" "}
                     <span className="font-semibold text-stone-950">
                       {formatCuttingPercent(plan.wastePercent)}
                     </span>
@@ -125,8 +125,8 @@ export default function CuttingPlansListPage() {
 
         {plans.length === 0 ? (
           <EmptyState
-            description="Generate a cutting plan from a completed optimization run to populate this list."
-            title="No cutting plans yet"
+            description="Genere un plan de corte desde una optimización completada para llenar esta lista."
+            title="Todavía no hay planes de corte"
           />
         ) : null}
       </section>

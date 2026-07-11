@@ -119,7 +119,9 @@ export default function ProductionJobDetailPage({
     mutationFn: () =>
       productionService.assignJob(
         jobId,
-        assignedToUserId === null ? (jobQuery.data?.assignedToUser?.id ?? null) : (assignedToUserId || null),
+        assignedToUserId === null
+          ? (jobQuery.data?.assignedToUser?.id ?? null)
+          : assignedToUserId || null,
       ),
     onSuccess: async () => {
       setAssignedToUserId(null);
@@ -127,7 +129,8 @@ export default function ProductionJobDetailPage({
     },
   });
   const generateTasksMutation = useMutation({
-    mutationFn: () => productionService.generateTasks(jobId, replaceExistingTasks),
+    mutationFn: () =>
+      productionService.generateTasks(jobId, replaceExistingTasks),
     onSuccess: refreshJob,
   });
   const deleteMutation = useMutation({
@@ -144,7 +147,7 @@ export default function ProductionJobDetailPage({
   const isUsersError = canUpdate && usersQuery.isError;
 
   if (jobQuery.isPending || isUsersPending) {
-    return <LoadingState title="Loading production job" />;
+    return <LoadingState title="Cargando orden de producción" />;
   }
 
   if (jobQuery.isError || isUsersError) {
@@ -179,20 +182,29 @@ export default function ProductionJobDetailPage({
       <PageHeader
         actions={
           <>
-            <Link className={secondaryButtonClassName} href={PRODUCTION_ROUTES.jobs}>
-              Back to Jobs
+            <Link
+              className={secondaryButtonClassName}
+              href={PRODUCTION_ROUTES.jobs}
+            >
+              Volver a órdenes
             </Link>
-            <Link className={secondaryButtonClassName} href={PRODUCTION_ROUTES.jobTasks(job.id)}>
-              Tasks
+            <Link
+              className={secondaryButtonClassName}
+              href={PRODUCTION_ROUTES.jobTasks(job.id)}
+            >
+              Tareas
             </Link>
             <Link
               className={secondaryButtonClassName}
               href={PRODUCTION_ROUTES.jobQuality(job.id)}
             >
-              Quality
+              Calidad
             </Link>
-            <Link className={secondaryButtonClassName} href={PRODUCTION_ROUTES.jobWaste(job.id)}>
-              Waste
+            <Link
+              className={secondaryButtonClassName}
+              href={PRODUCTION_ROUTES.jobWaste(job.id)}
+            >
+              Desperdicios
             </Link>
           </>
         }
@@ -214,38 +226,38 @@ export default function ProductionJobDetailPage({
             {priorityBadge.label}
           </span>
           <span className="text-sm text-stone-700">
-            Assigned to {job.assignedToUser?.name ?? "no one yet"}
+            Responsable: {job.assignedToUser?.name ?? "sin asignar"}
           </span>
         </div>
 
         <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           <div className="rounded-[1.1rem] bg-stone-50 px-4 py-4">
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-stone-500">
-              Planned Start
+            <p className="text-xs font-semibold tracking-[0.16em] text-stone-500 uppercase">
+              Inicio programado
             </p>
             <p className="mt-2 text-sm font-semibold text-stone-950">
               {formatDateOnlyValue(job.plannedStartDate)}
             </p>
           </div>
           <div className="rounded-[1.1rem] bg-stone-50 px-4 py-4">
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-stone-500">
-              Planned End
+            <p className="text-xs font-semibold tracking-[0.16em] text-stone-500 uppercase">
+              Fin programado
             </p>
             <p className="mt-2 text-sm font-semibold text-stone-950">
               {formatDateOnlyValue(job.plannedEndDate)}
             </p>
           </div>
           <div className="rounded-[1.1rem] bg-stone-50 px-4 py-4">
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-stone-500">
-              Actual Start
+            <p className="text-xs font-semibold tracking-[0.16em] text-stone-500 uppercase">
+              Inicio real
             </p>
             <p className="mt-2 text-sm font-semibold text-stone-950">
               {formatDateValue(job.actualStartDate)}
             </p>
           </div>
           <div className="rounded-[1.1rem] bg-stone-50 px-4 py-4">
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-stone-500">
-              Actual End
+            <p className="text-xs font-semibold tracking-[0.16em] text-stone-500 uppercase">
+              Fin real
             </p>
             <p className="mt-2 text-sm font-semibold text-stone-950">
               {formatDateValue(job.actualEndDate)}
@@ -255,7 +267,7 @@ export default function ProductionJobDetailPage({
 
         {job.notes ? (
           <div className="mt-5 rounded-[1rem] border border-stone-200 bg-stone-50 px-4 py-4">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+            <p className="text-xs font-semibold tracking-[0.18em] text-stone-500 uppercase">
               Notes
             </p>
             <p className="mt-2 text-sm leading-6 text-stone-700">{job.notes}</p>
@@ -272,11 +284,11 @@ export default function ProductionJobDetailPage({
       <section className="rounded-lg border border-stone-200 bg-white px-5 py-5 shadow-[0_20px_50px_rgba(15,47,91,0.08)]">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-              Job Actions
+            <p className="text-xs font-semibold tracking-[0.18em] text-stone-500 uppercase">
+              Acciones de la orden
             </p>
             <h2 className="mt-2 text-xl font-semibold text-stone-950">
-              Status, assignment, and task generation
+              Estado, asignación y generación de tareas
             </h2>
           </div>
         </div>
@@ -286,23 +298,31 @@ export default function ProductionJobDetailPage({
             <div className="flex flex-wrap gap-3">
               <button
                 className={secondaryButtonClassName}
-                disabled={startMutation.isPending || !canStart || job.status === "IN_PROGRESS"}
+                disabled={
+                  startMutation.isPending ||
+                  !canStart ||
+                  job.status === "IN_PROGRESS"
+                }
                 onClick={() => {
                   void startMutation.mutateAsync();
                 }}
                 type="button"
               >
-                Start Job
+                Iniciar orden
               </button>
               <button
                 className={secondaryButtonClassName}
-                disabled={pauseMutation.isPending || !canStart || job.status !== "IN_PROGRESS"}
+                disabled={
+                  pauseMutation.isPending ||
+                  !canStart ||
+                  job.status !== "IN_PROGRESS"
+                }
                 onClick={() => {
                   void pauseMutation.mutateAsync();
                 }}
                 type="button"
               >
-                Pause Job
+                Pausar orden
               </button>
               <button
                 className={primaryButtonClassName}
@@ -316,30 +336,35 @@ export default function ProductionJobDetailPage({
                 }}
                 type="button"
               >
-                Complete Job
+                Completar orden
               </button>
               <button
                 className={secondaryButtonClassName}
                 disabled={
-                  cancelMutation.isPending || !canUpdate || ["CANCELLED", "COMPLETED"].includes(job.status)
+                  cancelMutation.isPending ||
+                  !canUpdate ||
+                  ["CANCELLED", "COMPLETED"].includes(job.status)
                 }
                 onClick={() => {
                   void cancelMutation.mutateAsync();
                 }}
                 type="button"
               >
-                Cancel Job
+                Cancelar orden
               </button>
               {canDelete ? (
                 <button
                   className={secondaryButtonClassName}
-                  disabled={deleteMutation.isPending || !["DRAFT", "CANCELLED"].includes(job.status)}
+                  disabled={
+                    deleteMutation.isPending ||
+                    !["DRAFT", "CANCELLED"].includes(job.status)
+                  }
                   onClick={() => {
                     void deleteMutation.mutateAsync();
                   }}
                   type="button"
                 >
-                  Delete Job
+                  Eliminar orden
                 </button>
               ) : null}
             </div>
@@ -347,7 +372,9 @@ export default function ProductionJobDetailPage({
             <div className="rounded-[1.15rem] border border-stone-200 bg-stone-50 px-4 py-4">
               <div className="flex flex-wrap items-end gap-4">
                 <label className="grid min-w-[18rem] flex-1 gap-2">
-                  <span className="text-sm font-medium text-stone-700">Assigned user</span>
+                  <span className="text-sm font-medium text-stone-700">
+                    Responsable
+                  </span>
                   <select
                     className={fieldClassName}
                     disabled={!canUpdate}
@@ -356,7 +383,7 @@ export default function ProductionJobDetailPage({
                     }}
                     value={assignedToUserId ?? job.assignedToUser?.id ?? ""}
                   >
-                    <option value="">Unassigned</option>
+                    <option value="">Sin asignar</option>
                     {(usersQuery.data ?? []).map((user) => (
                       <option key={user.id} value={user.id}>
                         {user.name} · {user.email}
@@ -373,19 +400,19 @@ export default function ProductionJobDetailPage({
                   }}
                   type="button"
                 >
-                  Save Assignment
+                  Guardar asignación
                 </button>
               </div>
             </div>
           </div>
 
           <div className="rounded-[1.15rem] border border-stone-200 bg-stone-50 px-4 py-4">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-              Task Queue
+            <p className="text-xs font-semibold tracking-[0.18em] text-stone-500 uppercase">
+              Cola de tareas
             </p>
             <p className="mt-2 text-sm leading-6 text-stone-600">
-              Generate a default task sequence from the job items when the floor needs a working
-              checklist.
+              Genera una secuencia de tareas desde los ítems de la orden para el
+              trabajo de planta.
             </p>
 
             <label className="mt-4 flex items-center gap-3 text-sm text-stone-700">
@@ -396,7 +423,7 @@ export default function ProductionJobDetailPage({
                 }}
                 type="checkbox"
               />
-              Replace existing tasks
+              Reemplazar tareas existentes
             </label>
 
             <button
@@ -407,7 +434,7 @@ export default function ProductionJobDetailPage({
               }}
               type="button"
             >
-              Generate Tasks
+              Generar tareas
             </button>
           </div>
         </div>
@@ -415,12 +442,12 @@ export default function ProductionJobDetailPage({
 
       <div className="grid gap-6 xl:grid-cols-2">
         <section className="rounded-lg border border-stone-200 bg-white px-5 py-5 shadow-[0_20px_50px_rgba(15,47,91,0.08)]">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-            Linked Records
+          <p className="text-xs font-semibold tracking-[0.18em] text-stone-500 uppercase">
+            Registros vinculados
           </p>
           <div className="mt-4 space-y-3 text-sm text-stone-700">
             <p>
-              Project:{" "}
+              Proyecto:{" "}
               {job.project ? (
                 <Link
                   className="font-semibold text-[color:var(--color-primary)]"
@@ -468,25 +495,27 @@ export default function ProductionJobDetailPage({
         </section>
 
         <section className="rounded-lg border border-stone-200 bg-white px-5 py-5 shadow-[0_20px_50px_rgba(15,47,91,0.08)]">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+          <p className="text-xs font-semibold tracking-[0.18em] text-stone-500 uppercase">
             Waste Snapshot
           </p>
 
           {job.wasteReport ? (
             <div className="mt-4 grid gap-3 md:grid-cols-2">
               <div className="rounded-[1rem] bg-stone-50 px-4 py-4">
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-stone-500">
+                <p className="text-xs font-semibold tracking-[0.16em] text-stone-500 uppercase">
                   Theoretical
                 </p>
                 <p className="mt-2 text-lg font-semibold text-stone-950">
                   {formatProductionArea(job.wasteReport.theoreticalWasteAreaM2)}
                 </p>
                 <p className="mt-1 text-xs text-stone-600">
-                  {formatProductionPercent(job.wasteReport.theoreticalWastePercent)}
+                  {formatProductionPercent(
+                    job.wasteReport.theoreticalWastePercent,
+                  )}
                 </p>
               </div>
               <div className="rounded-[1rem] bg-stone-50 px-4 py-4">
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-stone-500">
+                <p className="text-xs font-semibold tracking-[0.16em] text-stone-500 uppercase">
                   Actual
                 </p>
                 <p className="mt-2 text-lg font-semibold text-stone-950">
@@ -497,7 +526,7 @@ export default function ProductionJobDetailPage({
                 </p>
               </div>
               <div className="rounded-[1rem] bg-stone-50 px-4 py-4 md:col-span-2">
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-stone-500">
+                <p className="text-xs font-semibold tracking-[0.16em] text-stone-500 uppercase">
                   Variance
                 </p>
                 <p className="mt-2 text-lg font-semibold text-stone-950">
@@ -522,7 +551,7 @@ export default function ProductionJobDetailPage({
       <section className="rounded-lg border border-stone-200 bg-white px-5 py-5 shadow-[0_20px_50px_rgba(15,47,91,0.08)]">
         <div className="flex items-center justify-between gap-3">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+            <p className="text-xs font-semibold tracking-[0.18em] text-stone-500 uppercase">
               Job Items
             </p>
             <h2 className="mt-2 text-xl font-semibold text-stone-950">
@@ -539,16 +568,22 @@ export default function ProductionJobDetailPage({
             >
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
-                  <p className="text-sm font-semibold text-stone-950">{item.name}</p>
+                  <p className="text-sm font-semibold text-stone-950">
+                    {item.name}
+                  </p>
                   <p className="mt-1 text-xs text-stone-600">
                     {item.material?.code ?? "No material"} · Qty {item.quantity}
                   </p>
                 </div>
-                <p className="text-xs font-medium text-stone-500">{item.status}</p>
+                <p className="text-xs font-medium text-stone-500">
+                  {item.status}
+                </p>
               </div>
 
               {item.description ? (
-                <p className="mt-3 text-sm leading-6 text-stone-700">{item.description}</p>
+                <p className="mt-3 text-sm leading-6 text-stone-700">
+                  {item.description}
+                </p>
               ) : null}
             </div>
           ))}
@@ -566,7 +601,7 @@ export default function ProductionJobDetailPage({
         <section className="rounded-lg border border-stone-200 bg-white px-5 py-5 shadow-[0_20px_50px_rgba(15,47,91,0.08)]">
           <div className="flex items-center justify-between gap-3">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+              <p className="text-xs font-semibold tracking-[0.18em] text-stone-500 uppercase">
                 Tasks
               </p>
               <h2 className="mt-2 text-xl font-semibold text-stone-950">
@@ -592,7 +627,9 @@ export default function ProductionJobDetailPage({
                 >
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div>
-                      <p className="text-sm font-semibold text-stone-950">{task.title}</p>
+                      <p className="text-sm font-semibold text-stone-950">
+                        {task.title}
+                      </p>
                       <p className="mt-1 text-xs text-stone-600">
                         {getProductionTaskTypeLabel(task.taskType)} ·{" "}
                         {task.assignedToUser?.name ?? "Unassigned"}
@@ -620,7 +657,7 @@ export default function ProductionJobDetailPage({
         <section className="rounded-lg border border-stone-200 bg-white px-5 py-5 shadow-[0_20px_50px_rgba(15,47,91,0.08)]">
           <div className="flex items-center justify-between gap-3">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+              <p className="text-xs font-semibold tracking-[0.18em] text-stone-500 uppercase">
                 Quality
               </p>
               <h2 className="mt-2 text-xl font-semibold text-stone-950">
@@ -647,7 +684,9 @@ export default function ProductionJobDetailPage({
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div>
                       <p className="text-sm font-semibold text-stone-950">
-                        {check.productionTaskId ? "Task-linked quality check" : "Job quality check"}
+                        {check.productionTaskId
+                          ? "Task-linked quality check"
+                          : "Job quality check"}
                       </p>
                       <p className="mt-1 text-xs text-stone-600">
                         {check.checkedByUser?.name ?? "Pending reviewer"} ·{" "}
@@ -678,7 +717,7 @@ export default function ProductionJobDetailPage({
         <section className="rounded-lg border border-stone-200 bg-white px-5 py-5 shadow-[0_20px_50px_rgba(15,47,91,0.08)]">
           <div className="flex items-center justify-between gap-3">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+              <p className="text-xs font-semibold tracking-[0.18em] text-stone-500 uppercase">
                 Material Consumption
               </p>
               <h2 className="mt-2 text-xl font-semibold text-stone-950">
@@ -702,8 +741,8 @@ export default function ProductionJobDetailPage({
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div>
                     <p className="text-sm font-semibold text-stone-950">
-                      {consumption.material?.name ?? "Manual material"} · {consumption.quantity}{" "}
-                      {consumption.unit}
+                      {consumption.material?.name ?? "Manual material"} ·{" "}
+                      {consumption.quantity} {consumption.unit}
                     </p>
                     <p className="mt-1 text-xs text-stone-600">
                       {consumption.consumptionType} · {consumption.sourceType} ·{" "}
@@ -716,7 +755,9 @@ export default function ProductionJobDetailPage({
                 </div>
 
                 {consumption.notes ? (
-                  <p className="mt-3 text-sm leading-6 text-stone-700">{consumption.notes}</p>
+                  <p className="mt-3 text-sm leading-6 text-stone-700">
+                    {consumption.notes}
+                  </p>
                 ) : null}
               </div>
             ))}
@@ -731,7 +772,7 @@ export default function ProductionJobDetailPage({
         </section>
 
         <section className="rounded-lg border border-stone-200 bg-white px-5 py-5 shadow-[0_20px_50px_rgba(15,47,91,0.08)]">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+          <p className="text-xs font-semibold tracking-[0.18em] text-stone-500 uppercase">
             Status History
           </p>
 
@@ -747,13 +788,16 @@ export default function ProductionJobDetailPage({
                       {entry.fromStatus ?? "Initial"} to {entry.toStatus}
                     </p>
                     <p className="mt-1 text-xs text-stone-600">
-                      {entry.changedByUser?.name ?? "System"} · {formatDateValue(entry.createdAt)}
+                      {entry.changedByUser?.name ?? "System"} ·{" "}
+                      {formatDateValue(entry.createdAt)}
                     </p>
                   </div>
                 </div>
 
                 {entry.notes ? (
-                  <p className="mt-3 text-sm leading-6 text-stone-700">{entry.notes}</p>
+                  <p className="mt-3 text-sm leading-6 text-stone-700">
+                    {entry.notes}
+                  </p>
                 ) : null}
               </div>
             ))}

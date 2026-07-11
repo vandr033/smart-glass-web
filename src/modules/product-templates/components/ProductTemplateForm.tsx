@@ -425,7 +425,7 @@ export function ProductTemplateForm(props: ProductTemplateFormProps) {
           Cancel
         </Link>
         <button className={primaryButtonClassName} disabled={isBusy} type="submit">
-          Save changes
+          Guardar cambios
         </button>
       </div>
     </form>

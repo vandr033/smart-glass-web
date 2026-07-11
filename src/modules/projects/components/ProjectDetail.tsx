@@ -35,6 +35,7 @@ import {
   sectionClassName,
   textAreaClassName,
 } from "@/modules/commercial/ui";
+import { POSTVENTA_ROUTES } from "@/modules/postventa/constants";
 import { getApiErrorMessage } from "@/utils";
 import { projectService } from "@/services/project-service";
 import type { ProjectNoteVisibility } from "@/types";
@@ -117,6 +118,7 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
   const [sectionError, setSectionError] = useState<string | null>(null);
   const canUpdate = permissions.includes(PROJECTS_PERMISSIONS.update);
   const canDelete = permissions.includes(PROJECTS_PERMISSIONS.delete);
+  const canCreatePostventa = permissions.includes("postventa.crear");
 
   const invalidateProject = async () => {
     await Promise.all([
@@ -240,11 +242,11 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
             }}
             type="button"
           >
-            Retry
+            Reintentar
           </button>
         }
         description={projectQuery.error.message}
-        title="Project details could not be loaded"
+        title="No se pudo cargar el detalle del proyecto"
       />
     );
   }
@@ -252,7 +254,7 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
   if (projectQuery.isLoading || !projectQuery.data) {
     return (
       <section className={sectionClassName}>
-        <p className="text-sm text-stone-500">Loading project details...</p>
+        <p className="text-sm text-stone-500">Cargando detalle del proyecto...</p>
       </section>
     );
   }
@@ -265,7 +267,7 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
         <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
           <div className="space-y-3">
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-              Project Lifecycle
+              Ciclo del proyecto
             </p>
             <h1 className="text-3xl font-semibold tracking-tight text-stone-950">
               {project.code} · {project.title}
@@ -279,19 +281,32 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
             </div>
             <p className="max-w-3xl text-sm leading-7 text-stone-700">
               {project.description ||
-                "No project description yet. Use this record to centralize field notes, measurements, and lifecycle checkpoints before downstream modules are enabled."}
+                "Aun no hay descripcion del proyecto. Usa este registro para centralizar notas de campo, mediciones y decisiones del ciclo operativo."}
             </p>
           </div>
 
           <div className="flex flex-wrap gap-3">
             <Link className={secondaryButtonClassName} href={PROJECTS_ROUTES.list}>
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to projects
+              Volver a proyectos
             </Link>
+            {canCreatePostventa ? (
+              <Link
+                className={secondaryButtonClassName}
+                href={POSTVENTA_ROUTES.registrarDesde({
+                  clientId: project.client.id,
+                  origen: "proyecto",
+                  projectId: project.id,
+                })}
+              >
+                <Plus className="mr-2 h-4 w-4" />
+                Registrar postventa
+              </Link>
+            ) : null}
             {canUpdate ? (
               <Link className={primaryButtonClassName} href={PROJECTS_ROUTES.edit(project.id)}>
                 <Pencil className="mr-2 h-4 w-4" />
-                Edit project
+                Editar proyecto
               </Link>
             ) : null}
             {canDelete ? (
@@ -307,7 +322,7 @@ export function ProjectDetail({ projectId }: ProjectDetailProps) {
                 type="button"
               >
                 <Trash2 className="mr-2 h-4 w-4" />
-                Delete project
+                Eliminar proyecto
               </button>
             ) : null}
           </div>

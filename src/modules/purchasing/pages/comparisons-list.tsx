@@ -42,14 +42,14 @@ export default function PurchasingComparisonsListPage() {
   });
 
   if (comparisonsQuery.isPending) {
-    return <LoadingState title="Loading supplier comparisons" />;
+    return <LoadingState title="Cargando comparativos de proveedores" />;
   }
 
   if (comparisonsQuery.isError) {
     return (
       <ErrorState
         description={comparisonsQuery.error.message}
-        title="Supplier comparisons could not be loaded"
+        title="No se pudieron cargar los comparativos de proveedores"
       />
     );
   }
@@ -65,25 +65,25 @@ export default function PurchasingComparisonsListPage() {
               className="inline-flex items-center rounded-md border border-stone-300 bg-white px-4 py-2.5 text-sm font-semibold text-stone-700 transition hover:border-stone-400 hover:text-stone-950"
               href={PURCHASING_ROUTES.requests}
             >
-              Purchase Requests
+              Solicitudes de compra
             </Link>
             <Link
               className="inline-flex items-center rounded-md bg-[var(--color-primary)] px-4 py-2.5 text-sm font-semibold text-[color:var(--color-primary-contrast)] transition hover:bg-[var(--color-primary-hover)]"
               href={PURCHASING_ROUTES.orders}
             >
-              Purchase Orders
+              Órdenes de compra
             </Link>
           </>
         }
         description="Review comparison runs, inspect selected supplier mixes, and open the detailed scoring matrix before procurement creates purchase orders."
-        eyebrow="Purchasing"
-        title="Supplier Comparisons"
+        eyebrow="Compras"
+        title="Comparativos de proveedores"
       />
 
       <section className={sectionClassName}>
         <div className="grid gap-4 md:grid-cols-3">
           <label className="space-y-2 md:col-span-2">
-            <span className="text-sm font-medium text-stone-700">Search</span>
+            <span className="text-sm font-medium text-stone-700">Buscar</span>
             <input
               className={fieldClassName}
               onChange={(event) => {
@@ -95,7 +95,7 @@ export default function PurchasingComparisonsListPage() {
           </label>
 
           <label className="space-y-2">
-            <span className="text-sm font-medium text-stone-700">Status</span>
+            <span className="text-sm font-medium text-stone-700">Estado</span>
             <select
               className={fieldClassName}
               onChange={(event) => {

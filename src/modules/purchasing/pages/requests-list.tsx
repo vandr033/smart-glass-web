@@ -56,14 +56,14 @@ export default function PurchasingRequestsListPage() {
   });
 
   if (requestsQuery.isPending) {
-    return <LoadingState title="Loading purchase requests" />;
+    return <LoadingState title="Cargando solicitudes de compra" />;
   }
 
   if (requestsQuery.isError) {
     return (
       <ErrorState
         description={requestsQuery.error.message}
-        title="Purchase requests could not be loaded"
+        title="No se pudieron cargar las solicitudes de compra"
       />
     );
   }
@@ -79,31 +79,31 @@ export default function PurchasingRequestsListPage() {
               className="inline-flex items-center rounded-md border border-stone-300 bg-white px-4 py-2.5 text-sm font-semibold text-stone-700 transition hover:border-stone-400 hover:text-stone-950"
               href={PURCHASING_ROUTES.comparisons}
             >
-              Comparisons
+              Comparativos
             </Link>
             <Link
               className="inline-flex items-center rounded-md border border-stone-300 bg-white px-4 py-2.5 text-sm font-semibold text-stone-700 transition hover:border-stone-400 hover:text-stone-950"
               href={PURCHASING_ROUTES.orders}
             >
-              Purchase Orders
+              Órdenes de compra
             </Link>
             <Link
               className="inline-flex items-center rounded-md bg-[var(--color-primary)] px-4 py-2.5 text-sm font-semibold text-[color:var(--color-primary-contrast)] transition hover:bg-[var(--color-primary-hover)]"
               href={PURCHASING_ROUTES.requestsNew}
             >
-              New Request
+              Nueva solicitud
             </Link>
           </>
         }
         description="Review purchasing demand from quotations, cutting plans, inventory shortages, and manual intake before comparing suppliers or issuing orders."
-        eyebrow="Purchasing"
-        title="Purchase Requests"
+        eyebrow="Compras"
+        title="Solicitudes de compra"
       />
 
       <section className={sectionClassName}>
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
           <label className="space-y-2 xl:col-span-2">
-            <span className="text-sm font-medium text-stone-700">Search</span>
+            <span className="text-sm font-medium text-stone-700">Buscar</span>
             <input
               className={fieldClassName}
               onChange={(event) => {

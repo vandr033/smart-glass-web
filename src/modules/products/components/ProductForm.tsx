@@ -78,7 +78,7 @@ export function ProductForm(props: ProductFormProps) {
           </button>
         }
         description={productQuery.error.message}
-        title="Product details could not be loaded"
+        title="No se pudo cargar el detalle del producto"
       />
     );
   }
@@ -104,8 +104,8 @@ export function ProductForm(props: ProductFormProps) {
           setSubmitError(null);
           setSubmitMessage(
             props.mode === "create"
-              ? "Product created successfully."
-              : "Product updated successfully.",
+              ? "Producto creado correctamente."
+              : "Producto actualizado correctamente.",
           );
 
           router.push(PRODUCTS_ROUTES.view(record.id));
@@ -120,7 +120,7 @@ export function ProductForm(props: ProductFormProps) {
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="space-y-2">
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-              {props.mode === "create" ? "Create Product" : "Edit Product"}
+              {props.mode === "create" ? "Crear producto" : "Editar producto"}
             </p>
             <h2 className="text-2xl font-semibold tracking-tight text-stone-950">
               {props.mode === "create"
@@ -150,7 +150,7 @@ export function ProductForm(props: ProductFormProps) {
             <input
               className="w-full rounded-md border border-stone-200 bg-stone-50/80 px-4 py-3 text-sm text-stone-900 outline-none transition focus:border-stone-400 focus:bg-white disabled:cursor-not-allowed disabled:opacity-70"
               disabled={isBusy}
-              placeholder="Enter the product name"
+              placeholder="Ingrese el nombre del producto"
               {...form.register("name")}
             />
             {form.formState.errors.name ? (
@@ -162,7 +162,7 @@ export function ProductForm(props: ProductFormProps) {
 
           <label className="flex items-center justify-between gap-4 rounded-lg border border-stone-200/90 bg-white/85 px-4 py-4">
             <span className="space-y-1">
-              <span className="block text-sm font-medium text-stone-700">Active status</span>
+              <span className="block text-sm font-medium text-stone-700">Estado activo</span>
               <span className="block text-xs text-stone-500">
                 Keep this product visible in active table results.
               </span>
@@ -216,8 +216,8 @@ export function ProductForm(props: ProductFormProps) {
               ? "Creating product..."
               : "Saving changes..."
             : props.mode === "create"
-              ? "Create Product"
-              : "Save changes"}
+              ? "Crear producto"
+              : "Guardar cambios"}
         </button>
       </div>
     </form>

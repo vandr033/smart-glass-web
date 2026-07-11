@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import Link from "next/link";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Eye, FileStack, Pencil, RefreshCcw, ScanSearch, Trash2, Wrench } from "lucide-react";
+import { Download, Eye, FileStack, Pencil, RefreshCcw, ScanSearch, Trash2, Wrench } from "lucide-react";
 
 import { ExportMenu } from "@/components/ui/export-menu";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
@@ -49,9 +49,24 @@ export function QuotationTable() {
     code: string;
     id: string;
   } | null>(null);
+  const [downloadingPdf, setDownloadingPdf] = useState<string | null>(null);
+  const [pdfError, setPdfError] = useState<string | null>(null);
   const canUpdate = permissions.includes(QUOTATIONS_PERMISSIONS.update);
   const canDelete = permissions.includes(QUOTATIONS_PERMISSIONS.delete);
   const canViewCost = permissions.includes(QUOTATIONS_PERMISSIONS.viewCost);
+  const canExportPdf = permissions.includes(QUOTATIONS_PERMISSIONS.exportPdf);
+
+  const downloadPdf = async (quotationId: string, variant: "commercial" | "internal") => {
+    setPdfError(null);
+    setDownloadingPdf(`${quotationId}:${variant}`);
+    try {
+      await quotationService.downloadPdf(quotationId, variant);
+    } catch (error) {
+      setPdfError(getApiErrorMessage(error));
+    } finally {
+      setDownloadingPdf(null);
+    }
+  };
 
   const clientsQuery = useQuery({
     queryFn: async () => {
@@ -351,6 +366,32 @@ export function QuotationTable() {
                             <ScanSearch className="mr-2 h-4 w-4" />
                             Vista previa
                           </Link>
+                          {canExportPdf ? (
+                            <button
+                              className={secondaryButtonClassName}
+                              disabled={Boolean(downloadingPdf)}
+                              onClick={() => {
+                                void downloadPdf(record.id, "commercial");
+                              }}
+                              type="button"
+                            >
+                              <Download className="mr-2 h-4 w-4" />
+                              {downloadingPdf === `${record.id}:commercial` ? "Generando…" : "PDF comercial"}
+                            </button>
+                          ) : null}
+                          {canExportPdf && canViewCost ? (
+                            <button
+                              className={secondaryButtonClassName}
+                              disabled={Boolean(downloadingPdf)}
+                              onClick={() => {
+                                void downloadPdf(record.id, "internal");
+                              }}
+                              type="button"
+                            >
+                              <Download className="mr-2 h-4 w-4" />
+                              {downloadingPdf === `${record.id}:internal` ? "Generando…" : "PDF interno"}
+                            </button>
+                          ) : null}
                           <Link
                             className={secondaryButtonClassName}
                             href={QUOTATIONS_ROUTES.versions(record.id)}
@@ -442,6 +483,11 @@ export function QuotationTable() {
       {deleteMutation.isError ? (
         <div className="rounded-lg border border-rose-200/80 bg-rose-50 px-4 py-3 text-sm text-rose-700">
           {getApiErrorMessage(deleteMutation.error)}
+        </div>
+      ) : null}
+      {pdfError ? (
+        <div className="rounded-lg border border-rose-200/80 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+          {pdfError}
         </div>
       ) : null}
     </>

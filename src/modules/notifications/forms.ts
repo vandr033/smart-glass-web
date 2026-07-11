@@ -27,7 +27,7 @@ export const notificationComposerSchema = z.object({
     .max(10_000, "Message is too long."),
   title: z.string().trim().min(1, "Title is required.").max(191, "Title is too long."),
   type: z.enum(["info", "success", "warning", "error"]),
-  userId: z.string().uuid("Select a recipient."),
+  userId: z.string().uuid("Seleccione un destinatario."),
 });
 
 export type NotificationComposerValues = z.infer<typeof notificationComposerSchema>;

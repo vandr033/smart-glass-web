@@ -5,7 +5,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ImageUp, Mail, Palette, Save, Settings2 } from "lucide-react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 
 import { ErrorState } from "@/components/ui/error-state";
 import { PageHeader } from "@/components/ui/page-header";
@@ -28,10 +28,10 @@ const sectionIconClassName =
 
 const formatUpdatedAt = (value: string | null): string => {
   if (!value) {
-    return "Using defaults";
+    return "Usando valores predeterminados";
   }
 
-  return new Intl.DateTimeFormat("en-US", {
+  return new Intl.DateTimeFormat("es-BO", {
     dateStyle: "medium",
     timeStyle: "short",
   }).format(new Date(value));
@@ -76,14 +76,14 @@ function SettingsSummary({
 
           <div className="space-y-2">
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-              Global Settings
+              Configuración general
             </p>
             <h2 className="text-2xl font-semibold tracking-tight text-stone-950">
               {settings.appName}
             </h2>
             <p className="text-sm leading-7 text-stone-700">
-              Branding, sender identity, and localization now flow through one
-              reusable settings layer for this project and future ones.
+              La marca, la identidad del remitente y la localización se gestionan
+              desde una configuración reutilizable.
             </p>
           </div>
         </div>
@@ -91,7 +91,7 @@ function SettingsSummary({
         <div className="grid gap-4 sm:grid-cols-3">
           <div className="rounded-md border border-stone-200/90 bg-white/80 px-4 py-4">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-              Support
+              Soporte
             </p>
             <p className="mt-2 text-sm font-medium text-stone-900">
               {settings.supportEmail}
@@ -99,13 +99,13 @@ function SettingsSummary({
           </div>
           <div className="rounded-md border border-stone-200/90 bg-white/80 px-4 py-4">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-              Timezone
+              Zona horaria
             </p>
             <p className="mt-2 text-sm font-medium text-stone-900">{settings.timezone}</p>
           </div>
           <div className="rounded-md border border-stone-200/90 bg-white/80 px-4 py-4">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-              Updated
+              Actualizado
             </p>
             <p className="mt-2 text-sm font-medium text-stone-900">
               {formatUpdatedAt(settings.updatedAt)}
@@ -124,7 +124,7 @@ function SettingsSummary({
         <div className="relative space-y-5">
           <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-stone-100">
             <Palette className="h-3.5 w-3.5" />
-            Brand Preview
+            Vista previa de marca
           </div>
 
           <div className="space-y-3">
@@ -140,8 +140,8 @@ function SettingsSummary({
             </div>
             <p className="text-sm leading-7 text-stone-300">
               {canEdit
-                ? "Save once to update the active app identity, email sender, and localization defaults."
-                : "You can review active application settings here, but only admins can publish changes."}
+                ? "Guarda una vez para actualizar la identidad de la aplicación, el remitente de correo y los valores de localización."
+                : "Puedes revisar la configuración activa, pero solo los administradores pueden publicar cambios."}
             </p>
           </div>
         </div>
@@ -257,6 +257,9 @@ export function SettingsPageContent({ canEdit }: { canEdit: boolean }) {
     });
   }, [form, form.formState.isDirty, settingsQuery.data]);
 
+  const watchedPrimaryColor = useWatch({ control: form.control, name: "primaryColor" });
+  const watchedAppName = useWatch({ control: form.control, name: "appName" });
+
   if (settingsQuery.isError) {
     return (
       <ErrorState
@@ -268,25 +271,25 @@ export function SettingsPageContent({ canEdit }: { canEdit: boolean }) {
             }}
             type="button"
           >
-            Retry
+            Reintentar
           </button>
         }
         description={settingsQuery.error.message}
-        title="Settings could not be loaded"
+        title="No se pudo cargar la configuración"
       />
     );
   }
 
   const settings = settingsQuery.data;
   const currentPrimaryColor =
-    form.watch("primaryColor") || settings?.primaryColor || "#1f2937";
+    watchedPrimaryColor || settings?.primaryColor || "#1f2937";
   const isBusy =
     settingsQuery.isLoading || updateMutation.isPending || uploadMutation.isPending;
 
   if (!settings) {
     return (
       <section className={panelClassName}>
-        <p className="text-sm text-stone-600">Loading settings...</p>
+        <p className="text-sm text-stone-600">Cargando configuración…</p>
       </section>
     );
   }
@@ -299,32 +302,32 @@ export function SettingsPageContent({ canEdit }: { canEdit: boolean }) {
       })}
     >
       <PageHeader
-        description="Manage reusable application defaults for branding, support contact, sender identity, and localization."
-        eyebrow="Application Configuration"
-        title="Settings"
+        description="Administra los valores de marca, contacto de soporte, identidad del remitente y localización."
+        eyebrow="Configuración de la aplicación"
+        title="Configuración"
       />
 
       <SettingsSummary canEdit={canEdit} settings={settings} />
 
       {!canEdit ? (
         <div className="rounded-lg border border-blue-200/80 bg-blue-50 px-4 py-3 text-sm text-blue-900">
-          Settings are viewable here, but only admin users can make changes.
+          La configuración es visible, pero solo los administradores pueden realizar cambios.
         </div>
       ) : null}
 
       <div className="grid gap-6 xl:grid-cols-2">
         <SettingsSection
-          description="Set the application name and support destination used across future modules and communication surfaces."
+          description="Define el nombre de la aplicación y el contacto de soporte usado por los módulos y comunicaciones."
           icon={<Settings2 className="h-5 w-5" />}
           title="General"
         >
           <div className="grid gap-5">
             <label className="block space-y-2">
-              <span className="text-sm font-medium text-stone-700">App Name</span>
+              <span className="text-sm font-medium text-stone-700">Nombre de la aplicación</span>
               <input
                 className="w-full rounded-md border border-stone-200 bg-stone-50/80 px-4 py-3 text-sm text-stone-900 outline-none transition focus:border-stone-400 focus:bg-white disabled:cursor-not-allowed disabled:opacity-70"
                 disabled={!canEdit || isBusy}
-                placeholder="Enter the application name"
+                placeholder="Ingresa el nombre de la aplicación"
                 {...form.register("appName")}
               />
               {form.formState.errors.appName ? (
@@ -335,7 +338,7 @@ export function SettingsPageContent({ canEdit }: { canEdit: boolean }) {
             </label>
 
             <label className="block space-y-2">
-              <span className="text-sm font-medium text-stone-700">Support Email</span>
+              <span className="text-sm font-medium text-stone-700">Correo de soporte</span>
               <input
                 className="w-full rounded-md border border-stone-200 bg-stone-50/80 px-4 py-3 text-sm text-stone-900 outline-none transition focus:border-stone-400 focus:bg-white disabled:cursor-not-allowed disabled:opacity-70"
                 disabled={!canEdit || isBusy}
@@ -353,9 +356,9 @@ export function SettingsPageContent({ canEdit }: { canEdit: boolean }) {
         </SettingsSection>
 
         <SettingsSection
-          description="Upload the active logo and choose the primary accent color used for branding previews and future integrations."
+          description="Carga el logotipo activo y elige el color principal usado en las vistas de marca e integraciones."
           icon={<Palette className="h-5 w-5" />}
-          title="Branding"
+          title="Marca"
         >
           <div className="space-y-5">
             <div className="flex flex-wrap items-center gap-4">
@@ -368,19 +371,19 @@ export function SettingsPageContent({ canEdit }: { canEdit: boolean }) {
                 {settings.logo ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
-                    alt={`${settings.appName} logo`}
+                    alt={`Logotipo de ${settings.appName}`}
                     className="h-full w-full object-contain p-3"
                     src={settings.logo}
                   />
                 ) : (
-                  getLogoFallback(form.watch("appName") || settings.appName)
+                  getLogoFallback(watchedAppName || settings.appName)
                 )}
               </div>
 
               <div className="space-y-3">
                 <label className="inline-flex cursor-pointer items-center gap-2 rounded-md border border-stone-300 bg-white px-4 py-2.5 text-sm font-semibold text-stone-700 transition hover:border-stone-400 hover:text-stone-950">
                   <ImageUp className="h-4 w-4" />
-                  {uploadMutation.isPending ? "Uploading..." : "Upload logo"}
+                  {uploadMutation.isPending ? "Cargando…" : "Cargar logotipo"}
                   <input
                     accept="image/png,image/jpeg,image/webp,image/svg+xml"
                     className="hidden"
@@ -399,14 +402,14 @@ export function SettingsPageContent({ canEdit }: { canEdit: boolean }) {
                   />
                 </label>
                 <p className="text-xs leading-6 text-stone-500">
-                  Use `PNG`, `JPEG`, `WebP`, or `SVG` logos up to 5MB.
+                  Usa logotipos `PNG`, `JPEG`, `WebP` o `SVG` de hasta 5 MB.
                 </p>
               </div>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-[120px_1fr]">
               <label className="block space-y-2">
-                <span className="text-sm font-medium text-stone-700">Swatch</span>
+                <span className="text-sm font-medium text-stone-700">Muestra</span>
                 <input
                   className="h-14 w-full cursor-pointer rounded-md border border-stone-200 bg-white p-2 disabled:cursor-not-allowed disabled:opacity-70"
                   disabled={!canEdit || isBusy}
@@ -416,7 +419,7 @@ export function SettingsPageContent({ canEdit }: { canEdit: boolean }) {
               </label>
 
               <label className="block space-y-2">
-                <span className="text-sm font-medium text-stone-700">Primary Color</span>
+                <span className="text-sm font-medium text-stone-700">Color principal</span>
                 <input
                   className="w-full rounded-md border border-stone-200 bg-stone-50/80 px-4 py-3 text-sm text-stone-900 outline-none transition focus:border-stone-400 focus:bg-white disabled:cursor-not-allowed disabled:opacity-70"
                   disabled={!canEdit || isBusy}
@@ -434,17 +437,17 @@ export function SettingsPageContent({ canEdit }: { canEdit: boolean }) {
         </SettingsSection>
 
         <SettingsSection
-          description="Define the sender identity used by the shared email infrastructure and future notification flows."
+          description="Define la identidad del remitente usada por el correo y las notificaciones."
           icon={<Mail className="h-5 w-5" />}
-          title="Email"
+          title="Correo electrónico"
         >
           <div className="grid gap-5">
             <label className="block space-y-2">
-              <span className="text-sm font-medium text-stone-700">Sender Name</span>
+              <span className="text-sm font-medium text-stone-700">Nombre del remitente</span>
               <input
                 className="w-full rounded-md border border-stone-200 bg-stone-50/80 px-4 py-3 text-sm text-stone-900 outline-none transition focus:border-stone-400 focus:bg-white disabled:cursor-not-allowed disabled:opacity-70"
                 disabled={!canEdit || isBusy}
-                placeholder="Base Project"
+                placeholder="Vidriera Sebitas ERP"
                 {...form.register("senderName")}
               />
               {form.formState.errors.senderName ? (
@@ -455,7 +458,7 @@ export function SettingsPageContent({ canEdit }: { canEdit: boolean }) {
             </label>
 
             <label className="block space-y-2">
-              <span className="text-sm font-medium text-stone-700">Sender Email</span>
+              <span className="text-sm font-medium text-stone-700">Correo del remitente</span>
               <input
                 className="w-full rounded-md border border-stone-200 bg-stone-50/80 px-4 py-3 text-sm text-stone-900 outline-none transition focus:border-stone-400 focus:bg-white disabled:cursor-not-allowed disabled:opacity-70"
                 disabled={!canEdit || isBusy}
@@ -473,18 +476,18 @@ export function SettingsPageContent({ canEdit }: { canEdit: boolean }) {
         </SettingsSection>
 
         <SettingsSection
-          description="Control the default timezone and date formatting used as the project grows into additional modules."
+          description="Controla la zona horaria y el formato de fecha predeterminados."
           icon={<Settings2 className="h-5 w-5" />}
-          title="Localization"
+          title="Localización"
         >
           <div className="grid gap-5">
             <label className="block space-y-2">
-              <span className="text-sm font-medium text-stone-700">Timezone</span>
+              <span className="text-sm font-medium text-stone-700">Zona horaria</span>
               <input
                 className="w-full rounded-md border border-stone-200 bg-stone-50/80 px-4 py-3 text-sm text-stone-900 outline-none transition focus:border-stone-400 focus:bg-white disabled:cursor-not-allowed disabled:opacity-70"
                 disabled={!canEdit || isBusy}
                 list="settings-timezones"
-                placeholder="Select a timezone"
+                placeholder="Selecciona una zona horaria"
                 {...form.register("timezone")}
               />
               <datalist id="settings-timezones">
@@ -500,7 +503,7 @@ export function SettingsPageContent({ canEdit }: { canEdit: boolean }) {
             </label>
 
             <label className="block space-y-2">
-              <span className="text-sm font-medium text-stone-700">Date Format</span>
+              <span className="text-sm font-medium text-stone-700">Formato de fecha</span>
               <select
                 className="w-full rounded-md border border-stone-200 bg-stone-50/80 px-4 py-3 text-sm text-stone-900 outline-none transition focus:border-stone-400 focus:bg-white disabled:cursor-not-allowed disabled:opacity-70"
                 disabled={!canEdit || isBusy}
@@ -554,7 +557,7 @@ export function SettingsPageContent({ canEdit }: { canEdit: boolean }) {
             type="submit"
           >
             <Save className="h-4 w-4" />
-            {updateMutation.isPending ? "Saving settings..." : "Save settings"}
+            {updateMutation.isPending ? "Guardando configuración…" : "Guardar configuración"}
           </button>
         </div>
       ) : null}

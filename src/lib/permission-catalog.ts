@@ -48,6 +48,11 @@ const PERMISSION_GROUP_DEFINITIONS = {
     "inventory.scrap",
     "inventory.view_cost",
   ],
+  garantias: [
+    "garantias.ver",
+    "garantias.crear",
+    "garantias.actualizar",
+  ],
   materials: [
     "materials.read",
     "materials.create",
@@ -77,6 +82,35 @@ const PERMISSION_GROUP_DEFINITIONS = {
     "projects.create",
     "projects.update",
     "projects.delete",
+  ],
+  postventa: [
+    "postventa.ver",
+    "postventa.crear",
+    "postventa.actualizar",
+    "postventa.asignar",
+    "postventa.cerrar",
+    "postventa.exportar",
+  ],
+  portal_cliente: [
+    "portal_cliente.ver",
+    "portal_cliente.configurar",
+    "portal_cliente.invitar",
+    "portal_cliente.bloquear",
+    "portal_cliente.documentos",
+    "portal_cliente.mensajes",
+  ],
+  tableros: [
+    "tableros.ver",
+    "tableros.configurar",
+    "tableros.exportar",
+  ],
+  indicadores: [
+    "indicadores.ver",
+    "indicadores.configurar",
+  ],
+  reportes: [
+    "reportes.ver",
+    "reportes.exportar",
   ],
   rentabilidad: [
     "rentabilidad.ver",
@@ -126,11 +160,17 @@ const PERMISSION_GROUP_DEFINITIONS = {
   ],
 } as const;
 
+const PERMISSION_GROUP_LABELS: Partial<Record<keyof typeof PERMISSION_GROUP_DEFINITIONS, string>> = {
+  portal_cliente: "Portal del Cliente",
+};
+
 export const PERMISSION_GROUPS: PermissionCatalogGroup[] = Object.entries(
   PERMISSION_GROUP_DEFINITIONS,
 ).map(([groupKey, permissions]) => ({
   key: groupKey,
-  label: formatModuleLabel(groupKey.replaceAll("_", " ")),
+  label:
+    PERMISSION_GROUP_LABELS[groupKey as keyof typeof PERMISSION_GROUP_DEFINITIONS] ??
+    formatModuleLabel(groupKey.replaceAll("_", " ")),
   permissions: permissions.map((permissionKey) => ({
     description: formatPermissionDescription(permissionKey),
     key: permissionKey,

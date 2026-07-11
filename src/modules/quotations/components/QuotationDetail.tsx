@@ -34,10 +34,10 @@ import {
   QUOTATIONS_ROUTES,
   QUOTATION_APPROVAL_STATUS_LABELS,
   QUOTATION_APPROVAL_TYPE_LABELS,
+  QUOTATION_ITEM_TYPE_LABELS,
   QUOTATION_STATUS_LABELS,
   QUOTATION_VERSION_STATUS_LABELS,
 } from "../constants";
-import { exportQuotationPdf } from "../exports";
 import {
   formatQuotationCurrency,
   formatQuotationDate,
@@ -68,6 +68,12 @@ export function QuotationDetail({ quotationId }: QuotationDetailProps) {
   const canExportPdf = permissions.includes(QUOTATIONS_PERMISSIONS.exportPdf);
   const canReadInventory = permissions.includes(INVENTORY_PERMISSIONS.read);
   const canReserveInventory = permissions.includes(INVENTORY_PERMISSIONS.reserve);
+  const pdfMutation = useMutation({
+    mutationFn: (variant: "commercial" | "internal") =>
+      quotationService.downloadPdf(quotationId, variant),
+    onError: (error) => setMessage(error instanceof Error ? error.message : "No fue posible generar el documento."),
+    onSuccess: (_value, variant) => setMessage(`PDF ${variant === "internal" ? "interno" : "comercial"} descargado correctamente.`),
+  });
 
   const quotationQuery = useQuery({
     queryFn: async () => quotationService.getQuotationById(quotationId),
@@ -207,25 +213,28 @@ export function QuotationDetail({ quotationId }: QuotationDetailProps) {
                     id: "quotation-pdf-commercial",
                     label: "PDF comercial",
                     onClick: () => {
-                      exportQuotationPdf(quotation, "commercial");
+                      pdfMutation.mutate("commercial");
                     },
                   },
-                  {
-                    icon: FileText,
-                    id: "quotation-pdf-internal",
-                    label: "PDF interno",
-                    onClick: () => {
-                      exportQuotationPdf(quotation, "internal");
-                    },
-                  },
+                  ...(canViewCost
+                    ? [{
+                        icon: FileText,
+                        id: "quotation-pdf-internal",
+                        label: "PDF interno",
+                        onClick: () => {
+                          pdfMutation.mutate("internal");
+                        },
+                      }]
+                    : []),
                 ]}
                 buttonClassName={secondaryButtonClassName}
+                disabled={pdfMutation.isPending}
                 onExportExcel={() => {
                   exportRowsToExcel(quotation.items, {
                     columns: [
                       { header: "Cotizacion", value: () => quotation.code },
                       { header: "Producto", value: (row: QuotationItemRecord) => row.name },
-                      { header: "Tipo", value: (row: QuotationItemRecord) => row.itemType },
+                      { header: "Tipo", value: (row: QuotationItemRecord) => QUOTATION_ITEM_TYPE_LABELS[row.itemType] },
                       { header: "Cantidad", value: (row: QuotationItemRecord) => row.quantity },
                       { header: "Materiales", value: (row: QuotationItemRecord) => row.materials.length },
                       {

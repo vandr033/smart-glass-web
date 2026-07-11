@@ -80,62 +80,62 @@ export const PRODUCT_TEMPLATES_ROUTES = {
 } as const;
 
 export const PRODUCT_TEMPLATE_TYPE_LABELS: Record<ProductTemplateType, string> = {
-  CUSTOM: "Custom",
-  DOOR: "Door",
-  FACADE: "Facade",
-  MIRROR: "Mirror",
-  RAILING: "Railing",
-  SERVICE: "Service",
-  SHOWER: "Shower",
-  WINDOW: "Window",
+  CUSTOM: "Personalizado",
+  DOOR: "Puerta",
+  FACADE: "Fachada",
+  MIRROR: "Espejo",
+  RAILING: "Baranda",
+  SERVICE: "Servicio",
+  SHOWER: "Ducha",
+  WINDOW: "Ventana",
 };
 
 export const PRODUCT_TEMPLATE_STATUS_LABELS: Record<ProductTemplateStatus, string> = {
-  ACTIVE: "Active",
-  ARCHIVED: "Archived",
-  DRAFT: "Draft",
-  INACTIVE: "Inactive",
+  ACTIVE: "Activo",
+  ARCHIVED: "Archivado",
+  DRAFT: "Borrador",
+  INACTIVE: "Inactivo",
 };
 
 export const PRODUCT_TEMPLATE_VERSION_STATUS_LABELS: Record<
   ProductTemplateVersionStatus,
   string
 > = {
-  ACTIVE: "Active",
-  ARCHIVED: "Archived",
-  DRAFT: "Draft",
+  ACTIVE: "Activo",
+  ARCHIVED: "Archivado",
+  DRAFT: "Borrador",
 };
 
 export const PRODUCT_TEMPLATE_INPUT_TYPE_LABELS: Record<
   ProductTemplateInputType,
   string
 > = {
-  BOOLEAN: "Boolean",
-  MATERIAL_SELECT: "Material Select",
-  NUMBER: "Number",
-  SELECT: "Select",
-  TEXT: "Text",
+  BOOLEAN: "Sí o no",
+  MATERIAL_SELECT: "Selección de material",
+  NUMBER: "Número",
+  SELECT: "Selección",
+  TEXT: "Texto",
 };
 
 export const PRODUCT_TEMPLATE_MATERIAL_RULE_TYPE_LABELS: Record<
   ProductTemplateMaterialRuleType,
   string
 > = {
-  LINEAR_CUT: "Linear Cut",
-  PACKAGE_QUANTITY: "Package Quantity",
-  SERVICE_COST: "Service Cost",
-  SHEET_CUT: "Sheet Cut",
-  UNIT_QUANTITY: "Unit Quantity",
+  LINEAR_CUT: "Corte lineal",
+  PACKAGE_QUANTITY: "Cantidad por paquete",
+  SERVICE_COST: "Costo de servicio",
+  SHEET_CUT: "Corte de lámina",
+  UNIT_QUANTITY: "Cantidad por unidad",
 };
 
 export const PRODUCT_TEMPLATE_LABOR_TYPE_LABELS: Record<
   ProductTemplateLaborType,
   string
 > = {
-  FABRICATION: "Fabrication",
-  INSTALLATION: "Installation",
-  OTHER: "Other",
-  TRANSPORT: "Transport",
+  FABRICATION: "Fabricación",
+  INSTALLATION: "Instalación",
+  OTHER: "Otro",
+  TRANSPORT: "Transporte",
 };
 
 export const PRODUCT_TEMPLATE_TYPE_OPTIONS = Object.entries(

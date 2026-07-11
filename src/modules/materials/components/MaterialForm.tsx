@@ -315,7 +315,7 @@ export function MaterialForm(props: MaterialFormProps) {
               disabled={isBusy}
               {...form.register("categoryId")}
             >
-              <option value="">Select category</option>
+              <option value="">Seleccione una categoría</option>
               {(categoriesQuery.data ?? []).map((category) => (
                 <option key={category.id} value={category.id}>
                   {category.name}
@@ -810,7 +810,7 @@ export function MaterialForm(props: MaterialFormProps) {
           disabled={isBusy}
           type="submit"
         >
-          {isBusy ? "Saving..." : props.mode === "create" ? "Create material" : "Save changes"}
+          {isBusy ? "Guardando…" : props.mode === "create" ? "Crear material" : "Guardar cambios"}
         </button>
       </div>
     </form>

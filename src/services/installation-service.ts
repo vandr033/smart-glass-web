@@ -9,7 +9,6 @@ import type {
   InstallationOrderInput,
   InstallationOrderListItem,
   InstallationOrderStatus,
-  InstallationPriority,
   InstallationTeamInput,
   InstallationTeamRecord,
   PaginatedApiSuccessResponse,

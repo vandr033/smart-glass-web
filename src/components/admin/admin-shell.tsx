@@ -58,7 +58,7 @@ function BrandLogo({ className }: { className?: string }) {
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      alt="Smart Glass Bolivia logo"
+      alt="Logotipo de Vidriera Sebitas ERP"
       className={className}
       src="/smart-glass-bolivia-logo.png"
     />
@@ -203,8 +203,8 @@ function TopbarSearch({
 export function AdminShell({
   authorization,
   brandDescription = "Soluciones en vidrio inteligente para Bolivia.",
-  brandEyebrow = "SMART GLASS",
-  brandName = "BOLIVIA",
+  brandEyebrow = "VIDRIERA SEBITAS",
+  brandName = "ERP",
   children,
   homeHref = "/admin",
   homeLabel = "Centro ERP",

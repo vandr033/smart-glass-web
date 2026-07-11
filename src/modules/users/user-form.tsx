@@ -53,7 +53,7 @@ function RoleSelector({
   return (
     <div className="space-y-3">
       <div>
-        <p className="text-sm font-medium text-stone-700">Role assignments</p>
+        <p className="text-sm font-medium text-stone-700">Asignación de roles</p>
         <p className="text-xs text-stone-500">
           Select the roles this user should inherit across the admin workspace.
         </p>
@@ -209,7 +209,7 @@ export function UserForm(props: UserFormProps) {
           </button>
         }
         description={rolesQuery.error.message}
-        title="Role options could not be loaded"
+        title="No se pudieron cargar los roles"
       />
     );
   }
@@ -229,7 +229,7 @@ export function UserForm(props: UserFormProps) {
           </button>
         }
         description={userQuery.error.message}
-        title="User details could not be loaded"
+        title="No se pudo cargar el detalle del usuario"
       />
     );
   }
@@ -247,7 +247,7 @@ export function UserForm(props: UserFormProps) {
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="space-y-2">
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--color-primary)]">
-              {props.mode === "create" ? "Create User" : "Edit User"}
+              {props.mode === "create" ? "Crear usuario" : "Editar usuario"}
             </p>
             <h2 className="text-2xl font-semibold tracking-tight text-stone-950">
               {props.mode === "create"
@@ -277,7 +277,7 @@ export function UserForm(props: UserFormProps) {
             <input
               className="w-full rounded-md border border-stone-200 bg-stone-50/80 px-4 py-3 text-sm text-stone-900 outline-none transition focus:border-stone-400 focus:bg-white"
               disabled={isBusy}
-              placeholder="Enter the user's full name"
+              placeholder="Ingrese el nombre completo del usuario"
               {...form.register("name")}
             />
             {form.formState.errors.name ? (
@@ -288,7 +288,7 @@ export function UserForm(props: UserFormProps) {
           </label>
 
           <label className="block space-y-2">
-            <span className="text-sm font-medium text-stone-700">Email</span>
+            <span className="text-sm font-medium text-stone-700">Correo electrónico</span>
             <input
               className="w-full rounded-md border border-stone-200 bg-stone-50/80 px-4 py-3 text-sm text-stone-900 outline-none transition focus:border-stone-400 focus:bg-white"
               disabled={isBusy}
@@ -305,11 +305,11 @@ export function UserForm(props: UserFormProps) {
 
           {props.mode === "create" ? (
             <label className="block space-y-2">
-              <span className="text-sm font-medium text-stone-700">Password</span>
+            <span className="text-sm font-medium text-stone-700">Contraseña</span>
               <input
                 className="w-full rounded-md border border-stone-200 bg-stone-50/80 px-4 py-3 text-sm text-stone-900 outline-none transition focus:border-stone-400 focus:bg-white"
                 disabled={isBusy}
-                placeholder="Create a secure password"
+              placeholder="Cree una contraseña segura"
                 type="password"
                 {...form.register("password")}
               />
@@ -330,10 +330,10 @@ export function UserForm(props: UserFormProps) {
             />
             <span className="space-y-1">
               <span className="block text-sm font-semibold text-stone-900">
-                Active account
+                Cuenta activa
               </span>
               <span className="block text-xs leading-5 text-stone-500">
-                Inactive users stay in the system but lose active access until re-enabled.
+                Los usuarios inactivos permanecen en el sistema, pero pierden acceso hasta reactivarse.
               </span>
             </span>
           </label>
@@ -381,14 +381,14 @@ export function UserForm(props: UserFormProps) {
               ? "Creating user..."
               : "Saving changes..."
             : props.mode === "create"
-              ? "Create user"
-              : "Save changes"}
+              ? "Crear usuario"
+              : "Guardar cambios"}
         </button>
         <Link
           className="inline-flex items-center gap-2 rounded-md border border-stone-300 bg-white px-4 py-3 text-sm font-semibold text-stone-700 transition hover:border-stone-400 hover:text-stone-950"
           href={props.mode === "create" ? "/users" : `/users/${props.userId}`}
         >
-          Cancel
+          Cancelar
         </Link>
       </div>
     </form>
